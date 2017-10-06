@@ -100,7 +100,7 @@ public class Parser {
 		               
 
 
-		               if(stat && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L > (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime() - 25200000L) && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L < (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime() - 25200000L)) {
+		               if(stat && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L > (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime()) && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L < (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime())) {
 		                  
 		            	   Game var70=new Game(time, team1, team2, ftScore, ftScore, myel1, myelred1, mred1, msubs1, myel2, myelred2, mred2, msubs2);
 			               
@@ -288,7 +288,7 @@ public class Parser {
 			                                             }
 			                                          }
 			                                       } catch (Exception var57) {
-			                                          System.err.println(var72.incidents[h].player.id);
+			                                          //System.err.println(var72.incidents[h].player.id);
 			                                       }
 			                                    }
 			                                 } catch (Exception var58) {
@@ -381,5 +381,28 @@ public class Parser {
 	    	return q;
 	    }
 	   
+	    
+	    public static void main(String [] args) {
+	    	String month="";
+	    	String date="";
+	    	int m=new Date().getMonth()+1;
+	    	int d=new Date().getDate();
+	    	if(m<10){
+	    		month="0"+m;
+	    	}
+	    	else{
+	    		month=""+m;
+	    	}
+	    	if(d<10){
+	    		date="0"+d;
+	    	}
+	    	else{
+	    		date=""+d;
+	    	}
+	        
+	        String strUrl="https://www.sofascore.com/football//2017-"+month+"-"+date+"/json?_="+new Date().getTime()/10000;
+	        URL url = new URL(strUrl);
+	    	parse(url);
+	    }
 	   
 }
