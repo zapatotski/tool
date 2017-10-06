@@ -106,9 +106,10 @@ public class Parser {
 		                  
 		            	   Game var70=new Game(time, team1, team2, ftScore, ftScore, myel1, myelred1, mred1, msubs1, myel2, myelred2, mred2, msubs2);
 			               
-		            	   if((("finished".equals(var65.sportItem.tournaments[i].events[var68].status.type)) && (((new Date().getTime()/1000)-var65.sportItem.tournaments[i].events[var68].startTimestamp)>10000L)) || "notstarted".equals(var65.sportItem.tournaments[i].events[var68].status.type)) {
+		            	   if((("finished".equals(var65.sportItem.tournaments[i].events[var68].status.type)) && (((new Date().getTime()/1000)-var65.sportItem.tournaments[i].events[var68].startTimestamp)>10000L) && keshout.containsKey(var69))  || "notstarted".equals(var65.sportItem.tournaments[i].events[var68].status.type)){ 
 			            	   if(keshout.containsKey(var69))
 			            		   var70=keshout.get(var69);
+                                           
 			            		   
 			               }
 			               else {
