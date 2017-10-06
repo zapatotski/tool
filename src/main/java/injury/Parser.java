@@ -381,28 +381,4 @@ public class Parser {
 	    	return q;
 	    }
 	   
-	    
-	    public static void main(String [] args) {
-	    	String month="";
-	    	String date="";
-	    	int m=new Date().getMonth()+1;
-	    	int d=new Date().getDate();
-	    	if(m<10){
-	    		month="0"+m;
-	    	}
-	    	else{
-	    		month=""+m;
-	    	}
-	    	if(d<10){
-	    		date="0"+d;
-	    	}
-	    	else{
-	    		date=""+d;
-	    	}
-	        
-	        String strUrl="https://www.sofascore.com/football//2017-"+month+"-"+date+"/json?_="+new Date().getTime()/10000;
-	        URL url = new URL(strUrl);
-	    	parse(url);
-	    }
-	   
 }
