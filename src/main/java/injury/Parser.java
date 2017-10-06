@@ -100,7 +100,7 @@ public class Parser {
 		               
 
 
-		               System.out.println(var66+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime()+" "+var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime());
+		               System.out.println(var66+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate()).getTime()+" "+var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60).getTime());
                        if(stat && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L > (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime()) && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L < (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime())) {
 		                  
 		            	   Game var70=new Game(time, team1, team2, ftScore, ftScore, myel1, myelred1, mred1, msubs1, myel2, myelred2, mred2, msubs2);
