@@ -279,7 +279,7 @@ setInterval(function(){
 		<div style="clear:both"></div>	
 			<%		
 			Map<String,List<Game>> map=deserialization(f);
-			map=addLastGames(map,sortFile(files));
+			//map=addLastGames(map,sortFile(files));
 			Set key=map.keySet();
 			
 			for(Object k:key){
