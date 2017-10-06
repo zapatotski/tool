@@ -65,7 +65,8 @@ public class Parser {
 		         
 	             HashMap<Integer,Game> kesh = new HashMap();
 	             Map<Integer,Game> keshout=new HashMap();
-                     //deserialization(f);
+                     if(f.exists())
+                       keshout=deserialization(f);
                  
 		         for(i = 0; i < var65.sportItem.tournaments.length; ++i) {
 		        	 
