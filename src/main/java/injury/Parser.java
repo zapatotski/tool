@@ -77,7 +77,23 @@ public class Parser {
 		            for(int var68 = 0; var68 < var65.sportItem.tournaments[i].events.length; ++var68) {
 		               int var69 = var65.sportItem.tournaments[i].events[var68].id;		               	              
 		               boolean stat = var65.sportItem.tournaments[i].hasEventPlayerStatistics;
-		               String time = var65.sportItem.tournaments[i].events[var68].startTime;
+		               String hourfortime="";
+    	                       String minfortime="";
+    	                       int hft=new Date((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+10800000L)).getHours();
+    	                       int mft=new Date((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+10800000L)).getMinutes();
+    	                       if(hft<10){
+    		                  hourfortime="0"+hft;
+    	                       }
+    	                       else{
+    		                  hourfortime=""+hft;
+    	                       }
+    	                       if(mft<10){
+    		                  minfortime="0"+mft;
+    	                       }
+    	                       else{
+    		                 minfortime=""+mft;
+    	                       }
+                               String time =hourfortime+":"+minfortime;
 		               String team1 = var65.sportItem.tournaments[i].events[var68].homeTeam.name;
 		               String team2 = var65.sportItem.tournaments[i].events[var68].awayTeam.name;
 		               String htScore = var65.sportItem.tournaments[i].events[var68].homeScore.current + "-" + var65.sportItem.tournaments[i].events[var68].awayScore.current;
@@ -101,8 +117,8 @@ public class Parser {
 		               
 
 
-		               System.out.println(var66+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate()).getTime()+" "+var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+" "+new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60).getTime());
-                       if(stat && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L > (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime()) && (var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L < (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime())) {
+		               
+                       if(stat && ((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+10800000L) > (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate())).getTime()) && ((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L+10800000L) < (new Date((new Date()).getYear(), (new Date()).getMonth(), (new Date()).getDate(), 23, 59, 60)).getTime())) {
 		                  
 		            	   Game var70=new Game(time, team1, team2, ftScore, ftScore, myel1, myelred1, mred1, msubs1, myel2, myelred2, mred2, msubs2);
 			               
@@ -291,7 +307,7 @@ public class Parser {
 			                                             }
 			                                          }
 			                                       } catch (Exception var57) {
-			                                          //System.err.println(var72.incidents[h].player.id);
+			                                          
 			                                       }
 			                                    }
 			                                 } catch (Exception var58) {

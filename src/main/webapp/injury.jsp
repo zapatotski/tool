@@ -240,12 +240,26 @@ setInterval(function(){
 
 </script>
 
+<style>
+a{
+padding:10px;
+border:1px solid black;
+display:inline-block;
+color:black;
+font-weight:bold;
+}
+a:hover{
+background:#808080;
+color:white;
+}
+</style>
+
 </head>
 <body>
 	<div class="container" style="margin-top:20px;">
 		<div class="header">
-                        <a href="index.html" style="padding:10px;border:1px solid black;display:inline-block;">Плотный график</a>
-                        <a href="#" style="padding:10px;margin-left:-5px;border:1px solid black;display:inline-block;">Замены по травме</a>
+                        <a href="index.html">Плотный график</a>
+                        <a href="#" style="margin-left:-5px;background:#808080;color:white;">Замены по травме</a>
 			<div style="float:right"><i>Последнее обновление данных:
 				<%   
 				FileReader reader = new FileReader(new File("obnovinjury.txt"));

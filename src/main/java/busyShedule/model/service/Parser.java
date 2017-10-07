@@ -168,8 +168,7 @@ public class Parser {
 			for(int k=0;k<n;k++){
 				Game tg=gl.poll();
 				if(tg.date.getTime()<new Date().getTime()){
-					lastGame.add(tg);
-					System.out.println(tg.date.getDate()+"."+tg.date.getMonth()+"."+(1900+tg.date.getYear()));
+					lastGame.add(tg);				
 				}
 				else
 					resultList.add(tg);
