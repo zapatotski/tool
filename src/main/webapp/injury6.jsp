@@ -213,7 +213,7 @@ public Map<String,List<Game>> deserialization(File f){
 				             
 				            System.out.println(ex);
 				        }
-				out.print(new Date(Long.valueOf(s)+25200000).toLocaleString());
+				out.print(new Date(Long.valueOf(s)+10800000).toLocaleString());
 				%> 
 			</i></div>
 		</div>
