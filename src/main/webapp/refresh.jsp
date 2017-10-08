@@ -5,7 +5,7 @@
 
 <%! 
  
-    public void refresh() throws MalformedURLException{
+    public void refresh(){
        Parser.refresh();
     } 
 %>
