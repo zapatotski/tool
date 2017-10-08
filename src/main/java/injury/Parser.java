@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -23,7 +25,63 @@ import main.java.injury.Stat.Statistics.Season.Value;
 import main.java.live.Game;
 import main.java.live.Player;
 
+
 public class Parser {
+
+     public static void refresh() {
+    	String month="";
+    	String date="";
+    	int m=new Date().getMonth()+1;
+    	int d=new Date().getDate();
+    	if(m<10){
+    		month="0"+m;
+    	}
+    	else{
+    		month=""+m;
+    	}
+    	if(d<10){
+    		date="0"+d;
+    	}
+    	else{
+    		date=""+d;
+    	}
+		try {
+			System.out.println(new Date().getHours());
+			if(new Date().getHours()>11 && new Date().getHours()<=20) {
+		         URL url = new URL("http://tool-tool.7e14.starter-us-west-2.openshiftapps.com/admininjury.jsp");
+		         HttpURLConnection e = (HttpURLConnection)url.openConnection();
+		         int responseCode = e.getResponseCode();
+		         System.out.println(new Date().getHours()+":"+new Date().getMinutes()+" "+responseCode);
+			}
+			if(new Date().getHours()==21 && new Date().getMinutes()<11) {
+				InputStream input = null;
+				OutputStream output = null;
+				try {
+					input = new FileInputStream(new File("matchiinjury.xml"));
+					String namefile=month+date;
+					output = new FileOutputStream(new File(namefile));
+					byte[] buf = new byte[1024];
+					int bytesRead;
+					while ((bytesRead = input.read(buf)) > 0) {
+						output.write(buf, 0, bytesRead);
+						}
+					} finally {
+						input.close();
+						output.close();
+					}
+			}
+			if((new Date().getHours()==22 || new Date().getHours()==8) && new Date().getMinutes()<11) {
+		         URL url = new URL("http://tool-tool.7e14.starter-us-west-2.openshiftapps.com/shedule/api/refresh");
+		         HttpURLConnection e = (HttpURLConnection)url.openConnection();
+		         int responseCode = e.getResponseCode();
+		         System.out.println(new Date().getHours()+":"+new Date().getMinutes()+" "+responseCode);
+			}
+							        
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	   static File f=new File("kesh.xml");
