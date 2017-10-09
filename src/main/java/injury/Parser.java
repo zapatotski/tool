@@ -58,7 +58,7 @@ public class Parser {
 				OutputStream output = null;
 				try {
 					input = new FileInputStream(new File("matchiinjury.xml"));
-					String namefile=month+date;
+					String namefile=month+date+".inj";
 					output = new FileOutputStream(new File(namefile));
 					byte[] buf = new byte[1024];
 					int bytesRead;
