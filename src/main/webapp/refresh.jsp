@@ -3,13 +3,12 @@
 <%@ page import="main.java.injury.Parser" %>
 
 
-<%! 
- 
-    public void refresh(){
-       Parser.refresh();
+<%!  
+    public void refresh(String url){
+       Parser.refresh(url);
     } 
 %>
 
 <%
-refresh();
+refresh(request.getServerName());
 %>

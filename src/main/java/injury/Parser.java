@@ -27,7 +27,7 @@ import main.java.live.Player;
 
 public class Parser {
 
-	public static void refresh() {
+public static void refresh(String nameurl) {
 		String month = "";
 		String date = "";
 		int m = new Date().getMonth() + 1;
@@ -45,7 +45,7 @@ public class Parser {
 		try {
 			System.out.println(new Date().getHours());
 			if (new Date().getHours() > 11 && new Date().getHours() <= 20) {
-				URL url = new URL("http://tool-tool.1d35.starter-us-east-1.openshiftapps.com/admininjury.jsp");
+				URL url = new URL("http://"+nameurl+"/admininjury.jsp");
 				HttpURLConnection e = (HttpURLConnection) url.openConnection();
 				int responseCode = e.getResponseCode();
 				System.out.println(new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);
@@ -68,7 +68,7 @@ public class Parser {
 				}
 			}
 			if ((new Date().getHours() == 22 || new Date().getHours() == 8) && new Date().getMinutes() < 11) {
-				URL url = new URL("http://tool-tool.1d35.starter-us-east-1.openshiftapps.com/shedule/api/refresh");
+				URL url = new URL("http://"+nameurl+"/shedule/api/refresh");
 				HttpURLConnection e = (HttpURLConnection) url.openConnection();
 				int responseCode = e.getResponseCode();
 				System.out.println(new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);
