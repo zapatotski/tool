@@ -1,22 +1,20 @@
-package injury;
+package main.java.injury;
 
-import injury.Eventes.Event;
-import live.Player;
+import main.java.live.Player;
 
 public class Eventes {
-
+	
 	public Event[] incidents;
-
+	
 	public class Event {
 
-		public Player playerIn;
-		public Player playerOut;
-		public Player player;
-		public boolean injury;
-		public String type;
-		public int playerTeam;
-		public String incidentType;
-
+		   public Player playerIn;
+		   public Player playerOut;
+		   public Player player;
+		   public boolean injury;
+		   public String type;
+		   public int playerTeam;
+		   public String incidentType;
+		   
 	}
 }
-

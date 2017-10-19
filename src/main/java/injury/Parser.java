@@ -1,4 +1,4 @@
-package injury;
+package main.java.injury;
 
 import com.google.gson.Gson;
 import java.io.BufferedInputStream;
@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import injury.Eventes;
-import injury.Matchi;
-import injury.Stat;
-import injury.Stat.Statistics.Season.Value;
-import live.Game;
-import live.Player;
+import main.java.injury.Eventes;
+import main.java.injury.Matchi;
+import main.java.injury.Stat;
+import main.java.injury.Stat.Statistics.Season.Value;
+import main.java.live.Game;
+import main.java.live.Player;
 
 public class Parser {
 

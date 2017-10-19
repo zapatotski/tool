@@ -1,156 +1,141 @@
-package injury;
-
-import injury.Matchi.Params;
-import injury.Matchi.SportItem;
-import injury.Matchi.SportItem.Sport;
-import injury.Matchi.SportItem.Tournaments;
-import injury.Matchi.SportItem.Tournaments.Category;
-import injury.Matchi.SportItem.Tournaments.Events;
-import injury.Matchi.SportItem.Tournaments.Season;
-import injury.Matchi.SportItem.Tournaments.Tournament;
-import injury.Matchi.SportItem.Tournaments.Events.Changes;
-import injury.Matchi.SportItem.Tournaments.Events.RoundInfo;
-import injury.Matchi.SportItem.Tournaments.Events.Score;
-import injury.Matchi.SportItem.Tournaments.Events.Status;
-import injury.Matchi.SportItem.Tournaments.Events.Team;
+package main.java.injury;
 
 public class Matchi {
+	
+	   public SportItem sportItem;
+	   public Params params;
+	   public Boolean isShortDate;
+	   
+	   public class Params {
 
-	public SportItem sportItem;
-	public Params params;
-	public Boolean isShortDate;
+		   public String sport;
+		   public String category;
+		   public String date;
+	   }
+	   
+	   public class SportItem {
 
-	public class Params {
+		   public Sport sport;
+		   public String rows;
+		   public Tournaments[] tournaments;
+		   
+		   public class Tournaments {
 
-		public String sport;
-		public String category;
-		public String date;
-	}
+			   public Tournament tournament;
+			   public Category category;
+			   public Season season;
+			   public boolean hasEventPlayerStatistics;
+			   public String hasEventPlayerHeatMap;
+			   public Events[] events;
+			   
+			   public class Tournament {
 
-	public class SportItem {
+				   public String id;
+				   public String name;
+				   public String slug;
+				   public String priority;
+				   public String order;
+				   public String uniqueId;
+				   public String uniqueName;
+				   public boolean hasEventPlayerStatistics;
+				   public String hasEventPlayerHeatMap;
+			   }
+			   
+			   public class Category {
 
-		public Sport sport;
-		public String rows;
-		public Tournaments[] tournaments;
+				   public String id;
+				   public String name;
+				   public String slug;
+				   public String priority;
+				   public String[] mcc;
+				   public String flag;
+			   }
+			   
+			   public class Season {
 
-		public class Tournaments {
+				   public String id;
+				   public String name;
+				   public String slug;
+				   public String year;
+			   }
+			   
+			   public class Events {
 
-			public Tournament tournament;
-			public Category category;
-			public Season season;
-			public boolean hasEventPlayerStatistics;
-			public String hasEventPlayerHeatMap;
-			public Events[] events;
+				   public int id;
+				   public String customId;
+				   public Score homeScore;
+				   public Score awayScore;
+				   public Status status;
+				   public String winnerCode;
+				   public Changes changes;
+				   public RoundInfo roundInfo;
+				   public Sport sport;
+				   public Team homeTeam;
+				   public Team awayTeam;
+				   public String hasHighlights;
+				   public String hasHighlightsStream;
+				   public boolean hasEventPlayerStatistics;
+				   public String hasEventPlayerHeatMap;
+				   public String homeRedCards;
+				   public String awayRedCards;
+				   public String statusDescription;
+				   public String hasLiveForum;
+				   public String uniqueTournamentId;
+				   public String name;
+				   public String startTime;
+				   public String formatedStartDate;
+				   public long startTimestamp;
+				   public String slug;
+				   public String hasLineupsList;
+				   public String hasOdds;
+				   public String hasLiveOdds;
+				   public String hasFirstToServe;
+				   public String hasDraw;
+				   public String isSyncable;
+				   
+				   public class Score {
 
-			public class Tournament {
+					   public String current;
+					   public String period1;
+					   public String normaltime;
+				   }
+				   
+				   public class Status {
 
-				public String id;
-				public String name;
-				public String slug;
-				public String priority;
-				public String order;
-				public String uniqueId;
-				public String uniqueName;
-				public boolean hasEventPlayerStatistics;
-				public String hasEventPlayerHeatMap;
-			}
+					   public int code;
+					   public String type;
+				   }
+				   
+				   public class Changes {
 
-			public class Category {
+					   public String changeDate;
+					   public String[] changes;
+					   public String changeTimestamp;
+					   public Boolean hasExpired;
+					   public Boolean hasHomeChanges;
+					   public Boolean hasAwayChanges;
+				   }
+				   
+				   public class Team {
 
-				public String id;
-				public String name;
-				public String slug;
-				public String priority;
-				public String[] mcc;
-				public String flag;
-			}
+					   public String id;
+					   public String name;
+					   public String slug;
+					   public String gender;
+				   }
+				   
+				   public class RoundInfo {
 
-			public class Season {
+					   public String round;
+				   }
+			   }
+		   }
+		   
+		   public class Sport {
 
-				public String id;
-				public String name;
-				public String slug;
-				public String year;
-			}
-
-			public class Events {
-
-				public int id;
-				public String customId;
-				public Score homeScore;
-				public Score awayScore;
-				public Status status;
-				public String winnerCode;
-				public Changes changes;
-				public RoundInfo roundInfo;
-				public Sport sport;
-				public Team homeTeam;
-				public Team awayTeam;
-				public String hasHighlights;
-				public String hasHighlightsStream;
-				public boolean hasEventPlayerStatistics;
-				public String hasEventPlayerHeatMap;
-				public String homeRedCards;
-				public String awayRedCards;
-				public String statusDescription;
-				public String hasLiveForum;
-				public String uniqueTournamentId;
-				public String name;
-				public String startTime;
-				public String formatedStartDate;
-				public long startTimestamp;
-				public String slug;
-				public String hasLineupsList;
-				public String hasOdds;
-				public String hasLiveOdds;
-				public String hasFirstToServe;
-				public String hasDraw;
-				public String isSyncable;
-
-				public class Score {
-
-					public String current;
-					public String period1;
-					public String normaltime;
-				}
-
-				public class Status {
-
-					public int code;
-					public String type;
-				}
-
-				public class Changes {
-
-					public String changeDate;
-					public String[] changes;
-					public String changeTimestamp;
-					public Boolean hasExpired;
-					public Boolean hasHomeChanges;
-					public Boolean hasAwayChanges;
-				}
-
-				public class Team {
-
-					public String id;
-					public String name;
-					public String slug;
-					public String gender;
-				}
-
-				public class RoundInfo {
-
-					public String round;
-				}
-			}
-		}
-
-		public class Sport {
-
-			public String id;
-			public String name;
-			public String slug;
-		}
-	}
+			   public String id;
+			   public String name;
+			   public String slug;
+		   }
+	   }
 }
-

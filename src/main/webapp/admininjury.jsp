@@ -1,4 +1,4 @@
-<%@ page import="java.io.File" %>
+﻿<%@ page import="java.io.File" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.io.FileInputStream" %>
 <%@ page import="java.io.FileOutputStream" %>
@@ -10,9 +10,9 @@
 <%@ page import="java.net.MalformedURLException" %>
 <%@ page import="java.net.URL" %>
 <%@ page import="java.util.*" %>
-<%@ page import="live.Game" %>
-<%@ page import="live.Player" %>
-<%@ page import="injury.Parser" %>
+<%@ page import="main.java.live.Game" %>
+<%@ page import="main.java.live.Player" %>
+<%@ page import="main.java.injury.Parser" %>
 
 
 <%! 

@@ -7,6 +7,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("shedule")
-public class RestBasicEndPoint extends Application {
+@ ApplicationPath("shedule")
+public class RestBasicEndPoint extends Application{
 }

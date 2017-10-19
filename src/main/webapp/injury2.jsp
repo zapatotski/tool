@@ -8,8 +8,8 @@
 <%@ page import="java.io.ObjectOutputStream" %>
 <%@ page import="java.io.Serializable" %>
 <%@ page import="java.util.*" %>
-<%@ page import="live.Game" %>
-<%@ page import="live.Player" %>
+<%@ page import="main.java.live.Game" %>
+<%@ page import="main.java.live.Player" %>
 
 
 

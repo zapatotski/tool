@@ -1,4 +1,4 @@
-<%@ page import="java.math.BigInteger"%>
+﻿<%@ page import="java.math.BigInteger"%>
 <%@ page import="java.io.File" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.io.FileInputStream" %>
@@ -9,8 +9,8 @@
 <%@ page import="java.io.Serializable" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Arrays" %>
-<%@ page import="live.Game" %>
-<%@ page import="live.Player" %>
+<%@ page import="main.java.live.Game" %>
+<%@ page import="main.java.live.Player" %>
 
 
 <%! 
