@@ -12,14 +12,14 @@ public class Game implements Serializable{
 	public String status;
 	public Team team1;
 	public Team team2;
-	public List<Integer> start1;
-	public List<Integer> start2;
-	public List<Integer> zamena1;
-	public List<Integer> zamena2;
+	public List<StartPlayer> start1;
+	public List<StartPlayer> start2;
+	public List<StartPlayer> zamena1;
+	public List<StartPlayer> zamena2;
 	
 	public Game() {};
 	
-	public Game(String date,String time, String status, Team team1, Team team2, List<Integer> start1,List<Integer> start2, List<Integer> zamena1, List<Integer> zamena2) {
+	public Game(String date,String time, String status, Team team1, Team team2, List<StartPlayer> start1,List<StartPlayer> start2, List<StartPlayer> zamena1, List<StartPlayer> zamena2) {
 		this.date=date;
 		this.time=time;
 		this.status=status;
