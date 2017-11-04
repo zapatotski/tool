@@ -24,6 +24,7 @@ function show(){
 	      $.ajax({
 		    type:'get',//тип запроса: get,post либо head
 		    url:'squad/api/refresh',
+                    //url:'testxml.xml',
 		    success:function (data) { //возвращаемый результат от сервера
                         $('.content').empty();
                         var filtrvalue=70;
@@ -73,14 +74,28 @@ function show(){
 
 
                         for (var j = 0; j < start1.length; j++) {
-                             if($(this).find('id').text()==start1[j].innerHTML){
-                                boolstart=true;
-                                sumstart=+sumstart + +$(this).find('minutes').text();
+                             if(start1[j].lastChild.innerHTML==-1){
+                                if($(this).find('number').text()==start1[j].firstChild.innerHTML){
+                                    boolstart=true;
+                                    sumstart=+sumstart + +$(this).find('minutes').text();
+                                }
+                             }
+                             else{
+                                if($(this).find('id').text()==start1[j].lastChild.innerHTML){
+                                    boolstart=true;
+                                    sumstart=+sumstart + +$(this).find('minutes').text();
+                                }
                              }
                         }
                         for (var j = 0; j < zamena1.length; j++) {
-                             if($(this).find('id').text()==zamena1[j].innerHTML)
-                                boolzam=true;
+                             if(zamena1[j].lastChild.innerHTML==-1){
+                                 if($(this).find('number').text()==zamena1[j].firstChild.innerHTML)
+                                    boolzam=true;
+                             }
+                             else{
+                                if($(this).find('id').text()==zamena1[j].lastChild.innerHTML)
+                                   boolzam=true;
+                             }
                         }
 
                         var osn="";
@@ -199,14 +214,29 @@ function show(){
                         var boolstart=false;
                         var boolzam=false;
                         for (var j = 0; j < start2.length; j++) {
-                             if($(this).find('id').text()==start2[j].innerHTML){
-                                boolstart=true;
-                                sumstart2=+sumstart2 + +$(this).find('minutes').text();
+                             if(start2[j].lastChild.innerHTML==-1){
+                                if($(this).find('number').text()==start2[j].firstChild.innerHTML){
+                                   boolstart=true;
+                                   sumstart2=+sumstart2 + +$(this).find('minutes').text();
+                                }
+                             }
+                             else{
+                                if($(this).find('id').text()==start2[j].lastChild.innerHTML){
+                                   boolstart=true;
+                                   sumstart2=+sumstart2 + +$(this).find('minutes').text();
+                                }
                              }
                         }
+
                         for (var j = 0; j < zamena2.length; j++) {
-                             if($(this).find('id').text()==zamena2[j].innerHTML)
-                                boolzam=true;
+                             if(zamena2[j].lastChild.innerHTML==-1){
+                                if($(this).find('number').text()==zamena2[j].firstChild.innerHTML)
+                                   boolzam=true;
+                             }
+                             else{
+                                if($(this).find('id').text()==zamena2[j].lastChild.innerHTML)
+                                   boolzam=true;
+                             }
                         }
 
                         var osn="";
@@ -284,7 +314,7 @@ function show(){
                             odd="odd";
 
                         if(knt==vsegoplayers)
-                          $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell" id="name138003"><i><b>Result:</b></i></span><span class="squad_start_table" id="squad_start_table138003"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1" id="last_game1_138003"><i><b>'+((sumlast1/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_2" id="last_game2_138003"><i><b>'+((sumlast2/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_3" id="last_game3_138003"><i><b>'+((sumlast3/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
+                          $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell" id="name138003"><i><b>Result:</b></i></span><span class="squad_start_table" id="squad_start_table138003"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1" id="last_game1_138003"><i><b>'+((sumlast1/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_2" id="last_game2_138003"><i><b>'+((sumlast2/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_3" id="last_game3_138003"><i><b>'+((sumlast3/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
                         });
 
                         var podsvetka="";
