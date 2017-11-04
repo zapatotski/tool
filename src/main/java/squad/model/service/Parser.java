@@ -23,6 +23,7 @@ import squad.model.dao.LastGameDao;
 public class Parser {
 	
 	String[] hrefs = {
+			/*
 			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1005.xml",
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1007.xml",
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1425.xml",
@@ -69,6 +70,8 @@ public class Parser {
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1407.xml",
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1040.xml",
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1368.xml"
+				*/
+			"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1.xml"
 			};
 	
 	String[] hrefs2 = {
@@ -636,7 +639,7 @@ public class Parser {
 					status = matches.get(j).attr("status");
 					
 					
-					if(! ("Not Started".equals(status)))
+					if(! (status.split(":").length==2))
 						continue;
 				    
 					
