@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 
 
 import squad.model.bizmodel.*;
+import squad.model.dao.GameDAO;
 import squad.model.dao.LastGameDao;
 
 public class Parser {
@@ -611,10 +612,10 @@ public class Parser {
 		}
 	}
 	*/
-	public List<Game> parse(){
-				
+	
+	
+	public List<Game> parse(){		
 		List<Game> result=new ArrayList();
-		
 		for (String href : hrefs) {
 			System.out.println(href);
 			try {
@@ -634,14 +635,14 @@ public class Parser {
 					Integer team2id=0;
 					String team2name="";
 					
-					date = matches.get(j).attr("date");
-					time = matches.get(j).attr("time");
+
 					status = matches.get(j).attr("status");
-					
 					
 					if(! (status.split(":").length==2))
 						continue;
-				    
+					
+					date = matches.get(j).attr("date");
+					time = matches.get(j).attr("time");
 					
 					Elements team1Elements = matches.get(j).select("localteam");
 					Elements team2Elements = matches.get(j).select("visitorteam");
@@ -891,7 +892,7 @@ public class Parser {
 				System.out.println("ERROR: "+e.toString());
 			}
 		}
-		
+		new GameDAO().setGames(result);
 		return result;
 	}
 	

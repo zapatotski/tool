@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import squad.model.bizmodel.Game;
 import squad.model.bizmodel.LastGame;
+import squad.model.dao.GameDAO;
 import squad.model.service.Parser;
 
 @Path("/api")
@@ -23,6 +24,13 @@ public class RestEndPoints {
 	@Path("/refresh")
 	@Produces({ "application/xml", "application/json" })
 	public List<Game> getGames() {
+		return new GameDAO().getGames();
+	}
+	
+	@GET
+	@Path("/adminrefresh")
+	@Produces({ "application/xml", "application/json" })
+	public List<Game> getGames2() {
 		return new Parser().parse();
 	}
 	
