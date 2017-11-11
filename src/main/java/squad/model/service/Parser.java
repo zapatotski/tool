@@ -28,8 +28,7 @@ import squad.model.dao.LastGameDao;
 public class Parser {
 	
 	String[] hrefs = {
-			"http://localhost:8080/1test.xml"
-			/*
+			
 			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1.xml",
 			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1005.xml",//LC
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1007.xml",//LE
@@ -77,7 +76,6 @@ public class Parser {
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1407.xml",//Sweden Allsvenskan
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1040.xml",//South America Copa Libertadores
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1368.xml"//Saudi Arabia				
-			*/
 			};
 			
 	
