@@ -29,9 +29,9 @@ public class RestEndPoints {
 	
 	@GET
 	@Path("/adminrefresh")
-	@Produces({ "application/xml", "application/json" })
-	public List<Game> getGames2() {
-		return new Parser().parse();
+	public String getGames2() {
+		new Parser().parse();
+		return "Ok";
 	}
 	
 	/*

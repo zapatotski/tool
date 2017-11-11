@@ -17,328 +17,441 @@ function time(timeend) {
     document.getElementById('t').innerHTML=timestr;
     window.setTimeout("time(pam)",1000);
 }
+
+function deleteModalsWithoutOpen(){
+	//udalaem modalnie okna krome otkritogo 
+	var x=document.getElementsByClassName("modal show");
+	var sohrmodal=-1;
+	for(l=0;l<x.length;l++){
+	   sohrmodal=x[l].getAttribute("id");
+	}
+
+	var md=document.getElementsByClassName("modals")[0];
+	var y=document.getElementsByClassName("modals")[0].children;
+	var numb=y.length;
+	for(l=0;l<numb;l++){
+	   console.log(y[l].getAttribute("id") +"  "+("a"+sohrmodal));
+	   if(y[l].getAttribute("id")!=("a"+sohrmodal)){
+	     md.removeChild(y[l]);
+	     l--;
+	     numb--;
+	   }
+	}
+	return sohrmodal;
+}
+
+function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed){
+
+	var arr=team1last.first().find('tournament').text().split(' ');
+	var l1name=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+	var arr=team1last.eq(1).find('tournament').text().split(' ');
+	var l2name=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+	var arr=team1last.eq(2).find('tournament').text().split(' ');
+	var l3name=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+
+	var start1=$(a).find('start1');
+	var zamena1=$(a).find('zamena1');
+
+	//zapolnyaem modalnoe okno
+	$('#a'+i).append('<div id="'+i+'" class="modal fade">');
+	$('#'+i).append('<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Х</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="teamTable1"><div id="'+i+'teamData1" class="teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
+
+
+    var knt=0;
+    var sumlast1=0;
+    var sumlast2=0;
+    var sumlast3=0;
+ 
+    //chtob poniat kogda stroku result vivodit
+    var vsegoplayers= $(a).find('team1').find('players').length;
+
+    //dly kazdogo player
+    $(a).find('team1').find('players').each(function(){
+        var odd="even";
+        if(knt%2==0)
+            odd="odd";
+        
+        //summa minut pervih 11
+        if(knt<11)
+           sumitogo=+sumitogo + +$(this).find('minutes').text();
+        
+        var boolstart=false;
+        var boolzam=false;
+
+        //probegaem po start1 komandy i sravnivaem s tekuchim player, esli on tam est to boolstart=true i plusuem ego minuti k sume minut starta
+        for (var j = 0; j < start1.length; j++) {
+             if(start1[j].lastChild.innerHTML==-1){
+                if($(this).find('number').text()==start1[j].firstChild.innerHTML){
+                    boolstart=true;
+                    sumstart=+sumstart + +$(this).find('minutes').text();
+                }
+             }
+             else{
+                if($(this).find('id').text()==start1[j].lastChild.innerHTML){
+                    boolstart=true;
+                    sumstart=+sumstart + +$(this).find('minutes').text();
+                }
+             }
+        }
+        //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
+        for (var j = 0; j < zamena1.length; j++) {
+             if(zamena1[j].lastChild.innerHTML==-1){
+                 if($(this).find('number').text()==zamena1[j].firstChild.innerHTML)
+                    boolzam=true;
+             }
+             else{
+                if($(this).find('id').text()==zamena1[j].lastChild.innerHTML)
+                   boolzam=true;
+             }
+        }
+
+        var osn="";
+        if(boolstart){
+          osn="red_circle";
+          klkvstarte1++;
+        }
+        
+        //esli player v starte i feed=0, to eto predvarilovka
+        if(boolstart && (feed == 0))
+          osn="blue_circle"; 
+       
+        if(boolzam)
+          osn="yellow_circle";
+
+
+        var last1=false;
+        var last2=false;
+        var last3=false;
+        var lzam1=false;
+        var lzam2=false;
+        var lzam3=false;        
+        
+
+        //tekushiy player est v starte posledney igri komandy 1? esli da, to last1=true i pribovlaem ego minuti k summe minut 
+        for (var j = 0; j < team1last.first().find('start').length; j++) {
+             if($(this).find('id').text()==team1last.first().find('start').get(j).innerHTML){
+                last1=true;
+                sumlast1= +sumlast1 + +$(this).find('minutes').text();
+             }
+        }
+        //tekushiy player est na zamene proshloy igri komandi 1? Esli da, to lzam1=true
+        for (var j = 0; j < team1last.first().find('zamena').length; j++) {
+             if($(this).find('id').text()==team1last.first().find('zamena').get(j).innerHTML)
+                lzam1=true;
+        }
+
+
+        var l1="";
+        if(last1)
+           l1="green_circle"; 
+        if(lzam1)
+           l1="yellow_circle";
+
+        for (var j = 0; j < team1last.eq(1).find('start').length; j++) {
+             if($(this).find('id').text()==team1last.eq(1).find('start').get(j).innerHTML){
+                last2=true;
+                sumlast2=+sumlast2 + +$(this).find('minutes').text();
+             }
+        }
+
+        for (var j = 0; j < team1last.eq(1).find('zamena').length; j++) {
+             if($(this).find('id').text()==team1last.eq(1).find('zamena').get(j).innerHTML)
+                lzam2=true;
+        }
+        
+        var l2="";
+        if(last2)
+           l2="green_circle";    
+        if(lzam2)
+           l2="yellow_circle";  
+
+
+        for (var j = 0; j < team1last.eq(2).find('start').length; j++) {
+             if($(this).find('id').text()==team1last.eq(2).find('start').get(j).innerHTML){
+                last3=true;
+                sumlast3=+sumlast3 + +$(this).find('minutes').text();
+             }
+        }
+        for (var j = 0; j < team1last.eq(2).find('zamena').length; j++) {
+             if($(this).find('id').text()==team1last.eq(2).find('zamena').get(j).innerHTML)
+                last3=true;
+        }
+        
+        var l3="";
+        if(last3)
+           l3="green_circle";    
+        if(lzam3)
+           l3="yellow_circle"; 
+
+      
+        //zapolnaem statistiku tekushego player v tablice
+        $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell">'+$(this).find('name').text()+'</span><span class="squad_start_table '+osn+'"></span><span class="last_game_1 '+l1+'"></span><span class="last_game_2 '+l2+'"></span><span class="last_game_3 '+l3+'"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
+        
+        knt=knt+1;
+        odd="even";
+          if(knt%2==0)
+            odd="odd";
+
+        //esli kolchestvo tekushego players ravno vsego players, to zapolnyaem stroku result
+        if(knt==vsegoplayers)
+          $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell"><i><b>Result:</b></i></span><span class="squad_start_table" style="font-size:9pt;"><i><b>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_1" style="font-size:9pt;"><i><b>'+((sumlast1/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_2" style="font-size:9pt;"><i><b>'+((sumlast2/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_3" style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
+	});
+    var mas=[sumstart,sumitogo,klkvstarte1]; 
+	return mas;
+}
+
+
+function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed){
+	var arr=team2last.first().find('tournament').text().split(' ');
+	var l1name2=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+	var arr=team2last.eq(1).find('tournament').text().split(' ');
+	var l2name2=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+	var arr=team2last.eq(2).find('tournament').text().split(' ');
+	var l3name2=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
+
+
+	var start2=$(b).find('start2');
+	var zamena2=$(b).find('zamena2');
+
+	$('#cl'+i).append('<div id="team2"><div id="teamTable2"><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
+
+
+	var knt=0;
+
+	var sumlast1=0;
+	var sumlast2=0;
+	var sumlast3=0;
+	var vsegoplayers= $(b).find('team2').find('players').length;
+
+
+	$(b).find('team2').find('players').each(function(){  
+	    var odd="even";
+	    if(knt%2==0)
+	       odd="odd";
+
+	    if(knt<11)
+	       sumitogo2=+sumitogo2 + +$(this).find('minutes').text();
+
+
+	    var boolstart=false;
+	    var boolzam=false;
+	    for (var j = 0; j < start2.length; j++) {
+	         if(start2[j].lastChild.innerHTML==-1){
+	            if($(this).find('number').text()==start2[j].firstChild.innerHTML){
+	               boolstart=true;
+	               sumstart2=+sumstart2 + +$(this).find('minutes').text();
+	            }
+	         }
+	         else{
+	            if($(this).find('id').text()==start2[j].lastChild.innerHTML){
+	               boolstart=true;
+	               sumstart2=+sumstart2 + +$(this).find('minutes').text();
+	            }
+	         }
+	    }
+
+	    for (var j = 0; j < zamena2.length; j++) {
+	         if(zamena2[j].lastChild.innerHTML==-1){
+	            if($(this).find('number').text()==zamena2[j].firstChild.innerHTML)
+	               boolzam=true;
+	         }
+	         else{
+	            if($(this).find('id').text()==zamena2[j].lastChild.innerHTML)
+	               boolzam=true;
+	         }
+	    }
+
+	    var osn="";
+	    if(boolstart){
+	      osn="red_circle";
+	      klkvstarte2++;
+	    }
+
+	    if(boolstart && (feed == 0))
+	      osn="blue_circle";
+	    
+	    if(boolzam)
+	      osn="yellow_circle";  
+
+	    var last1=false;
+	    var last2=false;
+	    var last3=false;        
+	    var lzam1=false;
+	    var lzam2=false;
+	    var lzam3=false; 
+
+	    for (var j = 0; j < team2last.first().find('start').length; j++) {
+	         if($(this).find('id').text()==team2last.first().find('start').get(j).innerHTML){
+	            last1=true;
+	            sumlast1= +sumlast1 + +$(this).find('minutes').text();
+	         }
+	    }
+	    for (var j = 0; j < team2last.first().find('zamena').length; j++) {
+	         if($(this).find('id').text()==team2last.first().find('zamena').get(j).innerHTML)
+	            lzam1=true;
+	    }
+	    
+	    var l1="";
+	    if(last1)
+	       l1="green_circle"; 
+	    if(lzam1)
+	       l1="yellow_circle"; 
+
+	    for (var j = 0; j < team2last.eq(1).find('start').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(1).find('start').get(j).innerHTML){
+	            last2=true;
+	            sumlast2= +sumlast2 + +$(this).find('minutes').text();
+	        }
+	    }
+	    for (var j = 0; j < team2last.eq(1).find('zamena').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(1).find('zamena').get(j).innerHTML)
+	            lzam2=true;
+	    }                        
+	    
+	    var l2="";
+	    if(last2)
+	       l2="green_circle";    
+	    if(lzam2)
+	       l2="yellow_circle";   
+
+	    for (var j = 0; j < team2last.eq(2).find('start').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(2).find('start').get(j).innerHTML){
+	            last3=true;
+	            sumlast3= +sumlast3 + +$(this).find('minutes').text();
+	         }
+	    }
+	    for (var j = 0; j < team2last.eq(2).find('zamena').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(2).find('zamena').get(j).innerHTML)
+	            lzam3=true;
+	    }
+
+	    var l3="";
+	    if(last3)
+	       l3="green_circle"; 
+	    if(lzam3)
+	       l3="yellow_circle";     
+
+
+		$('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell" id="name138003">'+$(this).find('name').text()+'</span><span class="squad_start_table '+osn+'" id="squad_start_table138003"></span><span class="last_game_1 '+l1+'" id="last_game1_138003"></span><span class="last_game_2 '+l2+'" id="last_game2_138003"></span><span class="last_game_3 '+l3+'" id="last_game3_138003"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
+	    
+		knt=knt+1;
+
+	    odd="even";
+	    if(knt%2==0)
+	       odd="odd";
+
+
+	    //itogo resultat
+	    if(knt==vsegoplayers)
+	      $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell"><i><b>Result:</b></i></span><span class="squad_start_table" style="font-size:9pt;"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_1" style="font-size:9pt;"><i><b>'+((sumlast1/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_2" style="font-size:9pt;"><i><b>'+((sumlast2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_3" style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
+	  
+	});
+		var mas=[sumstart2,sumitogo2,klkvstarte2];
+		return mas;
+}
 				   	   	
 function show(){
-	      $('.content').html('<span style="padding-left:380px;"><img id="imgcode" src="image/loadinfo.gif"></span>');       
-              time(new Date(new Date().getTime()+180000));	  	
-	      $.ajax({
+	     //$('.content').html('<span style="padding-left:380px;"><img id="imgcode" src="image/loadinfo.gif"></span>');
+
+         //zapuskaem taimer
+         time(new Date(new Date().getTime()+60000));	  	
+	     
+	     //zapros ajax
+	     $.ajax({
 		    type:'get',//тип запроса: get,post либо head
-		    url:'squad/api/refresh',
+                    url:'squad/api/refresh',
+		    //url:'http://tool-tool.7e14.starter-us-west-2.openshiftapps.com/squad/api/adminrefresh',
                     //url:'testxml.xml',
+		    //prishel otvet ajax v xml
 		    success:function (data) { //возвращаемый результат от сервера
-                        $('.content').empty();
                         var filtrvalue=70;
+                        //esli v pole vvedeno chislo, to zapisivaem v filtrvalue ego, inache znachenie 70
                         if(!isNaN(document.getElementById('filtr').value))
                            filtrvalue=document.getElementById('filtr').value;
-	                
-                        var i=0;
+
+	                    //udalaem modalnie okna krome otkritogo 
+						var sohrmodal=deleteModalsWithoutOpen()
                         
-		    	$(data).find('game').each(function(){
-	                // select a container were you want to put your data, them append data in it;;
-	                i=i+1;
-                        $('.content').append('<div id="a'+i+'">'+i+') ');
-                        var team1name=$(this).find('team1').find('name').first().text();
-                        var team2name=$(this).find('team2').find('name').first().text();
-                        var namegame=team1name+'-'+team2name;
-	                var start1=$(this).find('start1');
-                        var zamena1=$(this).find('zamena1');
-                        var start2=$(this).find('start2');
-                        var zamena2=$(this).find('zamena2');
-                        var team1last=$(this).find('team1').find('lastGame');
-                        var team2last=$(this).find('team2').find('lastGame');
-
-                        var l1name=team1last.first().find('tournament').text();
-                        var l2name=team1last.eq(1).find('tournament').text();
-                        var l3name=team1last.eq(2).find('tournament').text();
-
-	                $('#a'+i).append('<div id="'+i+'" class="modal fade">');
-                        $('#'+i).append('<div class="modal-dialog" style="max-width:1500px;"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Х</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="teamTable1"><div id="'+i+'teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_start_table"></span><span class="flag"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
-                        var knt=0;
-
-                        var sumstart=0;
-                        var sumlast1=0;
-                        var sumlast2=0;
-                        var sumlast3=0;
-                        var sumitogo=0;
-                        var vsegoplayers= $(this).find('team1').find('players').length;
-
-                        $(this).find('team1').find('players').each(function(){
-                         var odd="even";
-                          if(knt%2==0)
-                            odd="odd";
-
-                        if(knt<11)
-                           sumitogo=+sumitogo + +$(this).find('minutes').text();
-                        var boolstart=false;
-                        var boolzam=false;
-
-
-                        for (var j = 0; j < start1.length; j++) {
-                             if(start1[j].lastChild.innerHTML==-1){
-                                if($(this).find('number').text()==start1[j].firstChild.innerHTML){
-                                    boolstart=true;
-                                    sumstart=+sumstart + +$(this).find('minutes').text();
-                                }
-                             }
-                             else{
-                                if($(this).find('id').text()==start1[j].lastChild.innerHTML){
-                                    boolstart=true;
-                                    sumstart=+sumstart + +$(this).find('minutes').text();
-                                }
-                             }
-                        }
-                        for (var j = 0; j < zamena1.length; j++) {
-                             if(zamena1[j].lastChild.innerHTML==-1){
-                                 if($(this).find('number').text()==zamena1[j].firstChild.innerHTML)
-                                    boolzam=true;
-                             }
-                             else{
-                                if($(this).find('id').text()==zamena1[j].lastChild.innerHTML)
-                                   boolzam=true;
-                             }
-                        }
-
-                        var osn="";
-                        if(boolstart)
-                          osn="red_circle";
+                        //ochichaem content - tam gde tablicsa matchey
+                        $('.content').empty();
+                        //dobavlaem tablicu s matchami v content
+                        $('.content').append('<table class="table table-hover" id="tab0">');
+                        $('#tab0').append('<thead><tr><th>Date</th><th>Tournament</th><th>Game</th><th>Team1</th><th>Team2</th><th>Feed</th><th>Time starting</th></tr>');
+                        $('#tab0').append('<tbody id="tabGam">');
                         
-                        if(boolzam)
-                          osn="yellow_circle";
+                        var i=0;                     
+ 
+                        //dly kazdoy game iz xml
+				    	$(data).find('game').each(function(){
+				    		i=i+1;
+ 
+
+	                        //propuskaem otkritoe okno
+	                        if(i==sohrmodal)
+	                           i=i+1;
+	                        
+	                        //dobavlaem modalnoe okno dly game
+	                        $('.modals').append('<div id="a'+i+'">');
+	                        
+	                        var data=$(this).find('date').first().text()+' '+$(this).find('time').first().text();
+	                        var tournam=$(this).find('tournam').first().text();
+	                        var feed=$(this).find('feed').first().text(); 
+	                        var timestart=$(this).find('startTime').first().text();                   
+
+	                        var team1name=$(this).find('team1').find('name').first().text();
+	                        var team2name=$(this).find('team2').find('name').first().text();
+	                        var namegame=team1name+'-'+team2name;
 
 
-                        var last1=false;
-                        var last2=false;
-                        var last3=false;
-                        var lzam1=false;
-                        var lzam2=false;
-                        var lzam3=false;        
-                        
+	                        var team1last=$(this).find('team1').find('lastGame');
+	                        var team2last=$(this).find('team2').find('lastGame');
+	                        
 
-    
-                        for (var j = 0; j < team1last.first().find('start').length; j++) {
-                             if($(this).find('id').text()==team1last.first().find('start').get(j).innerHTML){
-                                last1=true;
-                                sumlast1= +sumlast1 + +$(this).find('minutes').text();
-                             }
-                        }
-                        
-                        for (var j = 0; j < team1last.first().find('zamena').length; j++) {
-                             if($(this).find('id').text()==team1last.first().find('zamena').get(j).innerHTML)
-                                lzam1=true;
-                        }
+							var sumstart=0;
+						    var sumitogo=0;
+                            //kolichestvo igrokov starta sopostavlenih po id i number v kazdoy komande
+	                        var klkvstarte1=0;
+	                        var klkvstarte2=0;   
+	                       
+	                        var mas=formTable1(this,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
+                            
+                            sumstart=mas[0];
+                            sumitogo=mas[1];
+                            klkvstarte1=mas[2];
+                            
+                            //To ze amoe dly team2
+							var sumitogo2=0;
+							var sumstart2=0;
+                            var mas2=formTable2(this,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
+	                        
+	                        sumstart2=mas2[0];
+	                        sumitogo2=mas2[1];
+	                        klkvstarte2=mas2[2];
+	                        
+	                        //podsvetka matchey v spiske i sam spisok
+	                        var podsvetka="";
+	                        if((((sumstart2/sumitogo2)*100)<filtrvalue) || (((sumstart/sumitogo)*100)<filtrvalue))
+	                        	podsvetka='style="background-color: #58FA58";';
+	                        if(feed==0)
+	                        	podsvetka='style="background-color: #A9E2F3";';
 
+	                        //zapolnyaem spisok matchey v tablice v content
+	                        $('#tabGam').append('<tr '+podsvetka+'><td>'+data+'</td><td>'+tournam+'</td><td><a href="#"data-toggle="modal" data-target="#'+i+'">'+namegame+'</a></td><td>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'% ('+klkvstarte1+')</td><td>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'% ('+klkvstarte2+')</td><td>'+feed+'</td><td>'+timestart+'</td></tr>');
 
-                        var l1="";
-                        if(last1)
-                           l1="green_circle"; 
-                        if(lzam1)
-                           l1="yellow_circle";
-
-                       for (var j = 0; j < team1last.eq(1).find('start').length; j++) {
-                             if($(this).find('id').text()==team1last.eq(1).find('start').get(j).innerHTML){
-                                last2=true;
-                                sumlast2=+sumlast2 + +$(this).find('minutes').text();
-                             }
-                        }
-
-                       for (var j = 0; j < team1last.eq(1).find('zamena').length; j++) {
-                             if($(this).find('id').text()==team1last.eq(1).find('zamena').get(j).innerHTML)
-                                lzam2=true;
-                        }
-                        
-                        var l2="";
-                        if(last2)
-                           l2="green_circle";    
-                        if(lzam2)
-                           l2="yellow_circle";  
-
-
-                       for (var j = 0; j < team1last.eq(2).find('start').length; j++) {
-                             if($(this).find('id').text()==team1last.eq(2).find('start').get(j).innerHTML){
-                                last3=true;
-                                sumlast3=+sumlast3 + +$(this).find('minutes').text();
-                             }
-                        }
-                       for (var j = 0; j < team1last.eq(2).find('zamena').length; j++) {
-                             if($(this).find('id').text()==team1last.eq(2).find('zamena').get(j).innerHTML)
-                                last3=true;
-                        }
-                        
-                        var l3="";
-                        if(last3)
-                           l3="green_circle";    
-                        if(lzam3)
-                           l3="yellow_circle"; 
-
-                      
-
-                        $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell" id="name138003">'+$(this).find('name').text()+'</span><span class="squad_start_table '+osn+'" id="squad_start_table138003"></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1 '+l1+'" id="last_game1_138003"></span><span class="last_game_2 '+l2+'" id="last_game2_138003"></span><span class="last_game_3 '+l3+'" id="last_game3_138003"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
-                        
-                        knt=knt+1;
-                        odd="even";
-                          if(knt%2==0)
-                            odd="odd";
-
-                        if(knt==vsegoplayers)
-                          $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell" id="name138003"><i><b>Result:</b></i></span><span class="squad_start_table" id="squad_start_table138003"><i><b>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1" id="last_game1_138003"><i><b>'+((sumlast1/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_2" id="last_game2_138003"><i><b>'+((sumlast2/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_3" id="last_game3_138003"><i><b>'+((sumlast3/sumitogo)*100).toString().substring(0,4)+'%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
-                        
-                        });
-
-                        var l1name2=team2last.first().find('tournament').text();
-                        var l2name2=team2last.eq(1).find('tournament').text();
-                        var l3name2=team2last.eq(2).find('tournament').text();
-
-
-                        
-                        $('#cl'+i).append('<div id="team2"><div id="teamTable2"><div id="'+i+'teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_start_table"></span><span class="flag"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
-                        
-
-                        knt=0;
-
-                        var sumstart2=0;
-                        sumlast1=0;
-                        sumlast2=0;
-                        sumlast3=0;
-                        var sumitogo2=0;
-                        vsegoplayers= $(this).find('team2').find('players').length;
-
-                        $(this).find('team2').find('players').each(function(){
-                          var odd="even";
-                          if(knt%2==0)
-                            odd="odd";
-
-                        if(knt<11)
-                           sumitogo2=+sumitogo2 + +$(this).find('minutes').text();
-
-
-                        var boolstart=false;
-                        var boolzam=false;
-                        for (var j = 0; j < start2.length; j++) {
-                             if(start2[j].lastChild.innerHTML==-1){
-                                if($(this).find('number').text()==start2[j].firstChild.innerHTML){
-                                   boolstart=true;
-                                   sumstart2=+sumstart2 + +$(this).find('minutes').text();
-                                }
-                             }
-                             else{
-                                if($(this).find('id').text()==start2[j].lastChild.innerHTML){
-                                   boolstart=true;
-                                   sumstart2=+sumstart2 + +$(this).find('minutes').text();
-                                }
-                             }
-                        }
-
-                        for (var j = 0; j < zamena2.length; j++) {
-                             if(zamena2[j].lastChild.innerHTML==-1){
-                                if($(this).find('number').text()==zamena2[j].firstChild.innerHTML)
-                                   boolzam=true;
-                             }
-                             else{
-                                if($(this).find('id').text()==zamena2[j].lastChild.innerHTML)
-                                   boolzam=true;
-                             }
-                        }
-
-                        var osn="";
-                        if(boolstart)
-                          osn="red_circle";
-                        
-                        if(boolzam)
-                          osn="yellow_circle";  
-
-                        var last1=false;
-                        var last2=false;
-                        var last3=false;        
-                        var lzam1=false;
-                        var lzam2=false;
-                        var lzam3=false; 
-  
-                        for (var j = 0; j < team2last.first().find('start').length; j++) {
-                             if($(this).find('id').text()==team2last.first().find('start').get(j).innerHTML){
-                                last1=true;
-                                sumlast1= +sumlast1 + +$(this).find('minutes').text();
-                             }
-                        }
-                        for (var j = 0; j < team2last.first().find('zamena').length; j++) {
-                             if($(this).find('id').text()==team2last.first().find('zamena').get(j).innerHTML)
-                                lzam1=true;
-                        }
-                        
-                        var l1="";
-                        if(last1)
-                           l1="green_circle"; 
-                        if(lzam1)
-                           l1="yellow_circle"; 
-
-                       for (var j = 0; j < team2last.eq(1).find('start').length; j++) {
-                             if($(this).find('id').text()==team2last.eq(1).find('start').get(j).innerHTML){
-                                last2=true;
-                                sumlast2= +sumlast2 + +$(this).find('minutes').text();
-                            }
-                       }
-                       for (var j = 0; j < team2last.eq(1).find('zamena').length; j++) {
-                             if($(this).find('id').text()==team2last.eq(1).find('zamena').get(j).innerHTML)
-                                lzam2=true;
-                        }                        
-                        
-                        var l2="";
-                        if(last2)
-                           l2="green_circle";    
-                        if(lzam2)
-                           l2="yellow_circle";   
-
-                       for (var j = 0; j < team2last.eq(2).find('start').length; j++) {
-                             if($(this).find('id').text()==team2last.eq(2).find('start').get(j).innerHTML){
-                                last3=true;
-                                sumlast3= +sumlast3 + +$(this).find('minutes').text();
-                             }
-                        }
-                        for (var j = 0; j < team2last.eq(2).find('zamena').length; j++) {
-                             if($(this).find('id').text()==team2last.eq(2).find('zamena').get(j).innerHTML)
-                                lzam3=true;
-                        }
-
-                        var l3="";
-                        if(last3)
-                           l3="green_circle"; 
-                        if(lzam3)
-                           l3="yellow_circle";     
-
-
-                          $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell" id="name138003">'+$(this).find('name').text()+'</span><span class="squad_start_table '+osn+'" id="squad_start_table138003"></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1 '+l1+'" id="last_game1_138003"></span><span class="last_game_2 '+l2+'" id="last_game2_138003"></span><span class="last_game_3 '+l3+'" id="last_game3_138003"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
-                        
-                         knt=knt+1;
-
-                          odd="even";
-                          if(knt%2==0)
-                            odd="odd";
-
-                        if(knt==vsegoplayers)
-                          $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell" id="name138003"><i><b>Result:</b></i></span><span class="squad_start_table" id="squad_start_table138003"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="flag"><span class="flag_16 right_16 flag_conteiner"></span></span><span class="last_game_1" id="last_game1_138003"><i><b>'+((sumlast1/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_2" id="last_game2_138003"><i><b>'+((sumlast2/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="last_game_3" id="last_game3_138003"><i><b>'+((sumlast3/sumitogo2)*100).toString().substring(0,4)+'%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
-                        });
-
-                        var podsvetka="";
-                        if((((sumstart2/sumitogo2)*100)<filtrvalue) || (((sumstart/sumitogo)*100)<filtrvalue))
-                           podsvetka='style="background-color: #58FA58";';
-
-                        $('#a'+i).append('<a href="#"'+podsvetka+' data-toggle="modal" data-target="#'+i+'">'+namegame+' '+((sumstart/sumitogo)*100).toString().substring(0,4)+'% '+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'%</a>');
-
-});
-	                
-}
-
+                        //konec each game
+						});
+	        //konec datasuccess 
+			}
+        //konec ajax
 		});
+//konec function show
 }
 
 
- $(document).ready(function(){
+$(document).ready(function(){
               show();
-              setInterval('show()',180000);
+              setInterval('show()',60000);
 });	   
-
-	
-
-
 	   
 </script>
 
@@ -350,113 +463,43 @@ function show(){
 	<title>Стартовые составы</title>
 </head>
 <body>
-  <label for="filtr" style="margin:10px 20px;">Подсветка матчей с % сыграных минут стартового состава в одной из команд менее (по умолчанию 70):</label>
+  <label for="filtr" style="margin:10px 20px;">Подсветка матчей с % сыграных минут стартового состава в одной из команд менее:</label>
   <input type="text" value="70" id="filtr">
 <i style="float:right;margin-top:-40px;font-size:20px">Автообновление через <span id="t" style="font-size:20px"></span></i>
 <div class="content" style="margin:20px 20px;"></div>
+<div class="modals"></div>
 </body>
 </html>
 
 
 <style>
-div#teamMain {
-	display: inline-block;
-	white-space: nowrap; /* отменить перенос блоков на следующую "строку" */
-	height: 100%;
-	margin: 0;
-	font-size: 0; /* удаление псевдопробелов между div#team1 и div#team2. УЛУЧШЕНИЕ: ВЫНЕСТИ ДАННОЕ СВОЙСТВО В MAIN.CSS:*{} */
-	vertical-align: top;
+/* основной блок команды 1 */
+.modal-dialog{
+	max-width:1250px;
 }
 
-/* основной блок команды 1 */
 div#team1 {
 	display: inline-block;
-	margin: 20px;
-	white-space: normal; /* отменить действие "white-space: nowrap" в div.teamMain */
+	margin: 0px;
 }
 
 /* основной блок команды 2 */
 div#team2 {
 	display: inline-block;
-	margin: 20px 20px 20px 0;
+	margin: 0px 10px 10px 10px;
 	vertical-align: top;
-	white-space: normal; /* отменить действие "white-space: nowrap" в div.teamMain */
 }
 
-/* ВОДЯНОЙ ЗНАК "BETFRONT.RU" */
-
-/* шрифт для водяного знака */
-@font-face {
-    font-family: watermark;
-    src: url('../font/big_noodle_titling_cyr.ttf');
-}
-
-div.mainWatermark {
-	position: absolute;
-	bottom: 4px;
-	right: 4px;
-	line-height: 40px;
-	font-size: 50px;
-	font-family: watermark;
-	font-weight: bold;
-	color: rgba(100,100,100,0.4);
-}
-
-/* ПАНЕЛЬ "СОСТАВ КОМАНДЫ" */
-
-div#lineupsPanel1, div#lineupsPanel2 {
-	margin: 0 0 20px 0;
-	width: 100%;
-	min-height: 100px;
-	box-sizing: border-box;
-	font: 12px arial,helvetica,clean,sans-serif;
-	border: 0;
-}
-
-textarea#lineupsField1, textarea#lineupsField2 {
-	padding: 5px;
-	width: 100%;
-	height: 100px;
-	resize: none;
-	box-sizing: border-box;
-	font: 12px arial,helvetica,clean,sans-serif;
-	border: solid 1px rgb(150,150,150);
-	background: url('../image/interface/twitter.png') right bottom no-repeat;
-}
-
-/* блок для отображения данных о игроках в текстовом формате */
-div#textFormat1, div#textFormat2 {
-	margin: 0 0 20px 0;
-	padding: 5px;
-	box-sizing: border-box;
-	font: 12px arial,helvetica,clean,sans-serif;
-	border: solid 1px rgb(150,150,150);
-}
 
 /* блок, объединяющий блок панели кнопок и блок данных о команде */
 div#teamTable1, div#teamTable2 {
 	white-space: nowrap; /* отменить перенос блоков на следующую "строку" */
 }
 
-/* блок панели кнопок */
-div#buttonPanel1, div#buttonPanel2 {
-	display: inline-table;
-	margin-right: 20px;
-	white-space: normal; /* отменить действие "white-space: nowrap" в div.teamTable */}
 
-/* заголовок панели кнопок */
-div.buttonPanelTitle {
-	display: table-row;
-	height: 25px;
-}
-
-div.buttonPanelTitle span {
-	display: table-cell;
-	vertical-align: middle;
-}
 
 /* блок данных о команде */
-div#teamData1, div#teamData2 {
+div.teamData1, div.teamData2 {
 	display: inline-table;
 	position: relative; /* для абсолютного размещения водяного знака "Betfront.ru" относительно этого блока */
 	font: 12px arial,helvetica,clean,sans-serif;
@@ -568,14 +611,6 @@ span.shirtnumber_cell {
 	text-align: right;
 }
 
-/* фото */
-span.photo {
-	width: 26px;
-}
-
-span.photo_cell {
-	padding: 0 2px 0 2px;
-}
 
 /* имя */
 span.name {
@@ -594,23 +629,7 @@ span.name_cell {
 	text-overflow: ellipsis;
 }
 
-/* зачеркивание неиграющего игрока */
-span.cross_out_red {
-	color: red;
-	text-decoration: line-through;
-}
 
-/* подчеркивание имени игрока оранжевым цветом (участие под вопросом) */
-span.underline_green {
-	color: green;
-	text-decoration: underline;
-}
-
-/* подчеркивание имени игрока, участие которого под вопросом, оранжевым цветом */
-span.underline_orange {
-	color: rgb(179,107,0);
-	text-decoration: underline;
-}
 
 /* СТАТУС ИГРОКА (В ТАБЛИЦЕ) */
 
@@ -620,59 +639,6 @@ span.player_status_table {
 	border-right: 3px solid transparent; /* аналог padding-right для фоновых изображений */
 }
 
-/* иконка "участие под вопросом" */
-span.player_status_question_play {
-	background-image: url('../image/player_status/question_play.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "травма" */
-span.player_status_injury {
-	background-image: url('../image/player_status/injury.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "красная карточка" */
-span.player_status_red_card {
-	background-image: url('../image/player_status/red_card.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "желтая/красная карточка" */
-span.player_status_yellow_red_card {
-	background-image: url('../image/player_status/yellow_red_card.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "желтая карточка" */
-span.player_status_last_yellow_card {
-	background-image: url('../image/player_status/last_yellow_card.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "не участвует (прочее)" */
-span.player_status_not_play_other {
-	background-image: url('../image/player_status/not_play_other.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "возврат (травма)" */
-span.player_status_return_injury {
-	background-image: url('../image/player_status/return_injury.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "возврат (дисквалификация)" */
-span.player_status_return_disqualification {
-	background-image: url('../image/player_status/return_disqualification.png');
-	background-repeat: no-repeat;
-}
-
-/* иконка "возврат (прочее) */
-span.player_status_return_other {
-	background-image: url('../image/player_status/return_other.png');
-	background-repeat: no-repeat;
-}
 
 /* предварительный состав */
 span.squad_preliminary_table {
@@ -696,7 +662,7 @@ span.squad_start_table {
 
 /* флаг */
 span.flag {
-    width: 16px;
+    width: 8px;
 }
 
 /* вспомогательный блок для отображения флага */
@@ -707,7 +673,7 @@ span.flag_conteiner {
 
 /* прошлая игра 1 (левый столбец) */
 span.last_game_1 {
-	width: 14px;
+	width: 10px;
 	padding-right: 8px;
 	background-position: right center;
 }
@@ -722,7 +688,7 @@ span#last_game1_team1_title, span#last_game1_team2_title {
 
 /* прошлая игра 2 (центральный столбец) */
 span.last_game_2 {
-	width: 14px;
+	width: 10px;
 	padding: 0 2px;
 	background-position: center center;
 }
@@ -737,7 +703,7 @@ span#last_game2_team1_title, span#last_game2_team2_title {
 
 /* прошлая игра 3 (правый столбец) */
 span.last_game_3 {
-	width: 14px;
+	width: 10px;
 	padding-left: 8px;
 	background-position: left center;
 }
@@ -772,7 +738,7 @@ span.red_circle {
 
 /* синий кружок */
 span.blue_circle {
-	background-image: url('../image/circle/blue.png');
+	background-image: url('image/circle/blue.png');
 	background-repeat: no-repeat;
 }
 
@@ -936,19 +902,6 @@ span.red_cards {
 span.red_cards_cell {
 	padding: 0 2px 0 2px;
 	text-align: center;
-}
-
-/* БЛОК "ЗАМЕТКИ" */
-
-textarea#note1, textarea#note2 {
-	margin: 20px 0;
-	float: left;
-	padding: 5px;
-	min-height: 100px;
-	box-sizing: border-box;
-	resize: none;
-	font: 12px arial,helvetica,clean,sans-serif;
-	border: solid 1px rgb(150,150,150);
 }
 </style>
 
