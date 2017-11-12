@@ -28,7 +28,6 @@ import squad.model.dao.LastGameDao;
 public class Parser {
 	
 	String[] hrefs = {
-			
 			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1.xml",
 			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1005.xml",//LC
 				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1007.xml",//LE
@@ -1148,9 +1147,9 @@ public class Parser {
 		PriorityQueue<Game> prListGame=new PriorityQueue<Game>(new Comparator<Game>() {
 			public int compare(Game t, Game t1) {
 				if (t.startTime.getTime() < t1.startTime.getTime())
-					return -1;
-				if (t.startTime.getTime() > t1.startTime.getTime())
 					return 1;
+				if (t.startTime.getTime() > t1.startTime.getTime())
+					return -1;
 				else
 					return 0;
 				}
@@ -1206,8 +1205,13 @@ public class Parser {
 							
 							//BEREM ID_GAME, ESLI OSHIBKA TO PROPUSKAEM MATCH
 							try {
-								idgame=Integer.valueOf(matches.get(j).attr("id"));
+								if(knthr==0) {
+									idgame=Integer.valueOf(matches.get(j).attr("fix_id"));
 								}
+								else {
+									idgame=Integer.valueOf(matches.get(j).attr("id"));
+								}
+							}
 							catch(Exception e) {
 								continue mark;
 							}
@@ -1216,12 +1220,6 @@ public class Parser {
 							if(map.containsKey(idgame))
 								continue mark;
 							
-							//ESLI V MAP HASHTART EST ID_GAME, TO DOBAVLAEM GAME V RESULT S MAP I IDEM K SLEDUYUSHEMU MATCHU
-							if(hashstart.containsKey(idgame)) {
-								result.add(hashstart.get(idgame));
-								continue mark;
-							}
-
 							//BEREM STATUS
 							status = matches.get(j).attr("status");							
 							//v feed1 i po ligam status ne nachavshihsy matchey po raznomu
@@ -1232,7 +1230,15 @@ public class Parser {
 							}
 							else
 								if(! ("Not Started".equals(status)))
-									continue mark;							
+									continue mark;		
+							
+							
+							//ESLI V MAP HASHTART EST ID_GAME, TO DOBAVLAEM GAME V RESULT S MAP I IDEM K SLEDUYUSHEMU MATCHU
+							if(hashstart.containsKey(idgame)) {
+								result.add(hashstart.get(idgame));
+								continue mark;
+							}
+					
 
 							
 							//BEREM DATU I VREMYA NACHALA MATCHA
