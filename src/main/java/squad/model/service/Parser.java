@@ -1144,6 +1144,8 @@ public class Parser {
 		// vremya poyavlenia matcha
 		Map<Integer,Game> hashstart=new HashMap();
 		
+		Map<Integer,String> uzevspiske=new HashMap();
+		
 		PriorityQueue<Game> prListGame=new PriorityQueue<Game>(new Comparator<Game>() {
 			public int compare(Game t, Game t1) {
 				if (t.startTime.getTime() < t1.startTime.getTime())
@@ -1215,6 +1217,11 @@ public class Parser {
 							catch(Exception e) {
 								continue mark;
 							}
+							
+							if(uzevspiske.containsKey(idgame)){
+								continue mark;								
+							}
+
 					
 							//ESLI V MAP(V KAKOM FEED MATCH POYAVILSA RANSHE(ESLI V 1, TO NE SMOTRIM V LIGAH)) EST ID_GAME, TO PROPUSKAEM MATCH
 							if(map.containsKey(idgame))
@@ -1235,7 +1242,10 @@ public class Parser {
 							
 							//ESLI V MAP HASHTART EST ID_GAME, TO DOBAVLAEM GAME V RESULT S MAP I IDEM K SLEDUYUSHEMU MATCHU
 							if(hashstart.containsKey(idgame)) {
-								result.add(hashstart.get(idgame));
+								prListGame.add(hashstart.get(idgame));
+								if(!uzevspiske.containsKey(idgame)) {
+									uzevspiske.put(idgame, "");
+								}
 								continue mark;
 							}
 					
@@ -1414,9 +1424,15 @@ public class Parser {
 								Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,feed,new Date());
 								hashstart.put(idgame, g);
 								prListGame.add(g);
+								if(uzevspiske.containsKey(idgame)) {								
+									uzevspiske.put(idgame, "");
+								}
 							}
 							else {
 								prListGame.add(new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,feed,new Date(0,0,0,0,0,0)));
+								if(!uzevspiske.containsKey(idgame)) {
+									uzevspiske.put(idgame, "");
+								}
 							}
 						}
 					}
