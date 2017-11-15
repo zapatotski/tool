@@ -31,7 +31,16 @@ public class Game implements Serializable{
 	
 	public Game(String date,String time, String status, String tournam, Team team1, Team team2, List<StartPlayer> start1,List<StartPlayer> start2, List<StartPlayer> zamena1, List<StartPlayer> zamena2,String feed,Date startTime) {
 		this.date=date;
+		String[] timearr=time.split(":");
+		if(timearr.length>1) {
+			try {
+				timearr[0]=(Integer.valueOf(timearr[0])+3) + "";
+			}
+			catch(Exception e) {}
+			time=timearr[0]+":"+timearr[1];
+		}
 		this.time=time;
+		
 		this.status=status;
 		this.tournam=tournam;
 		this.team1=team1;
@@ -42,7 +51,7 @@ public class Game implements Serializable{
 		this.zamena2=zamena2;
 		this.feed=feed;
 		this.startTime=startTime;
-		this.startTimep=startTime.getHours()+":"+startTime.getMinutes()+":"+startTime.getSeconds();
+		this.startTimep=(startTime.getHours()+3)+":"+startTime.getMinutes()+":"+startTime.getSeconds();
 	}
 		
 }
