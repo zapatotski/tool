@@ -11,9 +11,9 @@ public class StartPlayer implements Serializable{
 	public int num;
 	public int id;
 	public String name;
-	@XmlAttribute
+	@XmlAttribute(name="numpr")
 	public int numpred;
-	@XmlAttribute
+	@XmlAttribute(name="idpr")
 	public int idpred;
 	
 	public StartPlayer() {}

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -12,7 +13,9 @@ public class LastGame implements Serializable{
 	public String name;
 	public String tournament;
 	public Date date;
+	@XmlElement(name = "st")
 	public List<Integer> start;
+	@XmlElement(name = "zm")
 	public List<Integer> zamena;
 	
 	public LastGame(String name, String tournament, Date date,List<Integer> start,List<Integer> zamena) {

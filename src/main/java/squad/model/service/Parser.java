@@ -528,7 +528,7 @@ public class Parser {
 							
 							
 							//esli match uze imeet predvarilovku, a starta eshe net, to berem ego s hashstart
-							if(hashstart.containsKey(idgame) && ("0".equals(hashstart.get(idgame).feed)) && ((playersubs1.size()!=0) || (playersubs2.size()!=0))) {
+							if(hashstart.containsKey(idgame) && ("0".equals(hashstart.get(idgame).feed)) && ((playersubs1.size()==0) || (playersubs2.size()==0))) {
 								if(prListGame.contains(hashstart.get(idgame)))
 									continue;
 								else {

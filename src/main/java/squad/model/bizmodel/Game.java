@@ -17,9 +17,13 @@ public class Game implements Serializable{
 	public String tournam;
 	public Team team1;
 	public Team team2;
+	@XmlElement(name = "st1")
 	public List<StartPlayer> start1;
+	@XmlElement(name = "st2")
 	public List<StartPlayer> start2;
+	@XmlElement(name = "zm1")
 	public List<StartPlayer> zamena1;
+	@XmlElement(name = "zm2")
 	public List<StartPlayer> zamena2;
 	public String feed;
 	@XmlTransient 

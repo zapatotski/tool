@@ -1,4 +1,8 @@
-﻿<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+﻿<HEAD>
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+</HEAD>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -101,8 +105,8 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
 	var arr=team1last.eq(2).find('tournament').text().split(' ');
 	var l3name=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
 
-	var start1=$(a).find('start1');
-	var zamena1=$(a).find('zamena1');
+	var start1=$(a).find('st1');
+	var zamena1=$(a).find('zm1');
 
 	//zapolnyaem modalnoe okno
 	$('#a'+i).append('<div id="'+i+'" class="modal fade">');
@@ -127,7 +131,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         
         //summa minut pervih 11
         if(knt<11)
-           sumitogo=+sumitogo + +$(this).find('minutes').text();
+           sumitogo=+sumitogo + +$(this).find('min').text();
         
         var boolstart=false;
         var boolzam=false;
@@ -136,29 +140,29 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         //probegaem po start1 komandy i sravnivaem s tekuchim player, esli on tam est to boolstart=true i plusuem ego minuti k sume minut starta
         for (var j = 0; j < start1.length; j++) {
 
-        	if(start1[j].getAttribute("idpred")!=-1){
-        		if($(this).find('id').text()==start1[j].getAttribute("idpred")){
+        	if(start1[j].getAttribute("idpr")!=-1){
+        		if($(this).find('id').text()==start1[j].getAttribute("idpr")){
                     pred=true;
                 }
         	}
-        	if(start1[j].getAttribute("numpred")!=-1){
-        		if($(this).find('number').text()==start1[j].getAttribute("numpred")){
+        	if(start1[j].getAttribute("numpr")!=-1){
+        		if($(this).find('num').text()==start1[j].getAttribute("numpr")){
                     pred=true;
                 }
         	}
 
 
              if(start1[j].childNodes[1].innerHTML==-1){
-                if($(this).find('number').text()==start1[j].childNodes[0].innerHTML){
+                if($(this).find('num').text()==start1[j].childNodes[0].innerHTML){
                     boolstart=true;
-                    sumstart=+sumstart + +$(this).find('minutes').text();
+                    sumstart=+sumstart + +$(this).find('min').text();
                     nashli.push(j);
                 }
              }
              else{
                 if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
                     boolstart=true;
-                    sumstart=+sumstart + +$(this).find('minutes').text();
+                    sumstart=+sumstart + +$(this).find('min').text();
                     nashli.push(j);
                 }
              }
@@ -168,7 +172,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
         for (var j = 0; j < zamena1.length; j++) {
              if(zamena1[j].childNodes[1].innerHTML==-1){
-                 if($(this).find('number').text()==zamena1[j].childNodes[0].innerHTML)
+                 if($(this).find('num').text()==zamena1[j].childNodes[0].innerHTML)
                     boolzam=true;
              }
              else{
@@ -206,15 +210,15 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         
 
         //tekushiy player est v starte posledney igri komandy 1? esli da, to last1=true i pribovlaem ego minuti k summe minut 
-        for (var j = 0; j < team1last.first().find('start').length; j++) {
-             if($(this).find('id').text()==team1last.first().find('start').get(j).innerHTML){
+        for (var j = 0; j < team1last.first().find('st').length; j++) {
+             if($(this).find('id').text()==team1last.first().find('st').get(j).innerHTML){
                 last1=true;
-                sumlast1= +sumlast1 + +$(this).find('minutes').text();
+                sumlast1= +sumlast1 + +$(this).find('min').text();
              }
         }
         //tekushiy player est na zamene proshloy igri komandi 1? Esli da, to lzam1=true
-        for (var j = 0; j < team1last.first().find('zamena').length; j++) {
-             if($(this).find('id').text()==team1last.first().find('zamena').get(j).innerHTML)
+        for (var j = 0; j < team1last.first().find('zm').length; j++) {
+             if($(this).find('id').text()==team1last.first().find('zm').get(j).innerHTML)
                 lzam1=true;
         }
 
@@ -225,15 +229,15 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         if(lzam1)
            l1="yellow_circle";
 
-        for (var j = 0; j < team1last.eq(1).find('start').length; j++) {
-             if($(this).find('id').text()==team1last.eq(1).find('start').get(j).innerHTML){
+        for (var j = 0; j < team1last.eq(1).find('st').length; j++) {
+             if($(this).find('id').text()==team1last.eq(1).find('st').get(j).innerHTML){
                 last2=true;
-                sumlast2=+sumlast2 + +$(this).find('minutes').text();
+                sumlast2=+sumlast2 + +$(this).find('min').text();
              }
         }
 
-        for (var j = 0; j < team1last.eq(1).find('zamena').length; j++) {
-             if($(this).find('id').text()==team1last.eq(1).find('zamena').get(j).innerHTML)
+        for (var j = 0; j < team1last.eq(1).find('zm').length; j++) {
+             if($(this).find('id').text()==team1last.eq(1).find('zm').get(j).innerHTML)
                 lzam2=true;
         }
         
@@ -244,14 +248,14 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
            l2="yellow_circle";  
 
 
-        for (var j = 0; j < team1last.eq(2).find('start').length; j++) {
-             if($(this).find('id').text()==team1last.eq(2).find('start').get(j).innerHTML){
+        for (var j = 0; j < team1last.eq(2).find('st').length; j++) {
+             if($(this).find('id').text()==team1last.eq(2).find('st').get(j).innerHTML){
                 last3=true;
-                sumlast3=+sumlast3 + +$(this).find('minutes').text();
+                sumlast3=+sumlast3 + +$(this).find('min').text();
              }
         }
-        for (var j = 0; j < team1last.eq(2).find('zamena').length; j++) {
-             if($(this).find('id').text()==team1last.eq(2).find('zamena').get(j).innerHTML)
+        for (var j = 0; j < team1last.eq(2).find('zm').length; j++) {
+             if($(this).find('id').text()==team1last.eq(2).find('zm').get(j).innerHTML)
                 last3=true;
         }
         
@@ -266,7 +270,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
 
         $('#cl'+i).find('#buttonPanel1').append('<div class="buttonPanelRow" id="b'+plind+'"><span class="squad_application"><input id="squad_application'+plind+'" onclick="drawSquadApplication1('+i+','+plind+')" type="checkbox" '+checked+'></span></div>');
         //zapolnaem statistiku tekushego player v tablice
-        $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'"></span><span class="last_game_1 '+l1+'"></span><span class="last_game_2 '+l2+'"></span><span class="last_game_3 '+l3+'"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
+        $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('num').text()+'</span><span class="name_cell">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'"></span><span class="last_game_1 '+l1+'"></span><span class="last_game_2 '+l2+'"></span><span class="last_game_3 '+l3+'"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('pos').text()+'</span><span class="game_minutes_cell">'+$(this).find('min').text()+'</span><span class="appearances_cell">'+$(this).find('app').text()+'</span><span class="lineups_cell">'+$(this).find('lnu').text()+'</span><span class="subs_in_cell">'+$(this).find('sin').text()+'</span><span class="subs_out_cell">'+$(this).find('sout').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('sob').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('ass').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yc').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yr').text()+'</span><span class="red_cards_cell">'+$(this).find('rc').text()+'</span></div>');
         
         knt=knt+1;
         odd="even";
@@ -310,8 +314,8 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	var l3name2=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
 
 
-	var start2=$(b).find('start2');
-	var zamena2=$(b).find('zamena2');
+	var start2=$(b).find('st2');
+	var zamena2=$(b).find('zm2');
 
 	$('#cl'+i).append('<div id="team2"><div id="textFormat2" style="display: block; width: inherit; height: auto;min-height:50px;"></div><div id="teamTable2"><div id="buttonPanel2"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
 
@@ -333,7 +337,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	       odd="odd";
 
 	    if(knt<11)
-	       sumitogo2=+sumitogo2 + +$(this).find('minutes').text();
+	       sumitogo2=+sumitogo2 + +$(this).find('min').text();
 
 
 	    var boolstart=false;
@@ -341,29 +345,29 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    var pred=false;
 	    for (var j = 0; j < start2.length; j++) {
 
-	    	if(start2[j].getAttribute("idpred")!=-1){
-        		if($(this).find('id').text()==start2[j].getAttribute("idpred")){
+	    	if(start2[j].getAttribute("idpr")!=-1){
+        		if($(this).find('id').text()==start2[j].getAttribute("idpr")){
                     pred=true;
                 }
         	}
-        	if(start2[j].getAttribute("numpred")!=-1){
-        		if($(this).find('number').text()==start2[j].getAttribute("numpred")){
+        	if(start2[j].getAttribute("numpr")!=-1){
+        		if($(this).find('num').text()==start2[j].getAttribute("numpr")){
                     pred=true;
                 }
         	}
 
 
 	         if(start2[j].childNodes[1].innerHTML==-1){
-	            if($(this).find('number').text()==start2[j].childNodes[0].innerHTML){
+	            if($(this).find('num').text()==start2[j].childNodes[0].innerHTML){
 	               boolstart=true;
-	               sumstart2=+sumstart2 + +$(this).find('minutes').text();
+	               sumstart2=+sumstart2 + +$(this).find('min').text();
 	               nashli.push(j);
 	            }
 	         }
 	         else{
 	            if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
 	               boolstart=true;
-	               sumstart2=+sumstart2 + +$(this).find('minutes').text();
+	               sumstart2=+sumstart2 + +$(this).find('min').text();
 	               nashli.push(j);
 	            }
 	         }
@@ -371,7 +375,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 
 	    for (var j = 0; j < zamena2.length; j++) {
 	         if(zamena2[j].childNodes[1].innerHTML==-1){
-	            if($(this).find('number').text()==zamena2[j].childNodes[0].innerHTML)
+	            if($(this).find('num').text()==zamena2[j].childNodes[0].innerHTML)
 	               boolzam=true;
 	         }
 	         else{
@@ -404,14 +408,14 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    var lzam2=false;
 	    var lzam3=false; 
 
-	    for (var j = 0; j < team2last.first().find('start').length; j++) {
-	         if($(this).find('id').text()==team2last.first().find('start').get(j).innerHTML){
+	    for (var j = 0; j < team2last.first().find('st').length; j++) {
+	         if($(this).find('id').text()==team2last.first().find('st').get(j).innerHTML){
 	            last1=true;
-	            sumlast1= +sumlast1 + +$(this).find('minutes').text();
+	            sumlast1= +sumlast1 + +$(this).find('min').text();
 	         }
 	    }
-	    for (var j = 0; j < team2last.first().find('zamena').length; j++) {
-	         if($(this).find('id').text()==team2last.first().find('zamena').get(j).innerHTML)
+	    for (var j = 0; j < team2last.first().find('zm').length; j++) {
+	         if($(this).find('id').text()==team2last.first().find('zm').get(j).innerHTML)
 	            lzam1=true;
 	    }
 	    
@@ -421,14 +425,14 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    if(lzam1)
 	       l1="yellow_circle"; 
 
-	    for (var j = 0; j < team2last.eq(1).find('start').length; j++) {
-	         if($(this).find('id').text()==team2last.eq(1).find('start').get(j).innerHTML){
+	    for (var j = 0; j < team2last.eq(1).find('st').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(1).find('st').get(j).innerHTML){
 	            last2=true;
-	            sumlast2= +sumlast2 + +$(this).find('minutes').text();
+	            sumlast2= +sumlast2 + +$(this).find('min').text();
 	        }
 	    }
-	    for (var j = 0; j < team2last.eq(1).find('zamena').length; j++) {
-	         if($(this).find('id').text()==team2last.eq(1).find('zamena').get(j).innerHTML)
+	    for (var j = 0; j < team2last.eq(1).find('zm').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(1).find('zm').get(j).innerHTML)
 	            lzam2=true;
 	    }                        
 	    
@@ -438,14 +442,14 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    if(lzam2)
 	       l2="yellow_circle";   
 
-	    for (var j = 0; j < team2last.eq(2).find('start').length; j++) {
-	         if($(this).find('id').text()==team2last.eq(2).find('start').get(j).innerHTML){
+	    for (var j = 0; j < team2last.eq(2).find('st').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(2).find('st').get(j).innerHTML){
 	            last3=true;
-	            sumlast3= +sumlast3 + +$(this).find('minutes').text();
+	            sumlast3= +sumlast3 + +$(this).find('min').text();
 	         }
 	    }
-	    for (var j = 0; j < team2last.eq(2).find('zamena').length; j++) {
-	         if($(this).find('id').text()==team2last.eq(2).find('zamena').get(j).innerHTML)
+	    for (var j = 0; j < team2last.eq(2).find('zm').length; j++) {
+	         if($(this).find('id').text()==team2last.eq(2).find('zm').get(j).innerHTML)
 	            lzam3=true;
 	    }
 
@@ -461,7 +465,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
         $('#cl'+i).find('#buttonPanel2').append('<div class="buttonPanelRow" id="b'+plind+'"><span class="squad_application"><input id="squad_application'+plind+'" onclick="drawSquadApplication2('+i+','+plind+')" type="checkbox" '+checked+'></span></div>');
 
 
-		$('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('number').text()+'</span><span class="name_cell" id="name138003">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'" id="squad_start_table138003"></span><span class="last_game_1 '+l1+'" id="last_game1_138003"></span><span class="last_game_2 '+l2+'" id="last_game2_138003"></span><span class="last_game_3 '+l3+'" id="last_game3_138003"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('position').text()+'</span><span class="game_minutes_cell">'+$(this).find('minutes').text()+'</span><span class="appearances_cell">'+$(this).find('appearences').text()+'</span><span class="lineups_cell">'+$(this).find('lineups').text()+'</span><span class="subs_in_cell">'+$(this).find('substitute_in').text()+'</span><span class="subs_out_cell">'+$(this).find('substitute_out').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('substitutes_on_bench').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('assists').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yellowcards').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yellowred').text()+'</span><span class="red_cards_cell">'+$(this).find('redcards').text()+'</span></div>');
+		$('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('num').text()+'</span><span class="name_cell" id="name138003">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'" id="squad_start_table138003"></span><span class="last_game_1 '+l1+'" id="last_game1_138003"></span><span class="last_game_2 '+l2+'" id="last_game2_138003"></span><span class="last_game_3 '+l3+'" id="last_game3_138003"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('pos').text()+'</span><span class="game_minutes_cell">'+$(this).find('min').text()+'</span><span class="appearances_cell">'+$(this).find('app').text()+'</span><span class="lineups_cell">'+$(this).find('lnu').text()+'</span><span class="subs_in_cell">'+$(this).find('sin').text()+'</span><span class="subs_out_cell">'+$(this).find('sout').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('sob').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('ass').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yc').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yr').text()+'</span><span class="red_cards_cell">'+$(this).find('rc').text()+'</span></div>');
 	    
 		knt=knt+1;
 
@@ -1118,5 +1122,9 @@ body {
 	white-space: nowrap;
 }
 </style>
+
+<HEAD>
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+</HEAD>
 
 
