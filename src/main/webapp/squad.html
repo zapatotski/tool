@@ -502,6 +502,114 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	var mas=[sumstart2,sumitogo2,klkvstarte2];
 	return mas;
 }
+
+
+function formTablepr1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed){
+
+	var start1=$(a).find('st1');
+
+    var knt=0;
+ 
+    //dly kazdogo player
+    $(a).find('team1').find('players').each(function(){
+        
+        //summa minut pervih 11
+        if(knt<11)
+           sumitogo=+sumitogo + +$(this).find('min').text();
+        
+
+        //probegaem po start1 komandy i sravnivaem s tekuchim player, esli on tam est to boolstart=true i plusuem ego minuti k sume minut starta
+        for (var j = 0; j < start1.length; j++) {
+
+             if(start1[j].childNodes[1].innerHTML==-1){
+                if($(this).find('num').text()==start1[j].childNodes[0].innerHTML){
+                    sumstart=+sumstart + +$(this).find('min').text();
+                    klkvstarte1++;
+                }
+             }
+             else{
+                if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
+                    sumstart=+sumstart + +$(this).find('min').text();
+                    klkvstarte1++;
+                }
+             }
+        }
+
+
+        knt=knt+1;
+
+	});
+
+    var mas=[sumstart,sumitogo,klkvstarte1]; 
+	return mas;
+}
+
+
+function formTablepr2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed){
+	var start2=$(b).find('st2');
+	var knt=0;
+
+	$(b).find('team2').find('players').each(function(){  
+
+
+	    if(knt<11)
+	       sumitogo2=+sumitogo2 + +$(this).find('min').text();
+
+
+	    for (var j = 0; j < start2.length; j++) {
+
+	         if(start2[j].childNodes[1].innerHTML==-1){
+	            if($(this).find('num').text()==start2[j].childNodes[0].innerHTML){
+	               sumstart2=+sumstart2 + +$(this).find('min').text();
+	               klkvstarte2++;
+	            }
+	         }
+	         else{
+	            if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
+	               sumstart2=+sumstart2 + +$(this).find('min').text();
+	               klkvstarte2++;
+	            }
+	         }
+	    }
+
+	    knt=knt+1;   	
+	});
+
+	var mas=[sumstart2,sumitogo2,klkvstarte2];
+	return mas;
+}
+
+function formModal(i){
+	if($('#a'+i).length==0){
+	 $('.modals').append('<div id="a'+i+'">');
+	
+	           
+    var gam=obj[i];
+	var feed=$(gam).find('feed').first().text();                              
+    var team1name=$(gam).find('team1').find('name').first().text();
+    var team2name=$(gam).find('team2').find('name').first().text();
+    var namegame=team1name+'-'+team2name;
+
+
+    var team1last=$(gam).find('team1').find('lastGame');
+    var team2last=$(gam).find('team2').find('lastGame');
+    
+
+    var sumstart=0;
+	var sumitogo=0;
+    //kolichestvo igrokov starta sopostavlenih po id i number v kazdoy komande
+	var klkvstarte1=0;
+	var klkvstarte2=0;   
+    var mas=formTable1(gam,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
+    
+
+    //To ze amoe dly team2
+	var sumitogo2=0;
+	var sumstart2=0;
+    var mas2=formTable2(gam,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
+}
+}
+ obj=[];
 				   	   	
 function show(){
 	     //$('.content').html('<span style="padding-left:380px;"><img id="imgcode" src="image/loadinfo.gif"></span>');
@@ -544,11 +652,11 @@ function show(){
 	                        //propuskaem otkritoe okno
 	                        if(i==sohrmodal)
 	                           i=i+1;
-	                        
+	                        /*
 	                        //dobavlaem modalnoe okno dly game
 	                        $('.modals').append('<div id="a'+i+'">');
-	                        
-	                        var data=$(this).find('date').first().text()+' '+$(this).find('time').first().text();
+	                        */
+	                        var date=$(this).find('date').first().text()+' '+$(this).find('time').first().text();
 	                        var tournam=$(this).find('tournam').first().text();
 	                        var feed=$(this).find('feed').first().text(); 
 	                        var timestart=$(this).find('startTime').first().text();                   
@@ -568,7 +676,7 @@ function show(){
 	                        var klkvstarte1=0;
 	                        var klkvstarte2=0;   
 	                       
-	                        var mas=formTable1(this,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
+	                        var mas=formTablepr1(this,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
                             
                             sumstart=mas[0];
                             sumitogo=mas[1];
@@ -577,7 +685,7 @@ function show(){
                             //To ze amoe dly team2
 							var sumitogo2=0;
 							var sumstart2=0;
-                            var mas2=formTable2(this,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
+                            var mas2=formTablepr2(this,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
 	                        
 	                        sumstart2=mas2[0];
 	                        sumitogo2=mas2[1];
@@ -591,9 +699,11 @@ function show(){
 	                        if(feed==0)
 	                        	podsvetka='style="background-color: #A9E2F3";';
 
+
+                            obj[i]=this;
 	                        //zapolnyaem spisok matchey v tablice v content
-	                        $('#tabGam').append('<tr '+podsvetka+'><td>'+data+'</td><td>'+tournam+'</td><td><a href="#"data-toggle="modal" data-target="#'+i+'">'+namegame+'</a></td><td>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'% ('+klkvstarte1+')</td><td>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'% ('+klkvstarte2+')</td><td>'+feed+'</td><td>'+timestart+'</td></tr>');
-                        
+	                        $('#tabGam').append('<tr '+podsvetka+'><td>'+date+'</td><td>'+tournam+'</td><td><a href="#" data-toggle="modal" data-target="#'+i+'" onclick="formModal('+i+')">'+namegame+'</a></td><td>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'% ('+klkvstarte1+')</td><td>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'% ('+klkvstarte2+')</td><td>'+feed+'</td><td>'+timestart+'</td></tr>');
+                            
 							klkgame++;
                         //konec each game
 						});
@@ -602,7 +712,6 @@ function show(){
 	                    if(klkgame>klkgamevtable){
 	                    	for(var m=0;m<(klkgame-klkgamevtable);m++){
 	                    		var st=document.getElementById("tabGam").getElementsByTagName("tr")[m].getAttribute("style");
-	                    		console.log(st);
 		                    	if(document.getElementById("tabGam").getElementsByTagName("tr")[m].getAttribute("style")=="background-color: #58FA58"){
 		                    		sound();
 		                    	}
@@ -636,7 +745,7 @@ $(document).ready(function(){
   <audio id="chatAudio"><source src="notify.ogg" type="audio/ogg"><source src="notify.mp3" type="audio/mpeg"><source src="notify.wav" type="audio/wav"></audio>
   <label for="filtr" style="margin:10px 20px;">Подсветка матчей с % сыграных минут стартового состава менее:</label>
   <input type="text" value="70" id="filtr">
-<i style="float:right;margin-top:-40px;font-size:20px">Автообновление через <span id="t" style="font-size:20px"></span></i>
+<i style="position:relative;float:right;margin-top:-40px;font-size:20px">Автообновление через <span id="t" style="font-size:20px"></span></i>
 <div class="content" style="margin:20px 20px;"></div>
 <div class="modals"></div>
 </body>
@@ -857,6 +966,7 @@ span.squad_application_table {
 span.squad_start_table {
 	width: 14px;
 	padding-right: 0px;
+	padding-right:5px;
 	background-position: left center;
 }
 
