@@ -1,14 +1,16 @@
 ﻿<HEAD>
 <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-</HEAD>
+<META HTTP-EQUIV="EXPIRES" CONTENT="-1">
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</HEAD>
+
 <script>
 
 var sumatop11starta1=[];
@@ -60,7 +62,7 @@ function drawSquadApplication1(i,plind){
 		var minut=+$('#'+i+'teamData1').find('#t'+plind).find('.game_minutes_cell').eq(0).text();
 		sumavstarte1[i]=sumavstarte1[i]+minut;
 		var res=((sumavstarte1[i]/sumatop11starta1[i])*100).toString().substring(0,4);
-		$('#'+i+'teamData1').find('#'+i+'resultstart1').html('<i><b>'+res+'<br>%</b></i>');
+		$('#'+i+'resultstart1').html('<i><b>'+res+'<br>%</b></i>');
 		var klk=+$('#cl'+i).find('#buttonPanel1').find('#resbut1').text();
 		$('#cl'+i).find('#buttonPanel1').find('#resbut1').html('<i><b>'+(klk+1)+'</b></i>');
 	}
@@ -69,7 +71,7 @@ function drawSquadApplication1(i,plind){
 		var minut=+$('#'+i+'teamData1').find('#t'+plind).find('.game_minutes_cell').eq(0).text();
 		sumavstarte1[i]=sumavstarte1[i]-minut;
 		var res=((sumavstarte1[i]/sumatop11starta1[i])*100).toString().substring(0,4);
-		$('#'+i+'teamData1').find('#'+i+'resultstart1').html('<i><b>'+res+'<br>%</b></i>');
+		$('#'+i+'resultstart1').html('<i><b>'+res+'<br>%</b></i>');
 		var klk=+$('#cl'+i).find('#buttonPanel1').find('#resbut1').text();
 		$('#cl'+i).find('#buttonPanel1').find('#resbut1').html('<i><b>'+(klk-1)+'</b></i>');
 	}
@@ -81,7 +83,7 @@ function drawSquadApplication2(i,plind){
 		var minut=+$('#'+i+'teamData2').find('#t'+plind).find('.game_minutes_cell').eq(0).text();
 		sumavstarte2[i]=sumavstarte2[i]+minut;
 		var res=((sumavstarte2[i]/sumatop11starta2[i])*100).toString().substring(0,4);
-		$('#'+i+'teamData2').find('#'+i+'resultstart2').html('<i><b>'+res+'<br>%</b></i>');
+		$('#'+i+'resultstart2').html('<i><b>'+res+'<br>%</b></i>');
 		var klk=+$('#cl'+i).find('#buttonPanel2').find('#resbut2').text();
 		$('#cl'+i).find('#buttonPanel2').find('#resbut2').html('<i><b>'+(klk+1)+'</b></i>');
 	}
@@ -90,7 +92,7 @@ function drawSquadApplication2(i,plind){
 		var minut=+$('#'+i+'teamData2').find('#t'+plind).find('.game_minutes_cell').eq(0).text();
 		sumavstarte2[i]=sumavstarte2[i]-minut;
 		var res=((sumavstarte2[i]/sumatop11starta2[i])*100).toString().substring(0,4);
-		$('#'+i+'teamData2').find('#'+i+'resultstart2').html('<i><b>'+res+'<br>%</b></i>');
+		$('#'+i+'resultstart2').html('<i><b>'+res+'<br>%</b></i>');
 		var klk=+$('#cl'+i).find('#buttonPanel2').find('#resbut2').text();
 		$('#cl'+i).find('#buttonPanel2').find('#resbut2').html('<i><b>'+(klk-1)+'</b></i>');
 	}
@@ -282,7 +284,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         	
         	$('#cl'+i).find('#buttonPanel1').append('<div class="buttonPanelRow" id="resbut1" style="font-size:9pt;"><b><i>'+klkvstarte1+'</b></i>');
             
-            $('#'+i+'teamData1').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell"><i><b>Result:</b></i></span><span class="squad_preliminary_table"></span><span class="squad_start_table" style="font-size:9pt;" id="'+i+'resultstart1"><i><b>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_1" style="font-size:9pt;"><i><b>'+((sumlast1/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_2" style="font-size:9pt;"><i><b>'+((sumlast2/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_3" style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
+	        $('#cl'+i).find('#teamTable1').prepend('<div class="teamDataRow odd"><span class="shirtnumber_cell"></span><span class="name_cell" style="padding-left:30px;"><i><b>Result:</b></i></span><span></span><span style="font-size:9pt;padding-right:5px;padding-left:30px;" id="'+i+'resultstart1"><i><b>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;padding-right:5px;"><i><b>'+((sumlast1/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;padding-right:5px;"><i><b>'+((sumlast2/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo)*100).toString().substring(0,4)+'<br>%</b></i></span></div>');
 
             sumatop11starta1[i]=sumitogo;
             sumavstarte1[i]=sumstart;
@@ -317,8 +319,9 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	var start2=$(b).find('st2');
 	var zamena2=$(b).find('zm2');
 
-	$('#cl'+i).append('<div id="team2"><div id="textFormat2" style="display: block; width: inherit; height: auto;min-height:50px;"></div><div id="teamTable2"><div id="buttonPanel2"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
+	$('#cl'+i).append('<div id="team2"><div id="textFormat2" style="display: block; width: inherit; height: auto;min-height:50px;"></div><div id="teamTable2"><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
 
+	$('#cl'+i).find('#teamTable2').append('<div id="buttonPanel2"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div>');
 
 	var knt=0;
 
@@ -479,7 +482,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 
 	    	$('#cl'+i).find('#buttonPanel2').append('<div class="buttonPanelRow" id="resbut2" style="font-size:9pt;"><b><i>'+klkvstarte2+'</b></i>');
 
-	      $('#'+i+'teamData2').append('<div class="teamDataRow '+odd+'"><span class="shirtnumber_cell"></span><span class="name_cell"><i><b>Result:</b></i></span><span class="squad_preliminary_table"></span><span class="squad_start_table" style="font-size:9pt;" id="'+i+'resultstart2"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_1" style="font-size:9pt;"><i><b>'+((sumlast1/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_2" style="font-size:9pt;"><i><b>'+((sumlast2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="last_game_3" style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span class="age_cell"></span><span class="position_cell"></span><span class="game_minutes_cell"></span><span class="appearances_cell"></span><span class="lineups_cell"></span><span class="subs_in_cell"></span><span class="subs_out_cell"></span><span class="subs_on_bench_cell"></span><span class="goals_cell"></span><span class="assists_cell" style="color: rgb(153, 153, 153);"></span><span class="yellow_cards_cell"></span><span class="yellow_2_cards_cell"></span><span class="red_cards_cell"></span></div>');
+	        $('#cl'+i).find('#teamTable2').prepend('<div class="teamDataRow odd"><span class="shirtnumber_cell"></span><span class="name_cell"><i><b>Result:</b></i></span><span></span><span style="font-size:9pt;padding-right:5px;padding-left:30px;" id="'+i+'resultstart2"><i><b>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;padding-right:5px;"><i><b>'+((sumlast1/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;padding-right:5px;"><i><b>'+((sumlast2/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span><span style="font-size:9pt;"><i><b>'+((sumlast3/sumitogo2)*100).toString().substring(0,4)+'<br>%</b></i></span></div>');
 
 	        sumatop11starta2[i]=sumitogo2;
 	        sumavstarte2[i]=sumstart2;
@@ -609,6 +612,7 @@ function formModal(i){
     var mas2=formTable2(gam,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
 }
 }
+
  obj=[];
 				   	   	
 function show(){
@@ -755,11 +759,18 @@ $(document).ready(function(){
 <style>
 
 
-div#buttonPanel1, div#buttonPanel2 {
+div#buttonPanel1{
 	/*float: left;*/
 	display: inline-table;
 	margin-right: 10px;
 	white-space: normal; /* отменить действие "white-space: nowrap" в div.teamTable */}
+
+
+div#buttonPanel2{
+	display: inline-table;
+	margin-left: 10px;
+	white-space: normal;
+}
 
 /* заголовок панели кнопок */
 div.buttonPanelTitle {

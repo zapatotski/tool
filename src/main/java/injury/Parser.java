@@ -1,16 +1,27 @@
-package main.java.injury;
+package injury;
 
 import com.google.gson.Gson;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,62 +29,206 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import main.java.injury.Eventes;
-import main.java.injury.Matchi;
-import main.java.injury.Stat;
-import main.java.injury.Stat.Statistics.Season.Value;
-import main.java.live.Game;
-import main.java.live.Player;
+import injury.Eventes;
+import injury.Matchi;
+import injury.Stat;
+import injury.Stat.Statistics.Season.Value;
+import live.Game;
+import live.Player;
 
 public class Parser {
-
-public static void refresh(String nameurl) {
-		String month = "";
-		String date = "";
-		int m = new Date().getMonth() + 1;
-		int d = new Date().getDate();
-		if (m < 10) {
-			month = "0" + m;
-		} else {
-			month = "" + m;
-		}
-		if (d < 10) {
-			date = "0" + d;
-		} else {
-			date = "" + d;
-		}
+	
+	public static void createFilesForInjury() {
 		try {
-			System.out.println(new Date().getHours());
-			if (new Date().getHours() > 11 && new Date().getHours() <= 20) {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Connection conn = null;
+		try {
+		    conn =
+		       DriverManager.getConnection("jdbc:mysql://mysql:3306/sampledb?" +
+		                                   "user=admin&password=0932970591");		    		    
+		} catch (SQLException ex) {
+		    // handle any errors
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		ResultSet result=null;
+		PreparedStatement statement=null;
+		try {
+			//delete old files
+			File dir = new File(".");
+			File[] files = dir.listFiles(new FilenameFilter() {
+			    public boolean accept(File dir, String name) {
+			        return name.toLowerCase().endsWith(".inj");
+			    }
+			});
+			for(File fd:files)
+				fd.delete();
+		    //create files
+	        String sql = "SELECT data FROM LastDay order by id desc limit 7";
+	        statement = conn.prepareStatement(sql);
+	        
+	        result = statement.executeQuery();
+	        int knt=1;
+	        if (result.next()) {
+	        	    String filePath =knt+".inj";
+	                Blob blob = result.getBlob("data");
+	                InputStream inputStream = blob.getBinaryStream();
+	                OutputStream outputStream = new FileOutputStream(filePath);
+	 
+	                int bytesRead = -1;
+	                byte[] buffer = new byte[4096];
+	                while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                    outputStream.write(buffer, 0, bytesRead);
+	                }
+	 
+	                inputStream.close();
+	                outputStream.close();
+	                knt++;
+	            }
+		}
+		catch(Exception ecv) {
+			System.out.println("Poshlo po pizde");
+	    }
+		finally {
+		    // it is a good idea to release
+		    // resources in a finally{} block
+		    // in reverse-order of their creation
+		    // if they are no-longer needed
+
+		    if (result != null) {
+		        try {
+		            result.close();
+		        } catch (SQLException sqlEx) { } // ignore
+
+		        result = null;
+		    }
+
+		    if (statement != null) {
+		        try {
+		            statement.close();
+		        } catch (SQLException sqlEx) { } // ignore
+
+		        statement = null;
+		    }
+		}
+	}
+	
+	public static void saveFileForInjury() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Connection conn = null;
+		File fl=new File("matchiinjury.xml");
+		try {
+		    conn =
+		       DriverManager.getConnection("jdbc:mysql://mysql:3306/sampledb?" +
+		                                   "user=admin&password=0932970591");
+		    		    
+		} catch (SQLException ex) {
+		    // handle any errors
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+		    stmt = conn.createStatement();
+		    rs = stmt.executeQuery("SHOW tables like 'LastDay'");
+		    
+		    if(!rs.next())
+		    	stmt.execute("CREATE TABLE LastDay (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,data BLOB)");
+		    
+		    //save file
+		    InputStream inputStream = null;
+			try {
+				inputStream = new FileInputStream(fl);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    String sql = "INSERT INTO LastDay (data) values (?)";
+		    PreparedStatement statement = conn.prepareStatement(sql);
+		    statement.setBlob(1, inputStream);
+		    statement.executeUpdate();
+		}
+		catch (SQLException ex){
+		    // handle any errors
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		finally {
+		    // it is a good idea to release
+		    // resources in a finally{} block
+		    // in reverse-order of their creation
+		    // if they are no-longer needed
+
+		    if (rs != null) {
+		        try {
+		            rs.close();
+		        } catch (SQLException sqlEx) { } // ignore
+
+		        rs = null;
+		    }
+
+		    if (stmt != null) {
+		        try {
+		            stmt.close();
+		        } catch (SQLException sqlEx) { } // ignore
+
+		        stmt = null;
+		    }
+		}
+	}
+	
+	public static void refreshShedule(String nameurl) {
+		try {
+		URL url = new URL("http://"+nameurl+"/shedule/api/refresh");
+		HttpURLConnection e = (HttpURLConnection) url.openConnection();
+		int responseCode = e.getResponseCode();
+		System.out.println("RefreshShedule - "+new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);	
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	public static void refreshInjury(String nameurl) {
+		try {
 				URL url = new URL("http://"+nameurl+"/admininjury.jsp");
 				HttpURLConnection e = (HttpURLConnection) url.openConnection();
 				int responseCode = e.getResponseCode();
-				System.out.println(new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);
-			}
-			if (new Date().getHours() == 23 && new Date().getMinutes() < 11) {
-				InputStream input = null;
-				OutputStream output = null;
-				try {
-					input = new FileInputStream(new File("matchiinjury.xml"));
-					String namefile = month + date + ".inj";
-					output = new FileOutputStream(new File(namefile));
-					byte[] buf = new byte[1024];
-					int bytesRead;
-					while ((bytesRead = input.read(buf)) > 0) {
-						output.write(buf, 0, bytesRead);
-					}
-				} finally {
-					input.close();
-					output.close();
-				}
-			}
-			if ((new Date().getHours() == 22 || new Date().getHours() == 8) && new Date().getMinutes() < 11) {
-				URL url = new URL("http://"+nameurl+"/shedule/api/refresh");
-				HttpURLConnection e = (HttpURLConnection) url.openConnection();
-				int responseCode = e.getResponseCode();
-				System.out.println(new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);
-			}
-
+				System.out.println("RefreshInjury"+new Date().getHours() + ":" + new Date().getMinutes() + " " + responseCode);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,12 +276,16 @@ public static void refresh(String nameurl) {
 			if (f.exists())
 				keshout = deserialization(f);
 
+			int knt=0;
+			int kntpr=0;
 			for (i = 0; i < var65.sportItem.tournaments.length; ++i) {
 
 				String var66 = var65.sportItem.tournaments[i].category.name + " "
 						+ var65.sportItem.tournaments[i].tournament.name;
 				ArrayList var67 = new ArrayList();
-
+				
+	
+				
 				for (int var68 = 0; var68 < var65.sportItem.tournaments[i].events.length; ++var68) {
 					int var69 = var65.sportItem.tournaments[i].events[var68].id;
 					boolean stat = var65.sportItem.tournaments[i].hasEventPlayerStatistics;
@@ -172,13 +331,17 @@ public static void refresh(String nameurl) {
 					HashMap<Integer, Player> mred2 = new HashMap();
 					HashMap<Integer, Player> msubs2 = new HashMap();
 
+					System.out.println("Pered filtrom:"+var69);
 					if (stat && ((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L
 							+ 10800000L) > (new Date((new Date()).getYear(), (new Date()).getMonth(),
 									(new Date()).getDate())).getTime())
 							&& ((var65.sportItem.tournaments[i].events[var68].startTimestamp * 1000L
 									+ 10800000L) < (new Date((new Date()).getYear(), (new Date()).getMonth(),
 											(new Date()).getDate(), 23, 59, 60)).getTime())) {
-
+						
+						System.out.println(kntpr+") Proshel filtr:"+var69);
+						kntpr++;
+						
 						Game var70 = new Game(time, team1, team2, ftScore, ftScore, myel1, myelred1, mred1, msubs1,
 								myel2, myelred2, mred2, msubs2);
 
@@ -187,8 +350,12 @@ public static void refresh(String nameurl) {
 										- var65.sportItem.tournaments[i].events[var68].startTimestamp) > 10000L)
 								&& keshout.containsKey(var69))
 								|| "notstarted".equals(var65.sportItem.tournaments[i].events[var68].status.type)) {
-							if (keshout.containsKey(var69))
+							
+							if (keshout.containsKey(var69)) {
+								System.out.println("V keshe: "+knt+") "+var69);
 								var70 = keshout.get(var69);
+								knt++;
+							}
 
 						} else {
 
