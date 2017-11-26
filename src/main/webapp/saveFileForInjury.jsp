@@ -1,6 +1,6 @@
-<%@ page import="live.Game" %>
-<%@ page import="live.Player" %>
-<%@ page import="injury.Parser" %>
+<%@ page import="main.java.live.Game" %>
+<%@ page import="main.java.live.Player" %>
+<%@ page import="main.java.injury.Parser" %>
 
 
 <%!  

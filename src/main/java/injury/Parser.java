@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import injury.Stat.Statistics.Season.Value;
-import live.Game;
-import live.Player;
+import main.java.injury.Stat.Statistics.Season.Value;
+import main.java.live.Game;
+import main.java.live.Player;
 
 public class Parser {
 	
