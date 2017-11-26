@@ -55,7 +55,28 @@ public class Game implements Serializable{
 		this.zamena2=zamena2;
 		this.feed=feed;
 		this.startTime=startTime;
-		this.startTimep=(startTime.getHours()+3)+":"+startTime.getMinutes()+":"+startTime.getSeconds();
+		String hour="";
+		String min="";
+		String sec="";
+		if((startTime.getHours()+3)<10)
+			hour="0"+(startTime.getHours()+3);
+		else
+			hour=(startTime.getHours()+3)+"";
+		
+		if(startTime.getMinutes()<10)
+			min="0"+startTime.getMinutes();
+		else
+			min=startTime.getMinutes()+"";
+		
+		if(startTime.getSeconds()<10)
+			sec="0"+startTime.getSeconds();
+		else
+			sec=startTime.getSeconds()+"";
+		
+		if(startTime.getYear()==0)
+			hour="00";
+		
+		this.startTimep=hour+":"+min+":"+sec;
 	}
 		
 }

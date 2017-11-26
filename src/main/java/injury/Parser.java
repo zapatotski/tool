@@ -29,9 +29,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import injury.Eventes;
-import injury.Matchi;
-import injury.Stat;
 import injury.Stat.Statistics.Season.Value;
 import live.Game;
 import live.Player;
@@ -81,7 +78,7 @@ public class Parser {
 	        statement = conn.prepareStatement(sql);
 	        
 	        result = statement.executeQuery();
-	        int knt=1;
+	        int knt=7;
 	        if (result.next()) {
 	        	    String filePath =knt+".inj";
 	                Blob blob = result.getBlob("data");
@@ -96,7 +93,7 @@ public class Parser {
 	 
 	                inputStream.close();
 	                outputStream.close();
-	                knt++;
+	                knt--;
 	            }
 		}
 		catch(Exception ecv) {
