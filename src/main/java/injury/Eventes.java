@@ -1,6 +1,6 @@
 package injury;
 
-import live.Player;
+import main.java.live.Player;
 
 public class Eventes {
 
