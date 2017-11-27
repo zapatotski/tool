@@ -79,7 +79,7 @@ public class Parser {
 	        
 	        result = statement.executeQuery();
 	        int knt=7;
-	        if (result.next()) {
+	        while (result.next()) {
 	        	    String filePath =knt+".inj";
 	                Blob blob = result.getBlob("data");
 	                InputStream inputStream = blob.getBinaryStream();
