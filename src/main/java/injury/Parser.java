@@ -1,4 +1,4 @@
-package injury;
+package main.java.injury;
 
 import com.google.gson.Gson;
 import java.io.BufferedInputStream;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import injury.Stat.Statistics.Season.Value;
+import main.java.injury.Stat.Statistics.Season.Value;
 import main.java.live.Game;
 import main.java.live.Player;
 

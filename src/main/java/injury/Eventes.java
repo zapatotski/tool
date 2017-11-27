@@ -1,4 +1,4 @@
-package injury;
+package main.java.injury;
 
 import main.java.live.Player;
 

@@ -1,4 +1,4 @@
-package injury;
+package main.java.injury;
 
 
 public class Stat {
