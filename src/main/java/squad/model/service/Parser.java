@@ -359,9 +359,11 @@ public class Parser {
 	
 	
 	File f=new File("kashstart.data");
+	File logFile=new File("logStart.data");
 	
 	public List<Game> parse(){		
 		
+		List<String> log=new ArrayList();
 		List<Game> result=new ArrayList();
 		// vremya poyavlenia matcha
 		Map<Integer,Game> hashstart=new HashMap();
@@ -381,6 +383,9 @@ public class Parser {
 		
 		if (f.exists())
 			hashstart = (Map<Integer,Game>)deserialization(f);
+		
+		if(logFile.exists())
+			log=(List<String>) deserialization(logFile);
 		
 		int knthr=0;
 		for (String href : hrefs) {
@@ -665,6 +670,7 @@ public class Parser {
 									prListGame.add(g);
 									hashstart.remove(idgame);
 									hashstart.put(idgame, g);
+									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
 								else {
@@ -672,6 +678,7 @@ public class Parser {
 									prListGame.add(g);
 									hashstart.remove(idgame);
 									hashstart.put(idgame, g);
+									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
 							}
@@ -685,11 +692,13 @@ public class Parser {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"1",new Date());
 									prListGame.add(g);
 									hashstart.put(idgame, g);
+									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 								else {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"2",new Date());
 									prListGame.add(g);
 									hashstart.put(idgame, g);
+									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 							}
 							else {
@@ -708,6 +717,9 @@ public class Parser {
 		}
 		//SOHRANAEM HASHSTART
 		serialization(f,hashstart);
+		
+		//Sohranaem log startov
+		serialization(logFile,log);
 		
 		//iz priorQueue v List
 		int n=prListGame.size();
