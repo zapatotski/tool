@@ -20,7 +20,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 import squad.model.bizmodel.Game;
@@ -56,8 +55,7 @@ public class RestEndPoints {
 	@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response getSquad(@FormDataParam("file") InputStream uploadedInputStream,
-			@FormDataParam("file") FormDataContentDisposition fileDetail){
+	public Response getSquad(@FormDataParam("file") InputStream uploadedInputStream){
 		String uploadedFileLocation = new Date().getTime()+".csv";
 		writeToFile(uploadedInputStream, uploadedFileLocation);
 		return Response.status(200).build();
@@ -70,10 +68,10 @@ public class RestEndPoints {
             reader = new BufferedReader(new InputStreamReader(uploadedInputStream));
             String line;
             while ((line = reader.readLine()) != null) {
-                str+=str;
+                str+=line+"\n";
             }
         } catch (IOException e) {
-            // log error
+            System.out.println("Oshibka");
         } finally {
             if (reader != null) {
                 try {
@@ -86,7 +84,7 @@ public class RestEndPoints {
 		
         
         String strout="";
-        String[] arg=str.split("\r\n");
+        String[] arg=str.split("\n");
 		int knt=0;
 		String tournament="";
 		String team1name="";
@@ -131,18 +129,18 @@ public class RestEndPoints {
 				playername=strarg[5];
 				if("1".equals(team)) {
 					if("f".equals(start)) {
-						lineup1.add("<player namber=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						lineup1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
 					}
 					else {
-						subs1.add("<player namber=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						subs1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
 					}
 				}
 				else {
 					if("f".equals(start)) {
-						lineup2.add("<player namber=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						lineup2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
 					}
 					else {
-						subs2.add("<player namber=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						subs2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
 					}
 				}				
 			}
