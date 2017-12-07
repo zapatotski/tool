@@ -457,17 +457,7 @@ public class Parser {
 								if(! ("Not Started".equals(status)))
 									continue mark;						
 							
-							//esli match uze imet start, a ne predvarilovku, to berem ego s hashstart
-							if(hashstart.containsKey(idgame) && (!"0".equals(hashstart.get(idgame).feed))) {
-								if(prListGame.contains(hashstart.get(idgame)))
-									continue;
-								else {
-									prListGame.add(hashstart.get(idgame));
-									continue;
-								}
-							}
 							
-
 							
 							//BEREM DATU I VREMYA NACHALA MATCHA
 							if(knthr==0)
@@ -496,7 +486,17 @@ public class Parser {
 								continue mark;
 							}
 							
-
+							//esli match uze imet start, a ne predvarilovku, to berem ego s hashstart
+							if(hashstart.containsKey(team1id) && (!"0".equals(hashstart.get(team1id).feed))) {
+								if(prListGame.contains(hashstart.get(team1id)))
+									continue;
+								else {
+									prListGame.add(hashstart.get(team1id));
+									continue;
+								}
+							}
+							
+							
 							//BEREM [] TEAMS I SUBSTITUTES(DLY STARTA I ZAMEN)
 							Elements startteams = matches.get(j).select("teams");
 							Elements substeams = matches.get(j).select("substitutes");
@@ -533,11 +533,11 @@ public class Parser {
 							
 							
 							//esli match uze imeet predvarilovku, a starta eshe net, to berem ego s hashstart
-							if(hashstart.containsKey(idgame) && ("0".equals(hashstart.get(idgame).feed)) && ((playersubs1.size()==0) || (playersubs2.size()==0))) {
-								if(prListGame.contains(hashstart.get(idgame)))
+							if(hashstart.containsKey(team1id) && ("0".equals(hashstart.get(team1id).feed)) && ((playersubs1.size()==0) || (playersubs2.size()==0))) {
+								if(prListGame.contains(hashstart.get(team1id)))
 									continue;
 								else {
-									prListGame.add(hashstart.get(idgame));
+									prListGame.add(hashstart.get(team1id));
 									continue;
 								}
 							}
@@ -649,9 +649,9 @@ public class Parser {
 													
 							
 							//esli match uze imeet predvarilovku i na zamene uze ne 0 igrokov, to berem  s hashstart predvarilovku i zapisivaem start
-							if(hashstart.containsKey(idgame) && ("0".equals(hashstart.get(idgame).feed)) && ((playersubs1.size()!=0) || (playersubs2.size()!=0))) {
+							if(hashstart.containsKey(team1id) && ("0".equals(hashstart.get(team1id).feed)) && ((playersubs1.size()!=0) || (playersubs2.size()!=0))) {
                                 //zapolnyaem predvarilovku v atributi								
-								Game predg=hashstart.get(idgame);
+								Game predg=hashstart.get(team1id);
 								int q=0;
 								for(StartPlayer s:start1) {
 									s.idpred=predg.start1.get(q).id;
@@ -668,16 +668,16 @@ public class Parser {
 								if(knthr==0) {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"1",new Date());
 									prListGame.add(g);
-									hashstart.remove(idgame);
-									hashstart.put(idgame, g);
+									hashstart.remove(team1id);
+									hashstart.put(team1id, g);
 									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
 								else {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"2",new Date());
 									prListGame.add(g);
-									hashstart.remove(idgame);
-									hashstart.put(idgame, g);
+									hashstart.remove(team1id);
+									hashstart.put(team1id, g);
 									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
@@ -691,20 +691,20 @@ public class Parser {
 								if(knthr==0) {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"1",new Date());
 									prListGame.add(g);
-									hashstart.put(idgame, g);
+									hashstart.put(team1id, g);
 									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 								else {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"2",new Date());
 									prListGame.add(g);
-									hashstart.put(idgame, g);
+									hashstart.put(team1id, g);
 									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 							}
 							else {
 								Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"0",new Date(0,0,0,0,0,0));
 								prListGame.add(g);
-								hashstart.put(idgame, g);							
+								hashstart.put(team1id, g);							
 								}
 							
 						}

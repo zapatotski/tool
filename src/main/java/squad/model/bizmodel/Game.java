@@ -73,7 +73,7 @@ public class Game implements Serializable{
 		else
 			sec=startTime.getSeconds()+"";
 		
-		if(startTime.getYear()==0)
+		if(startTime.getTime()==0)
 			hour="00";
 		
 		this.startTimep=hour+":"+min+":"+sec;
