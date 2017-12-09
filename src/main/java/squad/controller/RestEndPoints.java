@@ -85,7 +85,6 @@ public class RestEndPoints {
         
 		String strout="";
         String[] arg=str.split("\n");
-		int knt=0;
 		String tournament="";
 		String team1name="";
 		String team2name="";
@@ -104,52 +103,51 @@ public class RestEndPoints {
 		List<String> subs1=new ArrayList();
 		List<String> subs2=new ArrayList();
 		for(String df:arg) {
-			if(knt==0) {
-				String[] strarg=df.split(";");
-				if(strarg.length!=8)
-					return;
+			String[] strarg=df.split(";");
+			if(strarg.length==8) {
 				tournament=strarg[1];
 				team1name=strarg[2];
 				team2name=strarg[3];
 				date=strarg[4];
 				timestart=strarg[5];
 				try {
-					team1Id=Integer.valueOf(strarg[6]);
-					team2Id=Integer.valueOf(strarg[7]);
+					team1Id=Integer.valueOf(strarg[6].trim());
+					team2Id=Integer.valueOf(strarg[7].trim());
 				}
 				catch(Exception except) {
+					System.out.println("2");
+					System.out.println(strarg[6]+" "+strarg[7]);
+					except.printStackTrace(System.out);
 					return;
 				}
 				strout+="<tournament name=\""+tournament+"\"><match status=\"Not Started\" date=\""+date+"\" timestart=\""+timestart+"\"><localteam name=\""+team1name+"\" id=\""+team1Id+"\"/><visitorteam name=\""+team2name+"\" id=\""+team2Id+"\"/>";
 			}
 			else {
-				String[] strarg=df.split(";");
-				if(strarg.length!=6)
-					return;
-				team=strarg[0];
-				pos=strarg[1];
-				start=strarg[2];
-				number=strarg[3];
-				birthday=strarg[4].replace("\\/", ".");
-				playername=strarg[5].replace(",", "");
-				if("1".equals(team)) {
-					if("f".equals(start)) {
-						lineup1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
+				if(strarg.length==6) {
+					team=strarg[0];
+					pos=strarg[1];
+					start=strarg[2];
+					number=strarg[3].trim();
+					birthday=strarg[4].replace("\\/", ".");
+					playername=strarg[5].replace(",", "");
+					if("1".equals(team)) {
+						if("f".equals(start)) {
+							lineup1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
+						}
+						else {
+							subs1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
+						}
 					}
 					else {
-						subs1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
-					}
+						if("f".equals(start)) {
+							lineup2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
+						}
+						else {
+							subs2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
+						}
+					}	
 				}
-				else {
-					if("f".equals(start)) {
-						lineup2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
-					}
-					else {
-						subs2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
-					}
-				}				
 			}
-			knt++;
 		}
 		strout+="<teams><localteam>";
 		for(String st:lineup1)
@@ -166,6 +164,8 @@ public class RestEndPoints {
 			strout+=st;
 		strout+="</visitorteam></substitutes></match></tournament>";
 		
+		
+		System.out.println(strout);
 		try {
 			FileWriter writer = new FileWriter(uploadedFileLocation, false);
             writer.write(strout);
