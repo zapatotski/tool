@@ -3,6 +3,7 @@ package squad.model.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -361,6 +362,251 @@ public class Parser {
 	File f=new File("kashstart.data");
 	File logFile=new File("logStart.data");
 	
+	
+	public void parseCSV(Map<Integer,Game> hashstart,PriorityQueue<Game> prListGame,List<String> log){
+		File dir = new File(".");
+		File[] files = dir.listFiles(new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		        return name.toLowerCase().endsWith(".csv");
+		    }
+		});
+		for(File fd:files) {
+			try {
+			Document doc = Jsoup.parse(fd,"UTF-8");
+			Elements category=doc.select("category");
+			if (category.isEmpty()) {
+				fd.delete();
+				continue;
+			}
+			for(Element cat:category) {
+				//BEREM MATCH
+				Elements matches = cat.select("match");
+				//ESLI MATCH PUSTOY, TO PROPUSKAEM
+				if (matches.isEmpty()) {
+					continue;
+				}
+				
+				//BEREM ATRIBUTE V CATEGORIY IMYA TOURNAMENTA 
+				String tournament=cat.attr("name");
+				
+				//DLYA KAZDOGO MATCHA
+				mark:
+					for (int j = 0; j < matches.size(); j++) {
+						String date ="";
+						String timestart ="";
+						String status ="";
+						Integer team1id=0;
+						String team1name="";
+						Integer team2id=0;
+						String team2name="";
+						Integer idgame=-1;
+						
+						//BEREM STATUS
+						status = matches.get(j).attr("status");							
+					
+						date = matches.get(j).attr("date");
+						timestart = matches.get(j).attr("timestart");
+
+						//BEREM[] LOCALTEAM I VISITORTEAM
+						Elements team1Elements = matches.get(j).select("localteam");
+						Elements team2Elements = matches.get(j).select("visitorteam");
+						
+						//ESLI LOCALTEAM ILI VISITORTEAM PUSTOY, TO PROPUSKAEM MATCH
+						if (team1Elements.isEmpty() || team2Elements.isEmpty()) {
+							continue mark;
+						}
+						
+						//BEREM TEAM1 I TEAM2 IX ID I NAME, ESLI OSHIBKA, TO PROPUSKAEM MATCH
+						try {
+							team1id=Integer.valueOf(team1Elements.get(0).attr("id"));
+							team1name=team1Elements.get(0).attr("name");
+							team2id=Integer.valueOf(team2Elements.get(0).attr("id"));
+							team2name=team2Elements.get(0).attr("name");
+							}
+						catch(Exception e) {
+							continue mark;
+						}
+						
+						//esli match uze imet start, a ne predvarilovku, to berem ego s hashstart
+						if(hashstart.containsKey(team1id) && (!"0".equals(hashstart.get(team1id).feed))) {
+							if(prListGame.contains(hashstart.get(team1id))) {
+								continue;
+							}
+							else {
+								prListGame.add(hashstart.get(team1id));
+								continue;
+							}
+						}
+						
+						
+						//BEREM [] TEAMS I SUBSTITUTES(DLY STARTA I ZAMEN)
+						Elements startteams = matches.get(j).select("teams");
+						Elements substeams = matches.get(j).select("substitutes");
+						
+						//ESLI ONI PUSTIE, TO PROPUSKAEM MATCH
+						if (startteams.isEmpty() || substeams.isEmpty()) {
+							continue mark;
+						}
+						
+						//BEREM V STARTTEAM [] LOCALTEAM I VISITORTEAM
+						Elements team1Start = startteams.get(0).select("localteam");
+						Elements team2Start = startteams.get(0).select("visitorteam");
+				
+						//BEREM V SUBSTEAM [] LOCALTEAM I VISITORTEAM
+						Elements team1Subs = substeams.get(0).select("localteam");
+						Elements team2Subs = substeams.get(0).select("visitorteam");
+						
+						//ESLI NET lOCALTEAM ILI VISITORTEAM V START1 ILI START2, TO PROPUSKAEM MATCH
+						if (team1Start.isEmpty() || team2Start.isEmpty()) {
+							continue mark;
+						}
+						
+						//ESLI NET lOCALTEAM ILI VISITORTEAM V START1 ILI START2, TO PROPUSKAEM MATCH
+						if (team1Subs.isEmpty() || team2Subs.isEmpty()) {
+							continue mark;
+						}
+						
+						//BEREM PLAYERS V START1,START2,SUBS1,SUBS2
+						Elements playerstart1=team1Start.get(0).select("player");
+						Elements playerstart2=team2Start.get(0).select("player");
+						Elements playersubs1=team1Subs.get(0).select("player");
+						Elements playersubs2=team2Subs.get(0).select("player");
+						
+						//ESLI V START1 ILI START2 KLK PLAYERS NE 11, TO PROPUSKAEM MATCH
+						if ((playerstart1.size()!=11) || (playerstart2.size()!=11)) {
+							continue mark;
+						}
+						
+						
+						//esli match uze imeet predvarilovku, a starta eshe net, to berem ego s hashstart
+						if(hashstart.containsKey(team1id) && ("0".equals(hashstart.get(team1id).feed)) && ((playersubs1.size()==0) || (playersubs2.size()==0))) {
+							if(prListGame.contains(hashstart.get(team1id))) {
+								continue;
+							}
+							else {
+								prListGame.add(hashstart.get(team1id));
+								continue;
+							}
+						}
+						
+
+						//SOZDAEM SPISOK IGROKOV START1 I START2
+						List<StartPlayer> start1=new ArrayList();
+						List<StartPlayer> start2=new ArrayList();
+						
+						//ZAPOLNIAEM SPIOK IGROKOV START1
+						for(Element el:playerstart1) {
+							try {
+								int a=-1;
+								int b=Integer.valueOf(el.attr("number"));
+								String namePl=el.attr("name");
+								start1.add(new StartPlayer(a,b,namePl,-1,-1));
+								}
+							catch(Exception ex) {
+								continue mark;
+							}							
+									
+							
+						}
+						
+						//ZAPOLNYAEM SPISOK IGROKOV START2
+						for(Element el:playerstart2) {
+							try {
+								int a=-1;
+								int b=Integer.valueOf(el.attr("number"));
+								String namePl=el.attr("name");
+								start2.add(new StartPlayer(a,b,namePl,-1,-1));
+								}
+							catch(Exception ex) {
+								continue mark;
+							}							
+						}
+						
+						//SOZDAEM SPISOK IGROKOV SUBS1 I SUBS2
+						List<StartPlayer> subs1=new ArrayList();
+						List<StartPlayer> subs2=new ArrayList();
+						
+						//ZAPOLNYAEM SPISOK SUBS1
+						for(Element el:playersubs1) {
+							try {
+								int a=-1;
+								int b=Integer.valueOf(el.attr("number"));
+								String namePl=el.attr("name");
+								subs1.add(new StartPlayer(a,b,namePl,-1,-1));
+								}
+							catch(Exception ex) {
+								continue mark;
+							}							
+								
+						}
+						
+						//ZAPOLNYAEM SPISOK SUBS2
+						for(Element el:playersubs2) {
+							try {
+								int a=-1;
+								int b=Integer.valueOf(el.attr("number"));
+								String namePl=el.attr("name");
+								subs2.add(new StartPlayer(a,b,namePl,-1,-1));
+								}
+							catch(Exception ex) {
+								continue mark;
+							}									
+						}
+						
+						//SOZDAEM I ZAPOLNYAEM STATISTIKU IGROKOV DLYA TEAM1
+						List<Player> listPlayer=new ArrayList();
+						listPlayer=getPlayerStats(listPlayer,team1id);
+						//SOZDAEM TEAM1
+						Team team1=new Team(team1name,team1id,listPlayer,getLastGame(team1id));
+						
+						//DYA TEAM2 TOZE SAMOE
+						List<Player> listPlayer2=new ArrayList();
+						listPlayer2=getPlayerStats(listPlayer2,team2id);
+						Team team2=new Team(team2name,team2id,listPlayer2,getLastGame(team2id));
+												
+						
+						//esli match uze imeet predvarilovku i na zamene uze ne 0 igrokov, to berem  s hashstart predvarilovku i zapisivaem start
+						if(hashstart.containsKey(team1id) && ("0".equals(hashstart.get(team1id).feed)) && ((playersubs1.size()!=0) || (playersubs2.size()!=0))) {
+                            //zapolnyaem predvarilovku v atributi								
+							Game predg=hashstart.get(team1id);
+							int q=0;
+							for(StartPlayer s:start1) {
+								s.idpred=predg.start1.get(q).id;
+								s.numpred=predg.start1.get(q).num;
+								q++;
+							}
+							q=0;
+							for(StartPlayer s:start2) {
+								s.idpred=predg.start2.get(q).id;
+								s.numpred=predg.start2.get(q).num;
+								q++;
+							}
+							//esli v pervom feed, to feed=1. a esli vo vtorom, to feed=2
+							Game g=new Game(date,timestart,status,tournament, team1,team2,start1,start2,subs1,subs2,"3",new Date());
+							prListGame.add(g);
+							hashstart.remove(team1id);
+							hashstart.put(team1id, g);
+							log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
+							continue mark;
+						}
+						
+						
+						//esli v pervom feed, to feed=1. a esli vo vtorom, to feed=2
+						Game g=new Game(date,timestart,status,tournament, team1,team2,start1,start2,subs1,subs2,"3",new Date());
+						prListGame.add(g);
+						hashstart.put(team1id, g);
+						log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
+					}
+				}
+			
+			}
+			catch(Exception excep) {
+				
+			}
+			fd.delete();
+		}
+	}
+	
 	public List<Game> parse(){		
 		
 		List<String> log=new ArrayList();
@@ -715,6 +961,9 @@ public class Parser {
 			}
 		knthr++;
 		}
+		
+		parseCSV(hashstart,prListGame,log);
+		
 		//SOHRANAEM HASHSTART
 		serialization(f,hashstart);
 		
@@ -992,7 +1241,12 @@ public class Parser {
 	}
 	
 	public List<LastGame> getLastGame(int idTeam){
-		return DAO.getGames().get(idTeam);
+		if (new File("team_lastgames.data").exists())
+			return DAO.getGames().get(idTeam);
+		else {
+			parseLastGame();
+			return DAO.getGames().get(idTeam);
+		}
 	}
 	
 	private int[] toIntArray(String s) {

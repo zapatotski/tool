@@ -83,7 +83,7 @@ public class RestEndPoints {
         }
 		
         
-        String strout="";
+		String strout="";
         String[] arg=str.split("\n");
 		int knt=0;
 		String tournament="";
@@ -91,8 +91,8 @@ public class RestEndPoints {
 		String team2name="";
 		String date="";
 		String timestart="";
-		String team1Id="";
-		String team2Id="";
+		int team1Id=-1;
+		int team2Id=-1;
 		String pos="";
 		String start="";
 		String number="";
@@ -107,40 +107,45 @@ public class RestEndPoints {
 			if(knt==0) {
 				String[] strarg=df.split(";");
 				if(strarg.length!=8)
-					continue;
+					return;
 				tournament=strarg[1];
 				team1name=strarg[2];
 				team2name=strarg[3];
 				date=strarg[4];
 				timestart=strarg[5];
-				team1Id=strarg[6];
-				team2Id=strarg[7];
+				try {
+					team1Id=Integer.valueOf(strarg[6]);
+					team2Id=Integer.valueOf(strarg[7]);
+				}
+				catch(Exception except) {
+					return;
+				}
 				strout+="<tournament name=\""+tournament+"\"><match status=\"Not Started\" date=\""+date+"\" timestart=\""+timestart+"\"><localteam name=\""+team1name+"\" id=\""+team1Id+"\"/><visitorteam name=\""+team2name+"\" id=\""+team2Id+"\"/>";
 			}
 			else {
 				String[] strarg=df.split(";");
 				if(strarg.length!=6)
-					continue;
+					return;
 				team=strarg[0];
 				pos=strarg[1];
 				start=strarg[2];
 				number=strarg[3];
-				birthday=strarg[4];
-				playername=strarg[5];
+				birthday=strarg[4].replace("\\/", ".");
+				playername=strarg[5].replace(",", "");
 				if("1".equals(team)) {
 					if("f".equals(start)) {
-						lineup1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						lineup1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
 					}
 					else {
-						subs1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						subs1.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
 					}
 				}
 				else {
 					if("f".equals(start)) {
-						lineup2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						lineup2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
 					}
 					else {
-						subs2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" />");
+						subs2.add("<player number=\""+number+"\" name=\""+playername+"\" pos=\""+pos+"\" birth=\""+birthday+"\"/>");
 					}
 				}				
 			}
