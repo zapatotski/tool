@@ -373,7 +373,7 @@ public class Parser {
 		for(File fd:files) {
 			try {
 			Document doc = Jsoup.parse(fd,"UTF-8");
-			Elements category=doc.select("category");
+			Elements category=doc.select("tournament");
 			if (category.isEmpty()) {
 				fd.delete();
 				continue;
