@@ -176,12 +176,14 @@ public class RestEndPoints {
 		strout+="</visitorteam></substitutes></match></tournament>";
 		
 		
-		System.out.println(strout);
+		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Pered Sohranil fail: "+strout);
 		try {
 			FileWriter writer = new FileWriter(uploadedFileLocation, false);
             writer.write(strout);
             writer.flush();
+            writer.close();
 			} catch (IOException e) {
+				log.add("!!!Oshibka pri zapii fayla!!!!");
 				e.printStackTrace();
 			}
 		
@@ -200,6 +202,15 @@ public class RestEndPoints {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		finally {
+			try {
+				fOut.close();
+				oOut.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public Object deserialization(File f) {
@@ -212,6 +223,15 @@ public class RestEndPoints {
 			result = oInput.readObject();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+		finally {
+			try {
+				fInput.close();
+				oInput.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}

@@ -372,6 +372,7 @@ public class Parser {
 		});
 		for(File fd:files) {
 			try {
+			log.add("Chitayu fail "+fd.getName());
 			Document doc = Jsoup.parse(fd,"UTF-8");
 			Elements category=doc.select("tournament");
 			if (category.isEmpty()) {
@@ -388,7 +389,7 @@ public class Parser {
 				
 				//BEREM ATRIBUTE V CATEGORIY IMYA TOURNAMENTA 
 				String tournament=cat.attr("name");
-				
+				log.add("S faylom "+fd.getName()+" doshli do "+tournament);
 				//DLYA KAZDOGO MATCHA
 				mark:
 					for (int j = 0; j < matches.size(); j++) {
@@ -430,9 +431,11 @@ public class Parser {
 						//esli match uze imet start, a ne predvarilovku, to berem ego s hashstart
 						if(hashstart.containsKey(team1id) && (!"0".equals(hashstart.get(team1id).feed))) {
 							if(prListGame.contains(hashstart.get(team1id))) {
+								log.add("Fayl "+fd.getName()+" uze v keshe");
 								continue;
 							}
 							else {
+								log.add("Fayl "+fd.getName()+" uze v keshe");
 								prListGame.add(hashstart.get(team1id));
 								continue;
 							}
@@ -474,6 +477,7 @@ public class Parser {
 						
 						//ESLI V START1 ILI START2 KLK PLAYERS NE 11, TO PROPUSKAEM MATCH
 						if ((playerstart1.size()!=11) || (playerstart2.size()!=11)) {
+							log.add("Fayl "+fd.getName()+" ne imeet 11 igrokov v starte");
 							continue mark;
 						}
 						
@@ -481,15 +485,18 @@ public class Parser {
 						//esli match uze imeet predvarilovku, a starta eshe net, to berem ego s hashstart
 						if(hashstart.containsKey(team1id) && ("0".equals(hashstart.get(team1id).feed)) && ((playersubs1.size()==0) || (playersubs2.size()==0))) {
 							if(prListGame.contains(hashstart.get(team1id))) {
+								log.add("Fayl "+fd.getName()+" uze v keshe");
 								continue;
 							}
 							else {
+								log.add("Fayl "+fd.getName()+" uze v keshe");
 								prListGame.add(hashstart.get(team1id));
 								continue;
 							}
 						}
 						
-
+						log.add("S faylom "+fd.getName()+" doshli do sozdaniya spiska igrokov");
+						
 						//SOZDAEM SPISOK IGROKOV START1 I START2
 						List<StartPlayer> start1=new ArrayList();
 						List<StartPlayer> start2=new ArrayList();
@@ -504,9 +511,7 @@ public class Parser {
 								}
 							catch(Exception ex) {
 								continue mark;
-							}							
-									
-							
+							}												
 						}
 						
 						//ZAPOLNYAEM SPISOK IGROKOV START2
@@ -553,6 +558,7 @@ public class Parser {
 							}									
 						}
 						
+						log.add("Doshli s"+fd.getName()+" do zapisi statistiki");
 						//SOZDAEM I ZAPOLNYAEM STATISTIKU IGROKOV DLYA TEAM1
 						List<Player> listPlayer=new ArrayList();
 						listPlayer=getPlayerStats(listPlayer,team1id);
@@ -586,7 +592,7 @@ public class Parser {
 							prListGame.add(g);
 							hashstart.remove(team1id);
 							hashstart.put(team1id, g);
-							log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh s predvarilovkoy: "+g.tournam+" "+g.team1+" "+g.team2);
+							log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh s predvarilovkoy: "+g.tournam+" "+g.team1.name+" "+g.team2.name);
 							continue mark;
 						}
 						
@@ -595,7 +601,7 @@ public class Parser {
 						Game g=new Game(date,timestart,status,tournament, team1,team2,start1,start2,subs1,subs2,"3",new Date());
 						prListGame.add(g);
 						hashstart.put(team1id, g);
-						log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh: "+g.tournam+" "+g.team1+" "+g.team2);
+						log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh: "+g.tournam+" "+g.team1.name+" "+g.team2.name);
 					}
 				}
 			
@@ -1266,6 +1272,15 @@ public class Parser {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		finally {
+			try {
+				fOut.close();
+				oOut.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public Object deserialization(File f) {
@@ -1278,6 +1293,15 @@ public class Parser {
 			result = oInput.readObject();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+		finally {
+			try {
+				fInput.close();
+				oInput.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
