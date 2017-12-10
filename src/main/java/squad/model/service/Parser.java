@@ -586,7 +586,7 @@ public class Parser {
 							prListGame.add(g);
 							hashstart.remove(team1id);
 							hashstart.put(team1id, g);
-							log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
+							log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh s predvarilovkoy: "+g.tournam+" "+g.team1+" "+g.team2);
 							continue mark;
 						}
 						
@@ -595,7 +595,7 @@ public class Parser {
 						Game g=new Game(date,timestart,status,tournament, team1,team2,start1,start2,subs1,subs2,"3",new Date());
 						prListGame.add(g);
 						hashstart.put(team1id, g);
-						log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
+						log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Dobavil game v kesh: "+g.tournam+" "+g.team1+" "+g.team2);
 					}
 				}
 			
@@ -916,7 +916,6 @@ public class Parser {
 									prListGame.add(g);
 									hashstart.remove(team1id);
 									hashstart.put(team1id, g);
-									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
 								else {
@@ -924,7 +923,6 @@ public class Parser {
 									prListGame.add(g);
 									hashstart.remove(team1id);
 									hashstart.put(team1id, g);
-									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 									continue mark;
 								}
 							}
@@ -938,13 +936,11 @@ public class Parser {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"1",new Date());
 									prListGame.add(g);
 									hashstart.put(team1id, g);
-									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 								else {
 									Game g=new Game(date,time,status,tournament, team1,team2,start1,start2,subs1,subs2,"2",new Date());
 									prListGame.add(g);
 									hashstart.put(team1id, g);
-									log.add(g.tournam+" "+g.team1.name+"-"+g.team2.name+" "+g.startTimep);
 								}
 							}
 							else {

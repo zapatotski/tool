@@ -2,9 +2,13 @@ package squad.controller;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.BufferedReader;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +65,13 @@ public class RestEndPoints {
 		return Response.status(200).build();
 	}
 	
+	File logFile=new File("logStart.data");
+	
 	private void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
+		List<String> log=new ArrayList();
+		if(logFile.exists())
+			log=(List<String>) deserialization(logFile);
+		
 		String str="";
 		BufferedReader reader = null;
         try {
@@ -82,7 +92,7 @@ public class RestEndPoints {
             }
         }
 		
-        
+		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Prinyal fail: "+str);
 		String strout="";
         String[] arg=str.split("\n");
 		String tournament="";
@@ -105,7 +115,7 @@ public class RestEndPoints {
 		for(String df:arg) {
 			String[] strarg=df.split(";");
 			if(strarg.length==8) {
-				tournament=strarg[1];
+				tournament=strarg[0]+":"+strarg[1];
 				team1name=strarg[2];
 				team2name=strarg[3];
 				date=strarg[4];
@@ -118,6 +128,7 @@ public class RestEndPoints {
 					System.out.println("2");
 					System.out.println(strarg[6]+" "+strarg[7]);
 					except.printStackTrace(System.out);
+					log.add("Oshibka pri preobrazovaniy ID v chislo: "+tournament+" "+team1name+"("+team1Id+") "+team2name+"("+team2Id+")");
 					return;
 				}
 				strout+="<tournament name=\""+tournament+"\"><match status=\"Not Started\" date=\""+date+"\" timestart=\""+timestart+"\"><localteam name=\""+team1name+"\" id=\""+team1Id+"\"/><visitorteam name=\""+team2name+"\" id=\""+team2Id+"\"/>";
@@ -173,7 +184,36 @@ public class RestEndPoints {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+		
+		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Sohranil fail: "+strout);
+		//Sohranaem log startov
+		serialization(logFile,log);
 		}
+	
+	private void serialization(File f, Object m) {
+		FileOutputStream fOut = null;
+		ObjectOutputStream oOut = null;
+		try {
+			fOut = new FileOutputStream(f);
+			oOut = new ObjectOutputStream(fOut);
+			oOut.writeObject(m);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Object deserialization(File f) {
+		FileInputStream fInput = null;
+		ObjectInputStream oInput = null;
+		Object result = null;
+		try {
+			fInput = new FileInputStream(f);
+			oInput = new ObjectInputStream(fInput);
+			result = oInput.readObject();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
 	
 }
