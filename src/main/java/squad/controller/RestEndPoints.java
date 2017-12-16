@@ -175,19 +175,17 @@ public class RestEndPoints {
 			strout+=st;
 		strout+="</visitorteam></substitutes></match></tournament>";
 		
-		
-		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Pered Sohranil fail: "+strout);
 		try {
 			FileWriter writer = new FileWriter(uploadedFileLocation, false);
             writer.write(strout);
             writer.flush();
             writer.close();
 			} catch (IOException e) {
-				log.add("!!!Oshibka pri zapii fayla!!!!");
+				log.add("!!!Oshibka pri zapisi fayla!!!!");
 				e.printStackTrace();
 			}
 		
-		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Sohranil fail: "+strout);
+		log.add((new Date().getHours()+3)+":"+new Date().getMinutes()+":"+new Date().getSeconds()+" Sohranil fail: ");
 		//Sohranaem log startov
 		serialization(logFile,log);
 		}
