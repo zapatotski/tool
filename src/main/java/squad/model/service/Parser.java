@@ -29,315 +29,315 @@ import squad.model.dao.LastGameDao;
 public class Parser {
 	
 	String[] hrefs = {
-			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1.xml",
-			    "http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1005.xml",//LC
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1007.xml",//LE
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1425.xml",//Turkey
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1422.xml",//Turkey1
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1204.xml",//EPL
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1399.xml",//SPain Primera
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1398.xml",//Spain Segunda
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1397.xml",//Spain CDR
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1229.xml",//Bundeslia
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1225.xml",//Bundesliga2
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1226.xml",//Germany Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1221.xml",//France Liga1
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1217.xml",//France Liga2
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1218.xml",//France Coupe de France
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1322.xml",//Holland Eredivisie
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1205.xml",//England-Championship
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1197.xml",//England - League Two
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1198.xml",//England FA Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1199.xml",//England Carling Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1352.xml",//Portugal Primera
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1344.xml",//Poland Ekstraklasa
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1361.xml",//Romania Liga1
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1269.xml",//Italy Serie A
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1265.xml",//Italy Serie B
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1086.xml",//Australia A League
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1081.xml",//Argentina Primera
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1093.xml",//Austria Bundesliga
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1090.xml",//Austria Erste
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1102.xml",//Belgium Jupiler
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1232.xml",//Grece Super
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1308.xml",//Mexico Primera
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1154.xml",//Bulgaria
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1163.xml",//China
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1440.xml",//USA MLS
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1457.xml",//Russia PL
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1185.xml",//Denmark Superliga
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1159.xml",//Chile Primera
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1271.xml",//Japan
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1049.xml",//Asia World Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1050.xml",//CONCANCAF
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1051.xml",//Europe World Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1054.xml",//South America World Cup
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1335.xml",//Norway Eliteserien
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1407.xml",//Sweden Allsvenskan
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1040.xml",//South America Copa Libertadores
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/commentaries/1368.xml"//Saudi Arabia				
+			    "http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1.xml",
+			    "http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1005.xml",//LC
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1007.xml",//LE
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1425.xml",//Turkey
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1422.xml",//Turkey1
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1204.xml",//EPL
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1399.xml",//SPain Primera
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1398.xml",//Spain Segunda
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1397.xml",//Spain CDR
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1229.xml",//Bundeslia
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1225.xml",//Bundesliga2
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1226.xml",//Germany Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1221.xml",//France Liga1
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1217.xml",//France Liga2
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1218.xml",//France Coupe de France
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1322.xml",//Holland Eredivisie
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1205.xml",//England-Championship
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1197.xml",//England - League Two
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1198.xml",//England FA Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1199.xml",//England Carling Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1352.xml",//Portugal Primera
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1344.xml",//Poland Ekstraklasa
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1361.xml",//Romania Liga1
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1269.xml",//Italy Serie A
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1265.xml",//Italy Serie B
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1086.xml",//Australia A League
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1081.xml",//Argentina Primera
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1093.xml",//Austria Bundesliga
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1090.xml",//Austria Erste
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1102.xml",//Belgium Jupiler
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1232.xml",//Grece Super
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1308.xml",//Mexico Primera
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1154.xml",//Bulgaria
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1163.xml",//China
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1440.xml",//USA MLS
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1457.xml",//Russia PL
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1185.xml",//Denmark Superliga
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1159.xml",//Chile Primera
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1271.xml",//Japan
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1049.xml",//Asia World Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1050.xml",//CONCANCAF
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1051.xml",//Europe World Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1054.xml",//South America World Cup
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1335.xml",//Norway Eliteserien
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1407.xml",//Sweden Allsvenskan
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1040.xml",//South America Copa Libertadores
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/commentaries/1368.xml"//Saudi Arabia				
 			};
 			
 	
 	String[] hrefs2 = {
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/ArgentinoA",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/Primera",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/primerab",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/argentina/SuperFinal",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/austria/1-Liga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/austria/Bundesliga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/austria/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belarus/Division1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belarus/Division2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belarus/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belgium/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belgium/ProLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belgium/SecondDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/belgium/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/brazil/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/brazil/SerieA",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/brazil/SerieB",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/bulgaria/APFG",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/bulgaria/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/canada/CSL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/canada/PCSL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/chile/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/chile/Primera",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/chile/PrimeraB",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/chile/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/china/FaCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/china/LeagueOne",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/china/SuperLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/chinese_taipei/NationalLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/colombia/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/colombia/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/colombia/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/colombia/PrimeraB",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/costa_rica/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/costa_rica/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/costa_rica/LigadeAscenso",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/croatia/2HNL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/croatia/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/croatia/HNL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/cyprus/1-division",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/cyprus/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/cyprus/Division2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/czechia/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/czechia/CzechLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/czechia/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/denmark/1stDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/denmark/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/denmark/SuperLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ecuador/apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ecuador/clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ecuador/PrimeraB",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/egypt/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/BlueSquareNorth",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/BlueSquareSouth",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/CarlingCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/Championship",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/Conference",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/ConferencePlayoff",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/FACup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/FATrophy",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/FLTrophy",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/LeagueOne",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/LeagueTwo",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/england/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/champleague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/euro",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/europaleague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/EuroQualification",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/EuroU21",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/euro_qualification",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/eurocups/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/finland/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/finland/Veikkausliiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/finland/Ykkonen",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/Ligue1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/Ligue2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/National",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/france/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/friendly/intl_friendly",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/georgia/PirveliLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/georgia/UmaglesiLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/3Liga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/Bundesliga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/Bundesliga2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/Playoffs12",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/Playoffs23",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/germany/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/greece/BEthiniki",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/greece/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/greece/SuperLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/holland/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/holland/EersteDivisie",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/holland/Eredivisie",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/holland/Playoffs",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/holland/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/hungary/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/hungary/NBI",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/iceland/1DelidKarla",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/iceland/2DelidKarla",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/iceland/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/iceland/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/iceland/Urvalsdeild",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AFCChallengeCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AFCChampionsLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AFCCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AfricanNationsChampionship",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/ASEANCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AsianCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/AsianCupQualification",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CAFChampionsLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CAFConfederationsCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CaribbeanCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CECAFACup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/ClubFriendlies",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CONCACAFChampionsLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/ConcacafGoldCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/ConfederationsCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CopaAmerica",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CopaCentroamericana",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CopaSudamericana",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CupOfNations",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/CupOfNationsQualification",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/EAFFEastAsianCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/Friendlies",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/GulfCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/ICC",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/Libertadores",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/O-League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/OFCNationsCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/Olympics",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/intl/SAFFChampionship",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ireland/1stDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ireland/faicup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ireland/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ireland/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/israel/LigaLeumit",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/israel/LigatAl",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/israel/StateCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/israel/TotoCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/italy/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/italy/SerieA",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/italy/SerieB",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/italy/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/japan/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/japan/J-League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/japan/J2-League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/japan/J3League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/japan/NabiscoCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/kazakhstan/1stDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/kazakhstan/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/korea/ChallengersLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/korea/FaCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/korea/K-League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/korea/K2League",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/korea/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/mexico/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/mexico/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/mexico/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/mexico/PrimeraA",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/northern_ireland/Championship1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/northern_ireland/IFAPremiership",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/2Divisjon-Avdeling-1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/2Divisjon-Avdeling-2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/2Divisjon-Avdeling-3",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/2Divisjon-Avdeling-4",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/Adeccoligaen",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/norway/Eliteserien",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/paraguay/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/paraguay/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/paraguay/DivisionIntermedia",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/peru/CopaInca",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/peru/PrimeraDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/peru/SegundaDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/poland/Division2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/poland/Ekstraklasa",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/poland/PolandCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/portugal/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/portugal/Division2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/portugal/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/portugal/PortugueseLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/portugal/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/romania/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/romania/LigaI",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/romania/LigaII-Seria1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/romania/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/russia/1-division",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/russia/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/russia/Playoffs",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/russia/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/saudi_arabia/ChampionsCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/saudi_arabia/CrownPrinceCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/saudi_arabia/Division1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/saudi_arabia/SaudiProfessionalLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/scotland/ChallengeCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/scotland/FACup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/scotland/LeagueCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/scotland/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/PrvaLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/SrpskaLiga-Belgrade",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/SrpskaLiga-East",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/SrpskaLiga-Vojvodina",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/SrpskaLiga-West",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/serbia/SuperLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovakia/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovakia/ILiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovakia/SuperLiga",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovania/1-SNL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovania/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovenia/2SNL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/slovenia/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/south_africa/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/spain/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/spain/Primera",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/spain/Segunda",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/spain/SuperCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/sweden/Allsvenskan",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/sweden/cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/sweden/Superettan",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/switzerland/ChallengeLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/switzerland/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/switzerland/SuperLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/turkey/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/turkey/LigA",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/turkey/SuperLig",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uae/Division1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uae/EmiratesCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uae/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ukraine/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/ukraine/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uruguay/Apertura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uruguay/Clausura",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/uruguay/SegundaDivision",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/usa/Cup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/usa/MLS",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/usa/NASL",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/usa/USL1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/usa/USL2",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/wales/FACup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/wales/FeederLeagues-CymruAlliance",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/wales/FeederLeagues-WelshLeagueDivision1",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/wales/PremierLeague",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/ClubWorldCup",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_Intercontinental_playoffs",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_africa",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_asia",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_concacaf",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_europe",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_oceania",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/wc_qualification_southamerica",
-				"http://www.goalserve.com/getfeed/4bc1263ae1554993aaf098ee804c88e9/soccerfixtures/worldcup/WorldCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/ArgentinoA",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/Primera",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/primerab",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/argentina/SuperFinal",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/1-Liga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/Bundesliga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/Division1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/Division2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belgium/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belgium/ProLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belgium/SecondDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belgium/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/brazil/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/brazil/SerieA",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/brazil/SerieB",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/bulgaria/APFG",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/bulgaria/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/canada/CSL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/canada/PCSL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/chile/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/chile/Primera",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/chile/PrimeraB",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/chile/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/china/FaCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/china/LeagueOne",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/china/SuperLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/chinese_taipei/NationalLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/colombia/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/colombia/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/colombia/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/colombia/PrimeraB",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/costa_rica/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/costa_rica/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/costa_rica/LigadeAscenso",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/croatia/2HNL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/croatia/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/croatia/HNL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/cyprus/1-division",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/cyprus/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/cyprus/Division2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/czechia/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/czechia/CzechLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/czechia/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/denmark/1stDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/denmark/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/denmark/SuperLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ecuador/apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ecuador/clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ecuador/PrimeraB",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/egypt/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/BlueSquareNorth",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/BlueSquareSouth",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/CarlingCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/Championship",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/Conference",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/ConferencePlayoff",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/FACup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/FATrophy",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/FLTrophy",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/LeagueOne",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/LeagueTwo",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/england/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/champleague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/euro",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/europaleague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/EuroQualification",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/EuroU21",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/euro_qualification",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/eurocups/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/finland/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/finland/Veikkausliiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/finland/Ykkonen",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/Ligue1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/Ligue2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/National",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/france/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/friendly/intl_friendly",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/georgia/PirveliLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/georgia/UmaglesiLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/3Liga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/Bundesliga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/Bundesliga2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/Playoffs12",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/Playoffs23",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/germany/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/greece/BEthiniki",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/greece/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/greece/SuperLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/holland/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/holland/EersteDivisie",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/holland/Eredivisie",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/holland/Playoffs",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/holland/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/hungary/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/hungary/NBI",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/iceland/1DelidKarla",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/iceland/2DelidKarla",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/iceland/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/iceland/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/iceland/Urvalsdeild",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AFCChallengeCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AFCChampionsLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AFCCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AfricanNationsChampionship",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/ASEANCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AsianCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/AsianCupQualification",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CAFChampionsLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CAFConfederationsCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CaribbeanCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CECAFACup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/ClubFriendlies",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CONCACAFChampionsLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/ConcacafGoldCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/ConfederationsCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CopaAmerica",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CopaCentroamericana",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CopaSudamericana",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CupOfNations",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/CupOfNationsQualification",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/EAFFEastAsianCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/Friendlies",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/GulfCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/ICC",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/Libertadores",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/O-League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/OFCNationsCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/Olympics",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/intl/SAFFChampionship",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ireland/1stDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ireland/faicup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ireland/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ireland/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/israel/LigaLeumit",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/israel/LigatAl",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/israel/StateCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/israel/TotoCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/italy/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/italy/SerieA",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/italy/SerieB",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/italy/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/japan/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/japan/J-League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/japan/J2-League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/japan/J3League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/japan/NabiscoCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/kazakhstan/1stDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/kazakhstan/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/korea/ChallengersLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/korea/FaCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/korea/K-League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/korea/K2League",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/korea/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/mexico/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/mexico/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/mexico/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/mexico/PrimeraA",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/northern_ireland/Championship1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/northern_ireland/IFAPremiership",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/2Divisjon-Avdeling-1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/2Divisjon-Avdeling-2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/2Divisjon-Avdeling-3",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/2Divisjon-Avdeling-4",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/Adeccoligaen",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/norway/Eliteserien",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/paraguay/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/paraguay/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/paraguay/DivisionIntermedia",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/peru/CopaInca",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/peru/PrimeraDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/peru/SegundaDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/poland/Division2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/poland/Ekstraklasa",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/poland/PolandCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/portugal/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/portugal/Division2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/portugal/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/portugal/PortugueseLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/portugal/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/romania/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/romania/LigaI",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/romania/LigaII-Seria1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/romania/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/russia/1-division",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/russia/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/russia/Playoffs",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/russia/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/saudi_arabia/ChampionsCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/saudi_arabia/CrownPrinceCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/saudi_arabia/Division1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/saudi_arabia/SaudiProfessionalLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/ChallengeCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/FACup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/LeagueCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/PrvaLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-Belgrade",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-East",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-Vojvodina",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-West",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SuperLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovakia/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovakia/ILiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovakia/SuperLiga",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovania/1-SNL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovania/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovenia/2SNL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/slovenia/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/south_africa/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/spain/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/spain/Primera",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/spain/Segunda",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/spain/SuperCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/sweden/Allsvenskan",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/sweden/cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/sweden/Superettan",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/switzerland/ChallengeLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/switzerland/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/switzerland/SuperLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/turkey/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/turkey/LigA",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/turkey/SuperLig",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uae/Division1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uae/EmiratesCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uae/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ukraine/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/ukraine/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uruguay/Apertura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uruguay/Clausura",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/uruguay/SegundaDivision",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/usa/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/usa/MLS",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/usa/NASL",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/usa/USL1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/usa/USL2",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/wales/FACup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/wales/FeederLeagues-CymruAlliance",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/wales/FeederLeagues-WelshLeagueDivision1",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/wales/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/ClubWorldCup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_Intercontinental_playoffs",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_africa",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_asia",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_concacaf",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_europe",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_oceania",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/wc_qualification_southamerica",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/worldcup/WorldCup",
 			};
 	
 	
@@ -1042,6 +1042,7 @@ public class Parser {
 	
 	private LastGameDao DAO=new LastGameDao();
 	
+	
 	public Map<Integer,List<LastGame>> parseLastGame() {
 		Map<Integer, PriorityQueue<LastGame>> mapGame = new HashMap();
 	mark:
@@ -1068,6 +1069,8 @@ public class Parser {
 				}
 			}
 		}
+		
+
 			Elements tournamentElements = doc.select("tournament");
 			if (tournamentElements.isEmpty())
 				continue;
@@ -1087,6 +1090,7 @@ public class Parser {
 			int team2Id = 0;
 			String team2Name = "";
 
+			System.out.println("fggfhf");
 			
 			for (int j = 0; j < matchElements.size(); j++) {
 			    
@@ -1098,8 +1102,10 @@ public class Parser {
 			    
 				date = matchElements.get(j).attr("date");
 				int[] dataArr = toIntArray(date);
-				if (dataArr.length != 3)
+				if (dataArr.length != 3) {
+					System.out.println("tut");
 					continue;
+				}
 				
 				
 				Elements team1Elements = matchElements.get(j).select("localteam");
@@ -1118,8 +1124,9 @@ public class Parser {
 				Elements startteams = matchElements.get(j).select("lineups");
 				Elements substeams = matchElements.get(j).select("substitutions");
 				
-				if (startteams.isEmpty() || substeams.isEmpty())
+				if (startteams.isEmpty() || substeams.isEmpty()) {
 					continue;
+				}
 				
 				
 				Elements team1Start = startteams.get(0).select("localteam");
@@ -1128,19 +1135,22 @@ public class Parser {
 				Elements team1Subs = substeams.get(0).select("localteam");
 				Elements team2Subs = substeams.get(0).select("visitorteam");
 				
-				if (team1Start.isEmpty() || team2Start.isEmpty())
+				if (team1Start.isEmpty() || team2Start.isEmpty()) {
 					continue;
+				}
 				
-				if (team1Subs.isEmpty() || team2Subs.isEmpty())
+				if (team1Subs.isEmpty() || team2Subs.isEmpty()) {
 					continue;
+				}
 				
 				Elements playerstart1=team1Start.get(0).select("player");
 				Elements playerstart2=team2Start.get(0).select("player");
 				Elements playersubs1=team1Subs.get(0).select("substitution");
 				Elements playersubs2=team2Subs.get(0).select("substitution");
 				
-				if ((playerstart1.size()!=11) || (playerstart2.size()!=11))
+				if ((playerstart1.size()!=11) || (playerstart2.size()!=11)) {
 					continue;
+				}
 				
 				List<Integer> start1=new ArrayList();
 				List<Integer> start2=new ArrayList();
@@ -1195,6 +1205,8 @@ public class Parser {
 				LastGame g1 = new LastGame(team1Name+"-"+team2Name, compName, new Date(dataArr[2] - 1900, dataArr[1] - 1, dataArr[0]),start1,subs1);
 				LastGame g2 = new LastGame(team1Name+"-"+team2Name, compName, new Date(dataArr[2] - 1900, dataArr[1] - 1, dataArr[0]),start2,subs2);
 
+				System.out.println(g1.date);
+				
 				if (!mapGame.containsKey(team1Id))
 					mapGame.put(team1Id, new PriorityQueue<LastGame>(new Comparator<LastGame>() {
 						public int compare(LastGame t, LastGame t1) {
