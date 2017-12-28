@@ -1,5 +1,6 @@
 package squad.model.service;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,11 +8,14 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -1048,28 +1052,70 @@ public class Parser {
 	mark:
 	for (String href : hrefs2) {
 		System.out.println(href);
-		Document doc=null;
-		int pop=0;
-		while(true) {
-			try {
-				doc = Jsoup.connect(href).get();
-				break;
-			}
-			catch (IOException e) {
-				pop++;
-				if(pop==3) {
-					e.printStackTrace();
-					continue mark;
+		String jsontext = "";
+		int i;
+       	int pop=0;
+       	HttpURLConnection e=null;
+       	int responseCode=0;
+       	URL url=null;
+		try {
+			url = new URL(href);
+		} catch (MalformedURLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+        while(true) {
+        	BufferedInputStream gson=null;
+        	try {
+    			e = (HttpURLConnection) url.openConnection();
+    			responseCode = e.getResponseCode();
+				if (responseCode == 200) {
+					gson = new BufferedInputStream(e.getInputStream());
+					ArrayList m = new ArrayList();
+					for (i = gson.read(); i != -1; i = gson.read()) {
+						m.add(Character.valueOf((char) i));
+					}
+	
+					char[] key = new char[m.toArray().length];
+					int list = 0;
+	
+					for (Iterator id = m.iterator(); id.hasNext(); ++list) {
+						Object j = id.next();
+						key[list] = ((Character) j).charValue();
+					}
+	
+					jsontext = new String(key);
+					break;
+				} else {
+					pop++;
+					if(pop==3)
+						break;
+					Thread.currentThread().sleep(1000);
 				}
+        	}
+        	catch(Exception exs) {
+				pop++;
+				if(pop==3)
+					break;
 				try {
 					Thread.currentThread().sleep(1000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-		}
+        	}
+        	finally {
+        		try {
+					gson.close();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        	}
+        }
 		
+		Document doc=null;
+		doc = Jsoup.parse(jsontext);
 
 			Elements tournamentElements = doc.select("tournament");
 			if (tournamentElements.isEmpty())
@@ -1090,7 +1136,6 @@ public class Parser {
 			int team2Id = 0;
 			String team2Name = "";
 
-			System.out.println("fggfhf");
 			
 			for (int j = 0; j < matchElements.size(); j++) {
 			    
@@ -1116,7 +1161,8 @@ public class Parser {
 					team1Name = team1Elements.first().attr("name");
 					team2Id = Integer.valueOf(team2Elements.first().attr("id"));
 					team2Name = team2Elements.first().attr("name");
-				} catch (Exception e) {
+				} catch (Exception ex) {
+					System.out.println("tut2");
 					continue;
 				}
 				
@@ -1125,6 +1171,7 @@ public class Parser {
 				Elements substeams = matchElements.get(j).select("substitutions");
 				
 				if (startteams.isEmpty() || substeams.isEmpty()) {
+					System.out.println("tut3");
 					continue;
 				}
 				
@@ -1136,10 +1183,12 @@ public class Parser {
 				Elements team2Subs = substeams.get(0).select("visitorteam");
 				
 				if (team1Start.isEmpty() || team2Start.isEmpty()) {
+					System.out.println("tut4");
 					continue;
 				}
 				
 				if (team1Subs.isEmpty() || team2Subs.isEmpty()) {
+					System.out.println("tut5");
 					continue;
 				}
 				
@@ -1149,6 +1198,7 @@ public class Parser {
 				Elements playersubs2=team2Subs.get(0).select("substitution");
 				
 				if ((playerstart1.size()!=11) || (playerstart2.size()!=11)) {
+					System.out.println("tut6");
 					continue;
 				}
 				
@@ -1160,7 +1210,7 @@ public class Parser {
 						int a=Integer.valueOf(el.attr("id"));
 						start1.add(a);
 					}
-					catch(Exception e) {
+					catch(Exception ex) {
 						System.out.println("Oshibka pri preobrazovaniy v int id player");
 					}		
 				}
@@ -1171,7 +1221,7 @@ public class Parser {
 						int a=Integer.valueOf(el.attr("id"));
 						start2.add(a);
 					}
-					catch(Exception e) {
+					catch(Exception ex) {
 						System.out.println("Oshibka pri preobrazovaniy v int id player");
 					}		
 				}
@@ -1184,7 +1234,7 @@ public class Parser {
 						int a=Integer.valueOf(el.attr("player_in_id"));
 						subs1.add(a);
 					}
-					catch(Exception e) {
+					catch(Exception ex) {
 						System.out.println("Oshibka pri preobrazovaniy v int id player");
 					}		
 				}
@@ -1195,7 +1245,7 @@ public class Parser {
 						int a=Integer.valueOf(el.attr("player_in_id"));
 						subs2.add(a);
 					}
-					catch(Exception e) {
+					catch(Exception ex) {
 						System.out.println("Oshibka pri preobrazovaniy v int id player");
 					}		
 				}
@@ -1205,7 +1255,6 @@ public class Parser {
 				LastGame g1 = new LastGame(team1Name+"-"+team2Name, compName, new Date(dataArr[2] - 1900, dataArr[1] - 1, dataArr[0]),start1,subs1);
 				LastGame g2 = new LastGame(team1Name+"-"+team2Name, compName, new Date(dataArr[2] - 1900, dataArr[1] - 1, dataArr[0]),start2,subs2);
 
-				System.out.println(g1.date);
 				
 				if (!mapGame.containsKey(team1Id))
 					mapGame.put(team1Id, new PriorityQueue<LastGame>(new Comparator<LastGame>() {
@@ -1257,6 +1306,7 @@ public class Parser {
 		return result;
 		
 	}
+
 	
 	public List<LastGame> getLastGame(int idTeam){
 		if (new File("team_lastgames.data").exists())
