@@ -289,6 +289,7 @@ public class Parser {
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/FACup",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/LeagueCup",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/PremierLeague",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/scotland/Division1",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/PrvaLiga",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-Belgrade",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/serbia/SrpskaLiga-East",
