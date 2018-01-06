@@ -61,7 +61,7 @@ public class RestEndPoints {
 	}
 	
 	@GET
-	@Path("/refreshlastgame/{value}")
+	@Path("/team/{value}")
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getTeam(@PathParam("value") String id) {
 		try {
