@@ -94,6 +94,7 @@ public class Parser {
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/1-Liga",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/Bundesliga",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/austria/Cup",
+				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/australia/A-League",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/Division1",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/Division2",
 				"http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerfixtures/belarus/PremierLeague",

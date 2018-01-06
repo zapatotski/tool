@@ -20,9 +20,13 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.sun.jersey.multipart.FormDataParam;
 
@@ -54,6 +58,34 @@ public class RestEndPoints {
 	@Path("/refreshlastgame")
 	public void getLastGames() {
 		Map <Integer,List<LastGame>> m=new Parser().parseLastGame();
+	}
+	
+	@GET
+	@Path("/refreshlastgame/{value}")
+	@Produces(MediaType.APPLICATION_XML)
+	public Response getTeam(@PathParam("value") String id) {
+		try {
+			int idval=Integer.valueOf(id);
+			Document doc=null;
+			int popitka=0;
+			while(true) {
+				try {
+					doc=Jsoup.connect("http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerstats/team/"+idval).get();
+					break;
+				} catch (IOException e) {
+					popitka++;
+					if(popitka==3) {
+						e.printStackTrace();
+						break;
+					}
+					continue;
+				}
+			}
+			return Response.ok().entity(doc.html()).build();
+		}
+		catch(Exception e) {
+			return Response.ok().build();
+		}
 	}
 	
 	@POST
