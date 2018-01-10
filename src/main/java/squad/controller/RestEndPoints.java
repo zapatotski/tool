@@ -71,6 +71,10 @@ public class RestEndPoints {
 			while(true) {
 				try {
 					doc=Jsoup.connect("http://www.goalserve.com/getfeed/0f753737311c4e49a6c86f26264d4ae9/soccerstats/team/"+idval).get();
+					if(doc.getElementsByTag("image").size()>0)
+						doc.getElementsByTag("image").first().remove();
+					if(doc.getElementsByTag("venue_image").size()>0)
+						doc.getElementsByTag("venue_image").first().remove();
 					break;
 				} catch (IOException e) {
 					popitka++;
