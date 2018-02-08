@@ -112,7 +112,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
 
 	//zapolnyaem modalnoe okno
 	$('#a'+i).append('<div id="'+i+'" class="modal fade">');
-	$('#'+i).append('<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Х</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="textFormat1" style="display: block; width: inherit; height: auto;min-height:50px;"></div><div id="teamTable1"><div id="buttonPanel1"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div><div id="'+i+'teamData1" class="teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
+  $('#'+i).append('<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Õ</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="teamTable1"><div id="buttonPanel1"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Ñòàðòîâûé ñîñòàâ"></span></div></div><div id="'+i+'teamData1" class="teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">Â</span><span class="position">Ï</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div></div></div><div id="textFormat1" style="display: block; width: inherit; height: auto;min-height:50px;"></div></div>');
 
 
     var knt=0;
@@ -125,6 +125,14 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
     var vsegoplayers= $(a).find('team1').find('players').length;
 
     var plind=0;
+
+    $('#cl'+i).find('#textFormat1').append('<b>Пришло:</b><br>');
+    for (var j = 0; j < start1.length; j++) {
+      $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+'<br>');
+    }
+
+    $('#cl'+i).find('#textFormat1').append('<b>Сопоставили (пришло имя ## в стате имя):</b><br>');
+
     //dly kazdogo player
     $(a).find('team1').find('players').each(function(){
         var odd="even";
@@ -158,6 +166,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
                 if($(this).find('num').text()==start1[j].childNodes[0].innerHTML){
                     boolstart=true;
                     sumstart=+sumstart + +$(this).find('min').text();
+                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
                     nashli.push(j);
                 }
              }
@@ -165,6 +174,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
                 if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
                     boolstart=true;
                     sumstart=+sumstart + +$(this).find('min').text();
+                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
                     nashli.push(j);
                 }
              }
@@ -292,6 +302,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         plind++;
 	});
     
+    $('#cl'+i).find('#textFormat1').append('<b>Не нашли:</b><br>');
     for(var e=0;e<11;e++){
 	    var flag=0;
 	    for(var t=0;t<nashli.length;t++){
@@ -319,7 +330,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	var start2=$(b).find('st2');
 	var zamena2=$(b).find('zm2');
 
-	$('#cl'+i).append('<div id="team2"><div id="textFormat2" style="display: block; width: inherit; height: auto;min-height:50px;"></div><div id="teamTable2"><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">В</span><span class="position">П</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div>');
+  $('#cl'+i).append('<div id="team2"><div id="teamTable2"><div id="'+i+'teamData2" class="teamData2"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team2name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name2+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name2+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name2+'</span><span class="age">Â</span><span class="position">Ï</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div></div></div><div id="textFormat2" style="display: block; width: inherit; height: auto;min-height:50px;"></div>');
 
 	$('#cl'+i).find('#teamTable2').append('<div id="buttonPanel2"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div>');
 
@@ -333,6 +344,14 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	var vsegoplayers= $(b).find('team2').find('players').length;
 
 	var plind=0;
+
+    $('#cl'+i).find('#textFormat2').append('<b>Пришло:</b><br>');
+    for (var j = 0; j < start2.length; j++) {
+      $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+'<br>');
+    }
+
+   
+    $('#cl'+i).find('#textFormat2').append('<b>Сопоставили (пришло имя ## в стате имя):</b><br>');
 
 	$(b).find('team2').find('players').each(function(){  
 	    var odd="even";
@@ -364,6 +383,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	            if($(this).find('num').text()==start2[j].childNodes[0].innerHTML){
 	               boolstart=true;
 	               sumstart2=+sumstart2 + +$(this).find('min').text();
+                $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
 	               nashli.push(j);
 	            }
 	         }
@@ -371,6 +391,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	            if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
 	               boolstart=true;
 	               sumstart2=+sumstart2 + +$(this).find('min').text();
+                $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
 	               nashli.push(j);
 	            }
 	         }
@@ -491,7 +512,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	   	plind++;
 	});
 
-
+$('#cl'+i).find('#textFormat2').append('<b>Не нашли:</b><br>');
     for(var e=0;e<11;e++){
 	    var flag=0;
 	    for(var t=0;t<nashli.length;t++){
@@ -795,7 +816,7 @@ div#textFormat1, div#textFormat2 {
 
 /* основной блок команды 1 */
 .modal-dialog{
-	max-width:1350px;
+	max-width:1300px;
 }
 
 div#team1 {
