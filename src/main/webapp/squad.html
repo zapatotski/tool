@@ -13,6 +13,157 @@
 
 <script>
 
+var jaro_winkler = {};
+
+jaro_winkler.adjustments = {
+  'A': 'E',
+  'A': 'I',
+  'A': 'O',
+  'A': 'U',
+  'B': 'V',
+  'E': 'I',
+  'E': 'O',
+  'E': 'U',
+  'I': 'O',
+  'I': 'U',
+  'O': 'U',
+  'I': 'Y',
+  'E': 'Y',
+  'C': 'G',
+  'E': 'F',
+  'W': 'U',
+  'W': 'V',
+  'X': 'K',
+  'S': 'Z',
+  'X': 'S',
+  'Q': 'C',
+  'U': 'V',
+  'M': 'N',
+  'L': 'I',
+  'Q': 'O',
+  'P': 'R',
+  'I': 'J',
+  '2': 'Z',
+  '5': 'S',
+  '8': 'B',
+  '1': 'I',
+  '1': 'L',
+  '0': 'O',
+  '0': 'Q',
+  'C': 'K',
+  'G': 'J',
+  'E': ' ',
+  'Y': ' ', 
+  'S': ' '
+}
+
+
+function jaro(a, b) {
+
+  if (!a || !b) { return 0.0; }
+
+  a = a.trim().toUpperCase();
+  b = b.trim().toUpperCase();
+  var a_len = a.length;
+  var b_len = b.length;
+  var a_flag = []; var b_flag = [];
+  var search_range = Math.floor(Math.max(a_len, b_len) / 2) - 1;
+  var minv = Math.min(a_len, b_len);
+
+  // Looking only within the search range, count and flag the matched pairs. 
+  var Num_com = 0;
+  var yl1 = b_len - 1;
+  for (var i = 0; i < a_len; i++) {
+    var lowlim = (i >= search_range) ? i - search_range : 0;
+    var hilim  = ((i + search_range) <= yl1) ? (i + search_range) : yl1;
+    for (var j = lowlim; j <= hilim; j++) {
+      if (b_flag[j] !== 1 && a[j] === b[i]) {
+        a_flag[j] = 1;
+        b_flag[i] = 1;
+        Num_com++;
+        break;
+      }
+    }
+  }
+
+  // Return if no characters in common
+  if (Num_com === 0) { return 0.0; }
+
+  // Count the number of transpositions
+  var k = 0; var N_trans = 0;
+  for (var i = 0; i < a_len; i++) {
+    if (a_flag[i] === 1) {
+      var j;
+      for (j = k; j < b_len; j++) {
+        if (b_flag[j] === 1) {
+          k = j + 1;
+          break;
+        }
+      }
+      if (a[i] !== b[j]) { N_trans++; }
+    }
+  }
+  N_trans = Math.floor(N_trans / 2);
+
+  // Adjust for similarities in nonmatched characters
+  var N_simi = 0; var adjwt = jaro_winkler.adjustments;
+  if (minv > Num_com) {
+    for (var i = 0; i < a_len; i++) {
+      if (!a_flag[i]) {
+        for (var j = 0; j < b_len; j++) {
+          if (!b_flag[j]) {
+            if (adjwt[a[i]] === b[j]) {
+              N_simi += 3;
+              b_flag[j] = 2;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  var Num_sim = (N_simi / 10.0) + Num_com;
+
+  // Main weight computation
+  var weight = Num_sim / a_len + Num_sim / b_len + (Num_com - N_trans) / Num_com;
+  weight = weight / 3;
+
+  // Continue to boost the weight if the strings are similar
+  if (weight > 0.7) {
+    // Adjust for having up to the first 4 characters in common
+    var j = (minv >= 4) ? 4 : minv;
+    var i;
+    for (i = 0; (i < j) && a[i] === b[i]; i++) { }
+    if (i) { weight += i * 0.1 * (1.0 - weight) };
+
+    // Adjust for long strings.
+    // After agreeing beginning chars, at least two more must agree
+    // and the agreeing characters must be more than half of the
+    // remaining characters.
+    if (minv > 4 && Num_com > i + 1 && 2 * Num_com >= minv + i) {
+      weight += (1 - weight) * ((Num_com - i - 1) / (a_len * b_len - i*2 + 2));
+    }
+  }
+
+  return weight
+  
+};
+
+
+function sopostav(a,b){
+	//var kofPolnie=jaro(a,b);
+	var arr=b.split(' ');
+	var masskof=[];
+	for(var i=0;i<arr.length;i++){
+		var kof=jaro(a.split(' ').pop(),arr[i]);
+		masskof.push(kof);
+	}
+	return Math.max.apply(null,masskof);
+}
+
+
+
 var sumatop11starta1=[];
 var sumavstarte1=[];
 var sumatop11starta2=[];
@@ -163,10 +314,11 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
 
 
              if(start1[j].childNodes[1].innerHTML==-1){
-                if($(this).find('num').text()==start1[j].childNodes[0].innerHTML){
+             	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
+                if(kf>0.85){
                     boolstart=true;
                     sumstart=+sumstart + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
+                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+kf+'<br>');
                     nashli.push(j);
                 }
              }
@@ -174,7 +326,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
                 if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
                     boolstart=true;
                     sumstart=+sumstart + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
+                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML)+'<br>');
                     nashli.push(j);
                 }
              }
@@ -184,7 +336,8 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
         for (var j = 0; j < zamena1.length; j++) {
              if(zamena1[j].childNodes[1].innerHTML==-1){
-                 if($(this).find('num').text()==zamena1[j].childNodes[0].innerHTML)
+             	 var kfzam=sopostav($(this).find('name').text(),zamena1[j].childNodes[2].innerHTML);
+                 if(kfzam>0.85)
                     boolzam=true;
              }
              else{
@@ -365,9 +518,9 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    var boolstart=false;
 	    var boolzam=false;
 	    var pred=false;
-	    for (var j = 0; j < start2.length; j++) {
+        for (var j = 0; j < start2.length; j++) {
 
-	    	if(start2[j].getAttribute("idpr")!=-1){
+        	if(start2[j].getAttribute("idpr")!=-1){
         		if($(this).find('id').text()==start2[j].getAttribute("idpr")){
                     pred=true;
                 }
@@ -379,34 +532,38 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
         	}
 
 
-	         if(start2[j].childNodes[1].innerHTML==-1){
-	            if($(this).find('num').text()==start2[j].childNodes[0].innerHTML){
-	               boolstart=true;
-	               sumstart2=+sumstart2 + +$(this).find('min').text();
-                $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
-	               nashli.push(j);
-	            }
-	         }
-	         else{
-	            if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
-	               boolstart=true;
-	               sumstart2=+sumstart2 + +$(this).find('min').text();
-                $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+'<br>');
-	               nashli.push(j);
-	            }
-	         }
-	    }
+             if(start2[j].childNodes[1].innerHTML==-1){
+             	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
+                if(kf>0.85){
+                    boolstart=true;
+                    sumstart2=+sumstart2 + +$(this).find('min').text();
+                    $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+kf+'<br>');
+                    nashli.push(j);
+                }
+             }
+             else{
+                if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
+                    boolstart=true;
+                    sumstart2=+sumstart2 + +$(this).find('min').text();
+                    $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML)+'<br>');
+                    nashli.push(j);
+                }
+             }
+        }
 
-	    for (var j = 0; j < zamena2.length; j++) {
-	         if(zamena2[j].childNodes[1].innerHTML==-1){
-	            if($(this).find('num').text()==zamena2[j].childNodes[0].innerHTML)
-	               boolzam=true;
-	         }
-	         else{
-	            if($(this).find('id').text()==zamena2[j].childNodes[1].innerHTML)
-	               boolzam=true;
-	         }
-	    }
+
+        //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
+        for (var j = 0; j < zamena2.length; j++) {
+             if(zamena2[j].childNodes[1].innerHTML==-1){
+             	 var kfzam=sopostav($(this).find('name').text(),zamena2[j].childNodes[2].innerHTML);
+                 if(kfzam>0.85)
+                    boolzam=true;
+             }
+             else{
+                if($(this).find('id').text()==zamena2[j].childNodes[1].innerHTML)
+                   boolzam=true;
+             }
+        }
 
 	    var znakpred="";
         if(pred){
@@ -544,9 +701,9 @@ function formTablepr1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvsta
 
         //probegaem po start1 komandy i sravnivaem s tekuchim player, esli on tam est to boolstart=true i plusuem ego minuti k sume minut starta
         for (var j = 0; j < start1.length; j++) {
-
              if(start1[j].childNodes[1].innerHTML==-1){
-                if($(this).find('num').text()==start1[j].childNodes[0].innerHTML){
+             	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
+                if(kf>0.85){
                     sumstart=+sumstart + +$(this).find('min').text();
                     klkvstarte1++;
                 }
@@ -583,7 +740,8 @@ function formTablepr2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,fe
 	    for (var j = 0; j < start2.length; j++) {
 
 	         if(start2[j].childNodes[1].innerHTML==-1){
-	            if($(this).find('num').text()==start2[j].childNodes[0].innerHTML){
+	         	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
+                if(kf>0.85){
 	               sumstart2=+sumstart2 + +$(this).find('min').text();
 	               klkvstarte2++;
 	            }
@@ -647,7 +805,7 @@ function show(){
 		    type:'get',//тип запроса: get,post либо head
             url:'squad/api/refresh',
 		    //url:'http://tool-tool.7e14.starter-us-west-2.openshiftapps.com/squad/api/adminrefresh',
-            //url:'testxml2.xml',
+            //url:'test.xml',
 		    //prishel otvet ajax v xml
 		    success:function (data) { //возвращаемый результат от сервера
                         var filtrvalue=70;
