@@ -263,15 +263,101 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
 
 	//zapolnyaem modalnoe okno
 	$('#a'+i).append('<div id="'+i+'" class="modal fade">');
-  $('#'+i).append('<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Õ</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="teamTable1"><div id="buttonPanel1"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Ñòàðòîâûé ñîñòàâ"></span></div></div><div id="'+i+'teamData1" class="teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">Â</span><span class="position">Ï</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div></div></div><div id="textFormat1" style="display: block; width: inherit; height: auto;min-height:50px;"></div></div>');
+    $('#'+i).append('<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+namegame+'</h4><button class="close" type="button" data-dismiss="modal">Õ</button></div><div class="modal-body" id="cl'+i+'"><div id="team1"><div id="teamTable1"><div id="buttonPanel1"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Ñòàðòîâûé ñîñòàâ"></span></div></div><div id="'+i+'teamData1" class="teamData1"><div class="teamDataTitle"><span class="shirtnumber"></span><span class="name" id="titleTeam1">'+team1name+'</span><span class="squad_preliminary_table"></span><span class="squad_start_table"></span><span class="last_game_1" id="last_game1_team1_title">'+l1name+'</span><span class="last_game_2" id="last_game2_team1_title">'+l2name+'</span><span class="last_game_3" id="last_game3_team1_title">'+l3name+'</span><span class="age">Â</span><span class="position">Ï</span><span class="game_minutes"><img src="image/team_table/minute_played.png"></span><span class="appearances"><img src="image/team_table/appearance.png"></span><span class="lineups"><img src="image/team_table/lineup.png"></span><span class="subs_in"><img src="image/team_table/sub_in.png"></span><span class="subs_out"><img src="image/team_table/sub_out.png"></span><span class="subs_on_bench"><img src="image/team_table/sub_on_bench.png"></span><span class="goals"><img src="image/team_table/goal.png"></span><span class="assists"><img src="image/team_table/assist.png"></span><span class="yellow_cards"><img src="image/team_table/yellow_card.png"></span><span class="yellow_2_cards"><img src="image/team_table/yellow_red_card.png"></span><span class="red_cards"><img src="image/team_table/red_card.png"></span></div></div></div><div id="textFormat1" style="display: block; width: inherit; height: auto;min-height:50px;"></div></div>');
 
 
-    var knt=0;
+   var knt=0;
+   var sopkof=[];
+   var masStart=[];
+   var masZamena=[];
+
+    //kazdiy igrok iz starta
+    for (var j = 0; j < start1.length; j++) {
+	     //esli id=-1, to sravnivaem po familiam
+	    if(start1[j].childNodes[1].innerHTML==-1){
+	    	var p=0;
+	    	var arr=[];
+	    	var allkof=[];
+	    	var allname=[];
+            //dly kazdogo igroka iz spiska komandy
+	     	$(a).find('team1').find('players').each(function(){
+		        //summa minut pervih 11
+		        if(knt<11)
+		           sumitogo=+sumitogo + +$(this).find('min').text();
+		     	//schitaem kof
+		     	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
+		        if(kf>0.85){
+                    arr[p]=kf;
+		        	p++;
+		        	arr[p]=$(this).find('min').text();
+		        	p++;
+		        	arr[p]=$(this).find('name').text();
+		        	p++;
+		            //console.log(start1[j].childNodes[2].innerHTML+' '+$(this).find('name').text()+' '+kf);
+		        }
+		        allkof.push(kf);
+		        allname[kf]=$(this).find('name').text();
+		        knt++;
+		    });
+		    sopkof[j]=arr;
+		    //console.log('-----------------------------------');
+            if(arr.length==0){
+            	$('#cl'+i).find('#textFormat1').append('<b>Не нашли:</b><br>');
+            	$('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ближайший '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof)+')<br>');
+            }
+            else{
+            	if(arr.length==3){
+            		console.log('Сопоставили '+start1[j].childNodes[2].innerHTML+' с '+arr[2]+'('+arr[0]+','+arr[1]+')');
+            		masStart.push(arr[2]);
+            		sumstart=+sumstart + +arr[1];
+            		klkvstarte1++;
+            	}
+            	else{
+            		var arrsop=[];
+            		var t=0;
+            		var textstr='';
+            		var maxkf=0;
+            		var maxkfindex=0;            		
+            		for(var e=0;e<arr.length;e=e+3){
+            			if(arr[e]>maxkf){
+            				maxkf=arr[e]
+            				maxkfindex=e;
+            		    }
+            			if(e==arr.length-3)
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+')';
+            			else
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+') и ';
+            		}
+            		sumstart=+sumstart + +arr[maxkfindex+1];
+            		klkvstarte1++;
+            		console.log('Сопоставили '+start1[j].childNodes[2].innerHTML+' c '+textstr+ ' => '+arr[maxkfindex+2]+'('+arr[maxkfindex]+','+arr[maxkfindex+1]+')');
+            		masStart.push(arr[maxkfindex+2]);           		
+            	}
+            }
+        }
+	    else{
+	    	$(a).find('team1').find('players').each(function(){
+	    		if(knt<11)
+		           sumitogo=+sumitogo + +$(this).find('min').text();
+		        knt++;
+		        if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
+		        	masStart.push($(this).find('name').text());
+		            sumstart=+sumstart + +$(this).find('min').text();
+		            klkvstarte1++;
+		        }
+		    });
+	     }
+    }
+
+
+
+
+
+    knt=0;
     var sumlast1=0;
     var sumlast2=0;
     var sumlast3=0;
  
-    var nashli=[];
     //chtob poniat kogda stroku result vivodit
     var vsegoplayers= $(a).find('team1').find('players').length;
 
@@ -290,9 +376,6 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         if(knt%2==0)
             odd="odd";
         
-        //summa minut pervih 11
-        if(knt<11)
-           sumitogo=+sumitogo + +$(this).find('min').text();
         
         var boolstart=false;
         var boolzam=false;
@@ -311,28 +394,16 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
                     pred=true;
                 }
         	}
-
-
-             if(start1[j].childNodes[1].innerHTML==-1){
-             	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
-                if(kf>0.85){
-                    boolstart=true;
-                    sumstart=+sumstart + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+kf+'<br>');
-                    nashli.push(j);
-                }
-             }
-             else{
-                if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
-                    boolstart=true;
-                    sumstart=+sumstart + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat1').append(start1[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML)+'<br>');
-                    nashli.push(j);
-                }
-             }
         }
 
 
+       for(var et=0;et<masStart.length;et++){
+        	if($(this).find('name').text()==masStart[et]){
+        		boolstart=true;
+        	}
+        }
+
+/*
         //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
         for (var j = 0; j < zamena1.length; j++) {
              if(zamena1[j].childNodes[1].innerHTML==-1){
@@ -345,7 +416,7 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
                    boolzam=true;
              }
         }
-
+*/
 
         var znakpred="";
         if(pred){
@@ -355,7 +426,6 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         var osn="";
         if(boolstart){
           osn="red_circle";
-          klkvstarte1++;
         }
         
         //esli player v starte i feed=0, to eto predvarilovka
@@ -455,20 +525,9 @@ function formTable1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstart
         plind++;
 	});
     
-    $('#cl'+i).find('#textFormat1').append('<b>Не нашли:</b><br>');
-    for(var e=0;e<11;e++){
-	    var flag=0;
-	    for(var t=0;t<nashli.length;t++){
-	    	if(nashli[t]==e)
-	    		flag=1;
-	    }
-	    if(flag!=1)
-	    	$('#cl'+i).find('#textFormat1').append(start1[e].childNodes[2].innerHTML+'<br>');
-    }
 
-    var mas=[sumstart,sumitogo,klkvstarte1]; 
-	return mas;
 }
+
 
 
 function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed){
@@ -487,7 +546,96 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 
 	$('#cl'+i).find('#teamTable2').append('<div id="buttonPanel2"><div class="buttonPanelTitle"><span class="squad_application"><img src="image/circle/red.png" title="Стартовый состав"></span></div></div>');
 
-	var knt=0;
+
+
+
+   var knt=0;
+
+   var sopkof=[];
+   var masStart=[];
+   var masZamena=[];
+
+    //kazdiy igrok iz starta
+    for (var j = 0; j < start2.length; j++) {
+	     //esli id=-1, to sravnivaem po familiam
+	    if(start2[j].childNodes[1].innerHTML==-1){
+	    	var p=0;
+	    	var arr=[];
+	    	var allkof=[];
+	    	var allname=[];
+            //dly kazdogo igroka iz spiska komandy
+	     	$(b).find('team2').find('players').each(function(){
+		        //summa minut pervih 11
+		        if(knt<11)
+		           sumitogo2=+sumitogo2 + +$(this).find('min').text();
+		     	//schitaem kof
+		     	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
+		        if(kf>0.85){
+                    arr[p]=kf;
+		        	p++;
+		        	arr[p]=$(this).find('min').text();
+		        	p++;
+		        	arr[p]=$(this).find('name').text();
+		        	p++;
+		            //console.log(start1[j].childNodes[2].innerHTML+' '+$(this).find('name').text()+' '+kf);
+		        }
+		        allkof.push(kf);
+		        allname[kf]=$(this).find('name').text();
+		        knt++;
+		    });
+		    sopkof[j]=arr;
+		    //console.log('-----------------------------------');
+            if(arr.length==0){
+            	$('#cl'+i).find('#textFormat2').append('<b>Не нашли:</b><br>');
+            	$('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ближайший '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof)+')<br>');
+            }
+            else{
+            	if(arr.length==3){
+            		console.log('Сопоставили '+start2[j].childNodes[2].innerHTML+' с '+arr[2]+'('+arr[0]+','+arr[1]+')');
+            		masStart.push(arr[2]);
+            		sumstart2=+sumstart2 + +arr[1];
+            		klkvstarte2++;
+            	}
+            	else{
+            		var arrsop=[];
+            		var t=0;
+            		var textstr='';
+            		var maxkf=0;
+            		var maxkfindex=0;            		
+            		for(var e=0;e<arr.length;e=e+3){
+            			if(arr[e]>maxkf){
+            				maxkf=arr[e]
+            				maxkfindex=e;
+            		    }
+            			if(e==arr.length-3)
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+')';
+            			else
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+') и ';
+            		}
+            		sumstart2=+sumstart2 + +arr[maxkfindex+1];
+            		klkvstarte2++;
+            		console.log('Сопоставили '+start2[j].childNodes[2].innerHTML+' c '+textstr+ ' => '+arr[maxkfindex+2]+'('+arr[maxkfindex]+','+arr[maxkfindex+1]+')');
+            		masStart.push(arr[maxkfindex+2]);           		
+            	}
+            }
+        }
+	    else{
+	    	$(b).find('team2').find('players').each(function(){
+	    		if(knt<11)
+		           sumitogo2=+sumitogo2 + +$(this).find('min').text();
+		        knt++;
+		        if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
+		        	masStart.push($(this).find('name').text());
+		            sumstart2=+sumstart2 + +$(this).find('min').text();
+		            klkvstarte2++;
+		        }
+		    });
+	     }
+    }
+
+
+
+    knt=0;
 
 	var sumlast1=0;
 	var sumlast2=0;
@@ -503,6 +651,8 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
       $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+'<br>');
     }
 
+
+
    
     $('#cl'+i).find('#textFormat2').append('<b>Сопоставили (пришло имя ## в стате имя):</b><br>');
 
@@ -510,9 +660,6 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    var odd="even";
 	    if(knt%2==0)
 	       odd="odd";
-
-	    if(knt<11)
-	       sumitogo2=+sumitogo2 + +$(this).find('min').text();
 
 
 	    var boolstart=false;
@@ -530,28 +677,15 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
                     pred=true;
                 }
         	}
-
-
-             if(start2[j].childNodes[1].innerHTML==-1){
-             	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
-                if(kf>0.85){
-                    boolstart=true;
-                    sumstart2=+sumstart2 + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+kf+'<br>');
-                    nashli.push(j);
-                }
-             }
-             else{
-                if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
-                    boolstart=true;
-                    sumstart2=+sumstart2 + +$(this).find('min').text();
-                    $('#cl'+i).find('#textFormat2').append(start2[j].childNodes[2].innerHTML+' ## '+$(this).find('name').text()+' '+sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML)+'<br>');
-                    nashli.push(j);
-                }
-             }
         }
 
+        for(var et=0;et<masStart.length;et++){
+        	if($(this).find('name').text()==masStart[et]){
+        		boolstart=true;
+        	}
+        }
 
+/*
         //probegaem po zamene1 komandy i sravnivaem s tekuchim player, esli on tam est to boolzam=true
         for (var j = 0; j < zamena2.length; j++) {
              if(zamena2[j].childNodes[1].innerHTML==-1){
@@ -564,7 +698,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
                    boolzam=true;
              }
         }
-
+*/
 	    var znakpred="";
         if(pred){
         	znakpred="blue_circle";
@@ -573,7 +707,6 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	    var osn="";
 	    if(boolstart){
 	      osn="red_circle";
-	      klkvstarte2++;
 	    }
 
 	    if(boolstart && (feed == 0))
@@ -643,6 +776,7 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 
         var checked=(osn=="red_circle")?"checked":"";
 
+
         $('#cl'+i).find('#buttonPanel2').append('<div class="buttonPanelRow" id="b'+plind+'"><span class="squad_application"><input id="squad_application'+plind+'" onclick="drawSquadApplication2('+i+','+plind+')" type="checkbox" '+checked+'></span></div>');
 
 
@@ -665,10 +799,10 @@ function formTable2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed
 	        sumatop11starta2[i]=sumitogo2;
 	        sumavstarte2[i]=sumstart2;
 	    }
-	   	
 	   	plind++;
 	});
 
+/*
 $('#cl'+i).find('#textFormat2').append('<b>Не нашли:</b><br>');
     for(var e=0;e<11;e++){
 	    var flag=0;
@@ -679,117 +813,208 @@ $('#cl'+i).find('#textFormat2').append('<b>Не нашли:</b><br>');
 	    if(flag!=1)
 	    	$('#cl'+i).find('#textFormat2').append(start2[e].childNodes[2].innerHTML+'<br>');
     }
-
-	var mas=[sumstart2,sumitogo2,klkvstarte2];
-	return mas;
+*/
 }
 
 
 function formTablepr1(a,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed){
-
 	var start1=$(a).find('st1');
+	var knt=0;
 
-    var knt=0;
- 
-    //dly kazdogo player
-    $(a).find('team1').find('players').each(function(){
-        
-        //summa minut pervih 11
-        if(knt<11)
-           sumitogo=+sumitogo + +$(this).find('min').text();
-        
+   var sopkof=[];
 
-        //probegaem po start1 komandy i sravnivaem s tekuchim player, esli on tam est to boolstart=true i plusuem ego minuti k sume minut starta
-        for (var j = 0; j < start1.length; j++) {
-             if(start1[j].childNodes[1].innerHTML==-1){
-             	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
-                if(kf>0.85){
-                    sumstart=+sumstart + +$(this).find('min').text();
-                    klkvstarte1++;
-                }
-             }
-             else{
-                if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
-                    sumstart=+sumstart + +$(this).find('min').text();
-                    klkvstarte1++;
-                }
-             }
+    //kazdiy igrok iz starta
+    for (var j = 0; j < start1.length; j++) {
+	     //esli id=-1, to sravnivaem po familiam
+	    if(start1[j].childNodes[1].innerHTML==-1){
+	    	var i=0;
+	    	var arr=[];
+	    	var allkof=[];
+	    	var allname=[];
+            //dly kazdogo igroka iz spiska komandy
+	     	$(a).find('team1').find('players').each(function(){
+		        //summa minut pervih 11
+		        if(knt<11)
+		           sumitogo=+sumitogo + +$(this).find('min').text();
+		     	//schitaem kof
+		     	var kf=sopostav($(this).find('name').text(),start1[j].childNodes[2].innerHTML);
+		        if(kf>0.85){
+                    arr[i]=kf;
+		        	i++;
+		        	arr[i]=$(this).find('min').text();
+		        	i++;
+		        	arr[i]=$(this).find('name').text();
+		        	i++;
+		            //console.log(start1[j].childNodes[2].innerHTML+' '+$(this).find('name').text()+' '+kf);
+		        }
+		        allkof.push(kf);
+		        allname[kf]=$(this).find('name').text();
+		        knt++;
+		    });
+		    sopkof[j]=arr;
+		    //console.log('-----------------------------------');
+            if(arr.length==0){
+                console.log('Не нашли:'+start1[j].childNodes[2].innerHTML+' ближайший: '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof)+')');
+            }
+            else{
+            	if(arr.length==3){
+            		console.log('Сопоставили '+start1[j].childNodes[2].innerHTML+' с '+arr[2]+'('+arr[0]+','+arr[1]+')');
+            		sumstart=+sumstart + +arr[1];
+            		klkvstarte1++;
+            	}
+            	else{
+            		var arrsop=[];
+            		var t=0;
+            		var textstr='';
+            		var maxkf=0;
+            		var maxkfindex=0;            		
+            		for(var e=0;e<arr.length;e=e+3){
+            			if(arr[e]>maxkf){
+            				maxkf=arr[e]
+            				maxkfindex=e;
+            		    }
+            			if(e==arr.length-3)
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+')';
+            			else
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+') и ';
+            		}
+            		sumstart=+sumstart + +arr[maxkfindex+1];
+            		klkvstarte1++;
+            		console.log('Сопоставили '+start1[j].childNodes[2].innerHTML+' c '+textstr+ ' => '+arr[maxkfindex+2]+'('+arr[maxkfindex]+','+arr[maxkfindex+1]+')');           		
+            	}
+            }
         }
+	    else{
+	    	$(a).find('team1').find('players').each(function(){
+	    		if(knt<11)
+		           sumitogo=+sumitogo + +$(this).find('min').text();
+		        knt++;
+		        if($(this).find('id').text()==start1[j].childNodes[1].innerHTML){
+		            sumstart=+sumstart + +$(this).find('min').text();
+		            klkvstarte1++;
+		        }
+		    });
+	     }
 
-
-        knt=knt+1;
-
-	});
-
+    }
     var mas=[sumstart,sumitogo,klkvstarte1]; 
 	return mas;
 }
 
 
+
 function formTablepr2(b,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed){
-	var start2=$(b).find('st2');
+    var start2=$(b).find('st2');
 	var knt=0;
 
-	$(b).find('team2').find('players').each(function(){  
+   var sopkof=[];
 
-
-	    if(knt<11)
-	       sumitogo2=+sumitogo2 + +$(this).find('min').text();
-
-
-	    for (var j = 0; j < start2.length; j++) {
-
-	         if(start2[j].childNodes[1].innerHTML==-1){
-	         	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
-                if(kf>0.85){
-	               sumstart2=+sumstart2 + +$(this).find('min').text();
-	               klkvstarte2++;
-	            }
-	         }
-	         else{
-	            if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
-	               sumstart2=+sumstart2 + +$(this).find('min').text();
-	               klkvstarte2++;
-	            }
-	         }
-	    }
-
-	    knt=knt+1;   	
-	});
-
-	var mas=[sumstart2,sumitogo2,klkvstarte2];
+    //kazdiy igrok iz starta
+    for (var j = 0; j < start2.length; j++) {
+	     //esli id=-1, to sravnivaem po familiam
+	    if(start2[j].childNodes[1].innerHTML==-1){
+	    	var i=0;
+	    	var arr=[];
+	    	var allkof=[];
+	    	var allname=[];
+            //dly kazdogo igroka iz spiska komandy
+	     	$(b).find('team2').find('players').each(function(){
+		        //summa minut pervih 11
+		        if(knt<11)
+		           sumitogo2=+sumitogo2 + +$(this).find('min').text();
+		     	//schitaem kof
+		     	var kf=sopostav($(this).find('name').text(),start2[j].childNodes[2].innerHTML);
+		        if(kf>0.85){
+                    arr[i]=kf;
+		        	i++;
+		        	arr[i]=$(this).find('min').text();
+		        	i++;
+		        	arr[i]=$(this).find('name').text();
+		        	i++;
+		            //console.log(start1[j].childNodes[2].innerHTML+' '+$(this).find('name').text()+' '+kf);
+		        }
+		        allkof.push(kf);
+		        allname[kf]=$(this).find('name').text();
+		        knt++;
+		    });
+		    sopkof[j]=arr;
+		    //console.log('-----------------------------------');
+            if(arr.length==0){
+                console.log('Не нашли:'+start2[j].childNodes[2].innerHTML+' ближайший: '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof)+')');
+            }
+            else{
+            	if(arr.length==3){
+            		console.log('Сопоставили '+start2[j].childNodes[2].innerHTML+' с '+arr[2]+'('+arr[0]+','+arr[1]+')');
+            		sumstart2=+sumstart2 + +arr[1];
+            		klkvstarte2++;
+            	}
+            	else{
+            		var arrsop=[];
+            		var t=0;
+            		var textstr='';
+            		var maxkf=0;
+            		var maxkfindex=0;            		
+            		for(var e=0;e<arr.length;e=e+3){
+            			if(arr[e]>maxkf){
+            				maxkf=arr[e]
+            				maxkfindex=e;
+            		    }
+            			if(e==arr.length-3)
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+')';
+            			else
+            				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+') и ';
+            		}
+            		sumstart2=+sumstart2 + +arr[maxkfindex+1];
+            		klkvstarte2++;
+            		console.log('Сопоставили '+start2[j].childNodes[2].innerHTML+' c '+textstr+ ' => '+arr[maxkfindex+2]+'('+arr[maxkfindex]+','+arr[maxkfindex+1]+')');           		
+            	}
+            }
+        }
+	    else{
+	    	$(b).find('team2').find('players').each(function(){
+	    		if(knt<11)
+		           sumitogo2=+sumitogo2 + +$(this).find('min').text();
+		        knt++;
+		        if($(this).find('id').text()==start2[j].childNodes[1].innerHTML){
+		            sumstart2=+sumstart2 + +$(this).find('min').text();
+		            klkvstarte2++;
+		        }
+		    });
+	     }
+    }
+    var mas=[sumstart2,sumitogo2,klkvstarte2]; 
 	return mas;
 }
 
 function formModal(i){
 	if($('#a'+i).length==0){
-	 $('.modals').append('<div id="a'+i+'">');
-	
-	           
-    var gam=obj[i];
-	var feed=$(gam).find('feed').first().text();                              
-    var team1name=$(gam).find('team1').find('name').first().text();
-    var team2name=$(gam).find('team2').find('name').first().text();
-    var namegame=team1name+'-'+team2name;
+		 $('.modals').append('<div id="a'+i+'">');
+		
+		           
+	    var gam=obj[i];
+		var feed=$(gam).find('feed').first().text();                              
+	    var team1name=$(gam).find('team1').find('name').first().text();
+	    var team2name=$(gam).find('team2').find('name').first().text();
+	    var namegame=team1name+'-'+team2name;
 
 
-    var team1last=$(gam).find('team1').find('lastGame');
-    var team2last=$(gam).find('team2').find('lastGame');
-    
+	    var team1last=$(gam).find('team1').find('lastGame');
+	    var team2last=$(gam).find('team2').find('lastGame');
+	    
 
-    var sumstart=0;
-	var sumitogo=0;
-    //kolichestvo igrokov starta sopostavlenih po id i number v kazdoy komande
-	var klkvstarte1=0;
-	var klkvstarte2=0;   
-    var mas=formTable1(gam,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
-    
+	    var sumstart=0;
+		var sumitogo=0;
+	    //kolichestvo igrokov starta sopostavlenih po id i number v kazdoy komande
+		var klkvstarte1=0;
+		var klkvstarte2=0;   
+	    formTable1(gam,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte1,feed);
+	    
 
-    //To ze amoe dly team2
-	var sumitogo2=0;
-	var sumstart2=0;
-    var mas2=formTable2(gam,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
-}
+	    //To ze amoe dly team2
+		var sumitogo2=0;
+		var sumstart2=0;
+		formTable2(gam,team2last,i,team2name,sumstart2,sumitogo2,klkvstarte2,feed);
+	}
 }
 
  obj=[];
