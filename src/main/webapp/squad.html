@@ -158,8 +158,8 @@ function jaro(a, b) {
 
 
 function sopostav(a,b){
-	a=unescape(a);
-	b=unescape(b);
+	a=decodeURIComponent(JSON.parse('"'+a+'"'));
+	b=decodeURIComponent(JSON.parse('"'+b+'"'));
 	var arr=b.split(' ');
 	var masskof=[];
 	for(var i=0;i<arr.length;i++){
@@ -228,6 +228,40 @@ function drawSquadApplication(teamNumber,i,plind){
 }
 
 
+function Utf8ArrayToStr(array) {
+    var out, i, len, c;
+    var char2, char3;
+
+    out = "";
+    len = array.length;
+    i = 0;
+    while(i < len) {
+    c = array[i++];
+    switch(c >> 4)
+    { 
+      case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+        // 0xxxxxxx
+        out += String.fromCharCode(c);
+        break;
+      case 12: case 13:
+        // 110x xxxx   10xx xxxx
+        char2 = array[i++];
+        out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
+        break;
+      case 14:
+        // 1110 xxxx  10xx xxxx  10xx xxxx
+        char2 = array[i++];
+        char3 = array[i++];
+        out += String.fromCharCode(((c & 0x0F) << 12) |
+                       ((char2 & 0x3F) << 6) |
+                       ((char3 & 0x3F) << 0));
+        break;
+    }
+    }
+
+    return out;
+}
+
 function getArrayStartAndZamena(teamNumber,a,i){
 	
 	var start=$(a).find('st'+teamNumber);
@@ -273,11 +307,12 @@ function getArrayStartAndZamena(teamNumber,a,i){
 		    sopkof[j]=arr;
 		    //console.log('-----------------------------------');
             if(arr.length==0){
-            	$('#cl'+i).find('#textFormatTop'+teamNumber).append(start[j].childNodes[0].innerHTML+' '+start[j].childNodes[2].innerHTML+' ~~~ '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof).toString().substring(0,4)+')<br>');
+            	$('#cl'+i).find('#textFormatTop'+teamNumber).append(start[j].childNodes[0].innerHTML+' '+
+            		decodeURIComponent(JSON.parse('"'+start[j].childNodes[2].innerHTML+'"'))+' ~~~ '+allname[Math.max.apply(null,allkof)]+'('+Math.max.apply(null,allkof).toString().substring(0,4)+')<br>');
             }
             else{
             	if(arr.length==3){
-            		$('#cl'+i).find('#textFormat'+teamNumber).append(start[j].childNodes[2].innerHTML+' ## '+arr[2]+'('+arr[0].toString().substring(0,4)+')<br>');
+            		$('#cl'+i).find('#textFormat'+teamNumber).append(decodeURIComponent(JSON.parse('"'+start[j].childNodes[2].innerHTML+'"'))+' ## '+arr[2]+'('+arr[0].toString().substring(0,4)+')<br>');
             		masStart.push(arr[2]);
             		sumstart=+sumstart + +arr[1];
             		klkvstarte++;
@@ -300,7 +335,7 @@ function getArrayStartAndZamena(teamNumber,a,i){
             		}
             		sumstart=+sumstart + +arr[maxkfindex+1];
             		klkvstarte++;
-            		$('#cl'+i).find('#textFormat'+teamNumber).append(start[j].childNodes[2].innerHTML+' ## '+arr[maxkfindex+2]+' ('+textstr+')<br>');
+            		$('#cl'+i).find('#textFormat'+teamNumber).append(decodeURIComponent(JSON.parse('"'+start[j].childNodes[2].innerHTML+'"'))+' ## '+arr[maxkfindex+2]+' ('+textstr+')<br>');
             		masStart.push(arr[maxkfindex+2]);           		
             	}
             }
@@ -311,6 +346,7 @@ function getArrayStartAndZamena(teamNumber,a,i){
 		           sumitogo=+sumitogo + +$(this).find('min').text();
 		        knt++;
 		        if($(this).find('id').text()==start[j].childNodes[1].innerHTML){
+		        	$('#cl'+i).find('#textFormat'+teamNumber).append(decodeURIComponent(JSON.parse('"'+start[j].childNodes[2].innerHTML+'"'))+' ## '+$(this).find('name').text()+'('+sopostav(start[j].childNodes[2].innerHTML,$(this).find('name').text()).toString().substring(0,4)+')<br>');
 		        	masStart.push($(this).find('name').text());
 		            sumstart=+sumstart + +$(this).find('min').text();
 		            klkvstarte++;
@@ -391,7 +427,7 @@ function getArrayStartAndZamena(teamNumber,a,i){
     return result;
 }
 
-function formTable(teamNumber,a,teamLast,i,namegame,teamName,sumstart,sumitogo,klkvstarte,feed){
+function formTable(teamNumber,a,teamLast,i,namegame,teamName,sumstart,sumitogo,klkvstarte,feed,maxgoal,maxass){
 	var arr=teamLast.first().find('tournament').text().split(' ');
 	var l1name=(arr.length==2)?(arr[0]+'<br>'+arr[1]):(arr[0]);
 	var arr=teamLast.eq(1).find('tournament').text().split(' ');
@@ -443,7 +479,7 @@ function formTable(teamNumber,a,teamLast,i,namegame,teamName,sumstart,sumitogo,k
 
     $('#cl'+i).find('#textFormat'+teamNumber).append('<br><b>Пришло:</b><br>');
     for (var j = 0; j < start.length; j++) {
-      $('#cl'+i).find('#textFormat'+teamNumber).append(start[j].childNodes[2].innerHTML+'<br>');
+      $('#cl'+i).find('#textFormat'+teamNumber).append(decodeURIComponent(JSON.parse('"'+start[j].childNodes[2].innerHTML+'"'))+'<br>');
     }
 
 
@@ -575,7 +611,7 @@ function formTable(teamNumber,a,teamLast,i,namegame,teamName,sumstart,sumitogo,k
 
         $('#cl'+i).find('#buttonPanel'+teamNumber).append('<div class="buttonPanelRow" id="b'+plind+'"><span class="squad_application"><input id="squad_application'+plind+'" onclick="drawSquadApplication('+teamNumber+','+i+','+plind+')" type="checkbox" '+checked+'></span></div>');
         //zapolnaem statistiku tekushego player v tablice
-        $('#'+i+'teamData'+teamNumber).append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('num').text()+'</span><span class="name_cell">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'"></span><span class="last_game_1 '+l1+'"></span><span class="last_game_2 '+l2+'"></span><span class="last_game_3 '+l3+'"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('pos').text()+'</span><span class="game_minutes_cell">'+$(this).find('min').text()+'</span><span class="appearances_cell">'+$(this).find('app').text()+'</span><span class="lineups_cell">'+$(this).find('lnu').text()+'</span><span class="subs_in_cell">'+$(this).find('sin').text()+'</span><span class="subs_out_cell">'+$(this).find('sout').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('sob').text()+'</span><span class="goals_cell">'+$(this).find('goals').text()+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+$(this).find('ass').text()+'</span><span class="yellow_cards_cell">'+$(this).find('yc').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yr').text()+'</span><span class="red_cards_cell">'+$(this).find('rc').text()+'</span></div>');
+        $('#'+i+'teamData'+teamNumber).append('<div class="teamDataRow '+odd+'" id="t'+plind+'"><span class="shirtnumber_cell">'+$(this).find('num').text()+'</span><span class="name_cell">'+$(this).find('name').text()+'</span><span class="squad_preliminary_table '+znakpred+'"></span><span class="squad_start_table '+osn+'"></span><span class="last_game_1 '+l1+'"></span><span class="last_game_2 '+l2+'"></span><span class="last_game_3 '+l3+'"></span><span class="age_cell">'+$(this).find('age').text()+'</span><span class="position_cell">'+$(this).find('pos').text()+'</span><span class="game_minutes_cell">'+$(this).find('min').text()+'</span><span class="appearances_cell">'+$(this).find('app').text()+'</span><span class="lineups_cell">'+$(this).find('lnu').text()+'</span><span class="subs_in_cell">'+$(this).find('sin').text()+'</span><span class="subs_out_cell">'+$(this).find('sout').text()+'</span><span class="subs_on_bench_cell">'+$(this).find('sob').text()+'</span><span class="goals_cell">'+(($(this).find('goals').text()==maxgoal && maxgoal!=0)?'<span style="color:red;font-weight:bolder;text-align: center;	width: 20px;padding: 0 2px 0 2px;border:solid 2px;">'+$(this).find('goals').text()+'</span>':$(this).find('goals').text())+'</span><span class="assists_cell" style="color: rgb(153, 153, 153);">'+(($(this).find('ass').text()==maxass && maxass!=0)?'<span style="color:black;font-weight:bolder;text-align: center;	width: 20px;padding: 0 2px 0 2px;border:solid 2px;">'+$(this).find('ass').text()+'</span>':$(this).find('ass').text())+'</span><span class="yellow_cards_cell">'+$(this).find('yc').text()+'</span><span class="yellow_2_cards_cell">'+$(this).find('yr').text()+'</span><span class="red_cards_cell">'+$(this).find('rc').text()+'</span></div>');
         
         knt=knt+1;
         odd="even";
@@ -602,8 +638,11 @@ function getStatForWelcomeTable(teamNumber,a,sumstart,sumitogo,klkvstarte){
 	var start=$(a).find('st'+teamNumber);
 	var knt=0;
 
-   var sopkof=[];
+   var maxgoal=0;
+   var maxass=0;
+   var maxGK=0;
 
+   var masStart=[];
     //kazdiy igrok iz starta
     for (var j = 0; j < start.length; j++) {
 	     //esli id=-1, to sravnivaem po familiam
@@ -617,6 +656,12 @@ function getStatForWelcomeTable(teamNumber,a,sumstart,sumitogo,klkvstarte){
 		        //summa minut pervih 11
 		        if(knt<11)
 		           sumitogo=+sumitogo + +$(this).find('min').text();
+		       if(+$(this).find('goals').text()>maxgoal)
+		       	  maxgoal=+$(this).find('goals').text();
+		       if(+$(this).find('ass').text()>maxass)
+		       	  maxass=+$(this).find('ass').text();
+		       if($(this).find('pos').text()=='G' && +$(this).find('min').text()>maxGK)
+		       	  maxGK=+$(this).find('min').text();
 		     	//schitaem kof
 		     	var kf=sopostav($(this).find('name').text(),start[j].childNodes[2].innerHTML);
 		        if(kf>0.85){
@@ -626,18 +671,16 @@ function getStatForWelcomeTable(teamNumber,a,sumstart,sumitogo,klkvstarte){
 		        	i++;
 		        	arr[i]=$(this).find('name').text();
 		        	i++;
-		            //console.log(start1[j].childNodes[2].innerHTML+' '+$(this).find('name').text()+' '+kf);
 		        }
 		        allkof.push(kf);
 		        allname[kf]=$(this).find('name').text();
 		        knt++;
 		    });
-		    sopkof[j]=arr;
-		    //console.log('-----------------------------------');
             if(arr.length==0){
             }
             else{
             	if(arr.length==3){
+            		masStart.push(arr[2]);
             		sumstart=+sumstart + +arr[1];
             		klkvstarte++;
             	}
@@ -657,6 +700,7 @@ function getStatForWelcomeTable(teamNumber,a,sumstart,sumitogo,klkvstarte){
             			else
             				textstr+=arr[e+2]+'('+arr[e]+','+arr[e+1]+') и ';
             		}
+            		masStart.push(arr[maxkfindex+2]);
             		sumstart=+sumstart + +arr[maxkfindex+1];
             		klkvstarte++;        		
             	}
@@ -667,20 +711,63 @@ function getStatForWelcomeTable(teamNumber,a,sumstart,sumitogo,klkvstarte){
 	    		if(knt<11)
 		           sumitogo=+sumitogo + +$(this).find('min').text();
 		        knt++;
+		        if(+$(this).find('goals').text()>maxgoal)
+		       	  maxgoal=+$(this).find('goals').text();
+		        if(+$(this).find('ass').text()>maxass)
+		       	  maxass=+$(this).find('ass').text();
+		        if($(this).find('pos').text()=='G' && +$(this).find('min').text()>maxGK)
+		       	  maxGK=+$(this).find('min').text();
 		        if($(this).find('id').text()==start[j].childNodes[1].innerHTML){
 		            sumstart=+sumstart + +$(this).find('min').text();
 		            klkvstarte++;
+		            masStart.push($(this).find('name').text());
 		        }
 		    });
 	     }
-
     }
-    var mas=[sumstart,sumitogo,klkvstarte]; 
+
+    var goalNo=false;
+    var assNo=false;
+    var gkNo=false;
+	$(a).find('team'+teamNumber).find('players').each(function(){
+		if($(this).find('goals').text()==maxgoal){
+			var flgoal=true;
+			for(var c=0;c<masStart.length;c++){
+				if($(this).find('name').text()==masStart[c])
+					flgoal=false;
+			}
+			if(flgoal){
+				goalNo=true;
+			}
+		}
+
+		if($(this).find('ass').text()==maxass){
+			var flass=true;
+			for(var c=0;c<masStart.length;c++){
+				if($(this).find('name').text()==masStart[c])
+					flass=false;
+			}
+			if(flass){
+				assNo=true;
+			}
+		}
+		if($(this).find('pos').text()=='G' && $(this).find('min').text()==maxGK){
+			var flgk=true;
+			for(var c=0;c<masStart.length;c++){
+				if($(this).find('name').text()==masStart[c])
+					flgk=false;
+			}
+			if(flgk){
+				gkNo=true;
+			}
+		}
+	});
+    var mas=[sumstart,sumitogo,klkvstarte,maxgoal,goalNo,maxass,assNo,gkNo]; 
 	return mas;
 }
 
 
-function formModal(i){
+function formModal(i,maxgoal1,maxgoal2,maxass1,maxass2){
 	if($('#a'+i).length==0){
 		 $('.modals').append('<div id="a'+i+'">');          
 	    var gam=obj[i];
@@ -695,9 +782,8 @@ function formModal(i){
 	    var sumstart=0;
 		var sumitogo=0;
 		var klkvstarte=0;  
-
-	    formTable(1,gam,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte,feed);
-		formTable(2,gam,team2last,i,namegame,team2name,sumstart,sumitogo,klkvstarte,feed);
+	    formTable(1,gam,team1last,i,namegame,team1name,sumstart,sumitogo,klkvstarte,feed,maxgoal1,maxass1);
+		formTable(2,gam,team2last,i,namegame,team2name,sumstart,sumitogo,klkvstarte,feed,maxgoal2,maxass2);
 	}
 }
 				   	   	
@@ -710,7 +796,7 @@ function show(){
 		    type:'get',//тип запроса: get,post либо head
             url:'squad/api/refresh',
 		    //url:'http://tool-tool.7e14.starter-us-west-2.openshiftapps.com/squad/api/adminrefresh',
-            //url:'test.xml',
+            //url:'test2.xml',
 		    //prishel otvet ajax v xml
 		    success:function (data) { //возвращаемый результат от сервера
                         var filtrvalue=70;
@@ -740,10 +826,7 @@ function show(){
 	                        //propuskaem otkritoe okno
 	                        if(i==sohrmodal)
 	                           i=i+1;
-	                        /*
-	                        //dobavlaem modalnoe okno dly game
-	                        $('.modals').append('<div id="a'+i+'">');
-	                        */
+
 	                        var date=$(this).find('date').first().text()+' '+$(this).find('time').first().text();
 	                        var tournam=$(this).find('tournam').first().text();
 	                        var feed=$(this).find('feed').first().text(); 
@@ -769,6 +852,11 @@ function show(){
                             sumstart=mas[0];
                             sumitogo=mas[1];
                             klkvstarte1=mas[2];
+                            var maxgoal1=mas[3];
+                            var maxgoal1bool=mas[4];
+                            var maxass1=mas[5];
+                            var maxass1bool=mas[6];
+                            var gkbool1=mas[7];
                             
                             //To ze amoe dly team2
 							var sumitogo2=0;
@@ -778,7 +866,12 @@ function show(){
 	                        sumstart2=mas2[0];
 	                        sumitogo2=mas2[1];
 	                        klkvstarte2=mas2[2];
-	                        
+	                        var maxgoal2=mas2[3];
+	                        var maxgoal2bool=mas2[4];
+	                        var maxass2=mas2[5];
+                            var maxass2bool=mas2[6];
+                            var gkbool2=mas2[7];
+
 	                        //podsvetka matchey v spiske i sam spisok
 	                        var podsvetka="";
 	                        if((((sumstart2/sumitogo2)*100)<filtrvalue) || (((sumstart/sumitogo)*100)<filtrvalue)){
@@ -790,7 +883,7 @@ function show(){
 
                             obj[i]=this;
 	                        //zapolnyaem spisok matchey v tablice v content
-	                        $('#tabGam').append('<tr '+podsvetka+'><td>'+date+'</td><td>'+tournam+'</td><td><a href="#" data-toggle="modal" data-target="#'+i+'" onclick="formModal('+i+')">'+namegame+'</a></td><td>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'% ('+klkvstarte1+')</td><td>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'% ('+klkvstarte2+')</td><td>'+feed+'</td><td>'+timestart+'</td></tr>');
+	                        $('#tabGam').append('<tr '+podsvetka+'><td>'+date+'</td><td>'+tournam+'</td><td><a href="#" data-toggle="modal" data-target="#'+i+'" onclick="formModal('+i+','+maxgoal1+','+maxgoal2+','+maxass1+','+maxass2+')">'+namegame+'</a></td><td>'+((sumstart/sumitogo)*100).toString().substring(0,4)+'% ('+klkvstarte1+') '+((maxgoal1bool && maxgoal1!=0)?'<img src="image/team_table/goal.png">':'')+' '+((maxass1bool && maxass1!=0)?'<img src="image/team_table/assist.png">':'')+' '+((gkbool1)?'GK':'')+'</td><td>'+((sumstart2/sumitogo2)*100).toString().substring(0,4)+'% ('+klkvstarte2+') '+((maxgoal2bool && maxgoal2!=0)?'<img src="image/team_table/goal.png">':'')+' '+((maxass2bool && maxass2!=0)?'<img src="image/team_table/assist.png">':'')+' '+((gkbool2)?'GK':'')+'</td><td>'+feed+'</td><td>'+timestart+'</td></tr>');
                             
 							klkgame++;
                         //konec each game
